@@ -1,65 +1,105 @@
-import Image from "next/image";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faApple, faGooglePlay } from '@fortawesome/free-brands-svg-icons';
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
+    <div className="min-h-screen bg-[#38B6FF] flex items-center justify-center min-[400px]:p-0 font-sans transition-all duration-500 ease-in-out">
+      <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[400px]:block min-[400px]:relative transition-all duration-500 ease-in-out">
+        {/* Mobile Header */}
+        <header className="flex items-center justify-between px-6 pt-6 min-[400px]:hidden">
+          <div className="flex items-center gap-2">
+            <img
+              src="/logopin.png"
+              alt="Logo"
+              width={48}
+              height={48}
+              className="h-12 w-12 object-contain"
             />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            <span className="text-white text-2xl font-semibold">ifound</span>
+          </div>
+
+          {/* Navigation links */}
+          <div className="flex items-center gap-4">
+            <a href="/about" className="text-white text-sm font-medium hover:text-white/80 transition-colors">About us</a>
+            <a href="/privacy" className="text-white text-sm font-medium hover:text-white/80 transition-colors">Privacy Policy</a>
+          </div>
+        </header>
+
+        {/* Desktop Logo */}
+        <div className="hidden min-[400px]:flex absolute top-8 left-8 z-10 items-start gap-0">
+          <img src="/logopin.png" alt="Logo" width={64} height={64} className="object-contain" />
+          <span className="text-white text-3xl font-semibold -ml-3">ifound</span>
         </div>
-      </main>
+
+        {/* Desktop Navigation */}
+        <div className="hidden min-[400px]:flex absolute top-8 right-8 z-10 gap-6 items-start">
+          <a href="/about" className="text-white text-base font-medium hover:text-white/80 transition-colors">About us</a>
+          <a href="/privacy" className="text-white text-base font-medium hover:text-white/80 transition-colors">Privacy Policy</a>
+        </div>
+
+        {/* Mobile Content */}
+        <main className="pt-10 pb-4 flex-1 flex flex-col justify-center min-[400px]:hidden transition-all duration-500 ease-in-out">
+          <div className="text-left w-full max-w-[320px] mx-auto pl-10 pr-4 transition-all duration-500 ease-in-out">
+            <h1 className="font-black leading-tight text-white uppercase text-3xl whitespace-nowrap transition-all duration-500 ease-in-out">
+              THE LOST AND<br />FOUND APP
+            </h1>
+            <p className="mt-4 text-sm leading-relaxed text-white/90 max-w-xs">
+              The general purpose lost and found app that changes the way you recover your lost items. Anywhere, anytime, with anyone.
+            </p>
+            <div className="flex flex-row gap-3 text-sm font-semibold mt-6 justify-start">
+              <button className="flex h-12 w-[110px] items-center justify-center gap-1.5 rounded-full bg-black text-white transition-colors hover:bg-black/80">
+                <FontAwesomeIcon icon={faApple} className="h-5 w-5 flex-shrink-0 -mt-0.5" />
+                <span className="text-sm leading-none">App Store</span>
+              </button>
+              <button className="flex h-12 w-[110px] items-center justify-center gap-1.5 rounded-full bg-white text-black transition-colors hover:bg-white/90">
+                <FontAwesomeIcon icon={faGooglePlay} className="h-4 w-4 flex-shrink-0" />
+                <span className="text-sm leading-none">Google Play</span>
+              </button>
+            </div>
+          </div>
+        </main>
+
+        {/* Mobile Phone Image */}
+        <div className="flex justify-center pb-4 min-[400px]:hidden transition-all duration-500 ease-in-out">
+          <div className="w-full max-w-[320px] mx-auto px-4 transition-all duration-500 ease-in-out">
+            <img
+              src="/final.png"
+              alt="App preview"
+              width={360}
+              height={360}
+              className="w-full -mt-4 drop-shadow-2xl object-contain"
+            />
+          </div>
+        </div>
+
+        {/* Desktop Layout */}
+        <div className="hidden min-[400px]:block w-full min-h-screen relative overflow-hidden transition-all duration-500 ease-in-out">
+          <div className="h-full min-h-screen flex items-center justify-between px-6 min-[500px]:px-8 md:px-12 lg:px-16 xl:px-20 gap-4 min-[500px]:gap-6 md:gap-8 lg:gap-12 xl:gap-16 max-w-[1600px] mx-auto transition-all duration-500 ease-in-out">
+            <div className="text-left flex-1 max-w-[600px] z-10 flex-shrink-0 transition-all duration-500 ease-in-out">
+              <h1 className="font-black leading-tight text-white uppercase text-2xl min-[500px]:text-3xl min-[600px]:text-4xl md:text-5xl lg:text-6xl xl:text-7xl transition-all duration-500 ease-in-out">
+                THE LOST AND<br />FOUND APP
+              </h1>
+              <p className="max-w-md text-xs min-[500px]:text-sm min-[600px]:text-base md:text-lg lg:text-xl leading-5 min-[500px]:leading-6 min-[600px]:leading-7 md:leading-8 text-white/90 mt-3 min-[500px]:mt-4 min-[600px]:mt-5 md:mt-6">
+                The general purpose lost and found app that changes the way you recover your lost items. Anywhere, anytime, with anyone.
+              </p>
+              <div className="flex flex-row gap-2 min-[500px]:gap-3 min-[600px]:gap-4 text-xs min-[500px]:text-sm min-[600px]:text-base font-semibold mt-5 min-[500px]:mt-6 min-[600px]:mt-7 md:mt-8 justify-start">
+                <button className="flex h-10 min-[500px]:h-11 min-[600px]:h-12 md:h-14 w-[100px] min-[500px]:w-[110px] min-[600px]:w-[130px] md:w-[150px] items-center justify-center gap-1.5 rounded-full bg-black text-white transition-colors hover:bg-black/80">
+                  <FontAwesomeIcon icon={faApple} className="h-4 min-[500px]:h-5 min-[600px]:h-6 flex-shrink-0 -mt-0.5" />
+                  <span className="leading-none">App Store</span>
+                </button>
+                <button className="flex h-10 min-[500px]:h-11 min-[600px]:h-12 md:h-14 w-[100px] min-[500px]:w-[110px] min-[600px]:w-[130px] md:w-[150px] items-center justify-center gap-1.5 rounded-full bg-white text-black transition-colors hover:bg-white/90">
+                  <FontAwesomeIcon icon={faGooglePlay} className="h-3 min-[500px]:h-4 min-[600px]:h-5 flex-shrink-0" />
+                  <span className="leading-none">Google Play</span>
+                </button>
+              </div>
+            </div>
+
+            <div className="flex justify-center items-center flex-shrink min-w-0 transition-all duration-500 ease-in-out pt-16">
+              <img src="/final.png" alt="Final" width={600} height={600} className="w-full max-w-[280px] min-[500px]:max-w-[350px] min-[600px]:max-w-[420px] md:max-w-[550px] lg:max-w-[650px] xl:max-w-[750px] 2xl:max-w-[850px] h-auto object-contain drop-shadow-2xl transition-all duration-500 ease-in-out" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
