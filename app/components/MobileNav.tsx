@@ -2,7 +2,16 @@
 
 import { useState } from 'react';
 
-export default function MobileNav() {
+interface NavLink {
+  href: string;
+  label: string;
+}
+
+interface MobileNavProps {
+  links: NavLink[];
+}
+
+export default function MobileNav({ links }: MobileNavProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -52,27 +61,16 @@ export default function MobileNav() {
         style={{ top: '88px' }}
       >
         <nav className="flex flex-col items-center justify-center gap-8 h-full px-6">
-          <a
-            href="/about"
-            className="text-white text-2xl font-medium hover:text-white/80 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            About us
-          </a>
-          <a
-            href="/privacy"
-            className="text-white text-2xl font-medium hover:text-white/80 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            Privacy Policy
-          </a>
-          <a
-            href="/partner"
-            className="text-white text-2xl font-medium hover:text-white/80 transition-colors"
-            onClick={() => setIsOpen(false)}
-          >
-            Become a Partner
-          </a>
+          {links.map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-white text-2xl font-medium hover:text-white/80 transition-colors"
+              onClick={() => setIsOpen(false)}
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
       </div>
     </>

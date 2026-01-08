@@ -4,10 +4,14 @@ import MobileNav from './components/MobileNav';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#38B6FF] flex items-center justify-center min-[400px]:p-0 font-sans transition-all duration-500 ease-in-out">
-      <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[400px]:block min-[400px]:relative transition-all duration-500 ease-in-out">
+    <div className="min-h-screen bg-[#38B6FF] flex items-center justify-center min-[600px]:p-0 font-sans transition-all duration-500 ease-in-out">
+      <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[600px]:block min-[600px]:relative transition-all duration-500 ease-in-out">
         {/* Mobile Navigation */}
-        <MobileNav />
+        <MobileNav links={[
+          { href: '/about', label: 'About us' },
+          { href: '/privacy', label: 'Privacy Policy' },
+          { href: '/partner', label: 'Become a Partner' }
+        ]} />
 
         {/* Desktop Logo */}
         <a href="/" className="hidden min-[600px]:flex absolute top-4 left-8 z-10 items-start gap-0">
@@ -23,7 +27,7 @@ export default function Home() {
         </div>
 
         {/* Mobile Content */}
-        <main className="pt-10 pb-4 flex-1 flex flex-col justify-center min-[400px]:hidden transition-all duration-500 ease-in-out">
+        <main className="pt-10 pb-4 flex-1 flex flex-col justify-center min-[600px]:hidden transition-all duration-500 ease-in-out">
           <div className="text-left w-full max-w-[320px] mx-auto pl-10 pr-4 transition-all duration-500 ease-in-out">
             <h1 className="font-black leading-tight text-white uppercase text-3xl whitespace-nowrap transition-all duration-500 ease-in-out">
               THE LOST AND<br />FOUND APP
@@ -45,7 +49,7 @@ export default function Home() {
         </main>
 
         {/* Mobile Phone Image */}
-        <div className="flex justify-center pb-4 min-[400px]:hidden transition-all duration-500 ease-in-out">
+        <div className="flex justify-center pb-4 min-[600px]:hidden transition-all duration-500 ease-in-out">
           <div className="w-full max-w-[320px] mx-auto px-4 transition-all duration-500 ease-in-out">
             <img
               src="/final.png"
@@ -58,7 +62,7 @@ export default function Home() {
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden min-[400px]:block w-full min-h-screen relative overflow-hidden transition-all duration-500 ease-in-out">
+        <div className="hidden min-[600px]:block w-full min-h-screen relative overflow-hidden transition-all duration-500 ease-in-out">
           <div className="h-full min-h-screen flex items-center justify-between px-6 min-[500px]:px-8 md:px-12 lg:px-16 xl:px-20 gap-4 min-[500px]:gap-6 md:gap-8 lg:gap-12 xl:gap-16 max-w-[1600px] mx-auto transition-all duration-500 ease-in-out">
             <div className="text-left flex-1 max-w-[600px] z-10 flex-shrink-0 transition-all duration-500 ease-in-out">
               <h1 className="font-black leading-tight text-white uppercase text-2xl min-[500px]:text-3xl min-[600px]:text-4xl md:text-5xl lg:text-6xl xl:text-7xl transition-all duration-500 ease-in-out">

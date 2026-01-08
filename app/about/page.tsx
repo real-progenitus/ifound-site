@@ -1,36 +1,24 @@
+import MobileNav from '../components/MobileNav';
+
 export default function About() {
   return (
     <div className="min-h-screen bg-[#38B6FF] flex items-center justify-center min-[400px]:p-0 font-sans transition-all duration-500 ease-in-out">
       <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[400px]:block min-[400px]:relative transition-all duration-500 ease-in-out">
-        {/* Mobile Header */}
-        <header className="flex items-center justify-between px-6 pt-6 min-[400px]:hidden">
-          <a href="/" className="flex items-center gap-2">
-            <img
-              src="/logopin.png"
-              alt="Logo"
-              width={48}
-              height={48}
-              className="h-12 w-12 object-contain"
-            />
-            <span className="text-white text-2xl font-semibold">ifound</span>
-          </a>
-
-          {/* Navigation links */}
-          <div className="flex items-center gap-4">
-            <a href="/" className="text-white text-sm font-medium hover:text-white/80 transition-colors">Home</a>
-            <a href="/privacy" className="text-white text-sm font-medium hover:text-white/80 transition-colors">Privacy Policy</a>
-            <a href="/partner" className="text-white text-sm font-medium hover:text-white/80 transition-colors">Become a Partner</a>
-          </div>
-        </header>
+        {/* Mobile Navigation */}
+        <MobileNav links={[
+          { href: '/', label: 'Home' },
+          { href: '/privacy', label: 'Privacy Policy' },
+          { href: '/partner', label: 'Become a Partner' }
+        ]} />
 
         {/* Desktop Logo */}
-        <a href="/" className="hidden min-[400px]:flex absolute top-4 left-8 z-10 items-start gap-0">
+        <a href="/" className="hidden min-[600px]:flex absolute top-4 left-8 z-10 items-start gap-0">
           <img src="/logopin.png" alt="Logo" width={95} height={95} className="object-contain" />
           <span className="text-white text-3xl font-semibold -ml-5 translate-y-4">ifound</span>
         </a>
 
         {/* Desktop Navigation */}
-        <div className="hidden min-[400px]:flex absolute top-8 right-8 z-10 gap-6 items-start">
+        <div className="hidden min-[600px]:flex absolute top-8 right-8 z-10 gap-6 items-start">
           <a href="/" className="text-white text-base font-medium hover:text-white/80 transition-colors">Home</a>
           <a href="/privacy" className="text-white text-base font-medium hover:text-white/80 transition-colors">Privacy Policy</a>
           <a href="/partner" className="text-white text-base font-medium hover:text-white/80 transition-colors">Become a Partner</a>
