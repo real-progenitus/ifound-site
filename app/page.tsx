@@ -4,7 +4,7 @@ import MobileNav from './components/MobileNav';
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#38B6FF] flex items-center justify-center min-[600px]:p-0 font-sans transition-all duration-500 ease-in-out">
+    <div className="min-h-screen font-sans">
       <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[600px]:block min-[600px]:relative transition-all duration-500 ease-in-out">
         {/* Mobile Navigation */}
         <MobileNav links={[
@@ -89,6 +89,44 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* New White Section */}
+      <section className="w-full bg-white py-16 px-6 md:px-12 lg:px-16">
+        <div className="max-w-[1200px] mx-auto">
+          <div className="flex flex-wrap gap-4 justify-center">
+            <a 
+              href="/about" 
+              className="px-4 py-2 text-xl text-[#38B6FF] font-semibold hover:text-[#2FA5EE] transition-colors"
+            >
+              About us
+            </a>
+            <a 
+              href="/privacy" 
+              className="px-4 py-2 text-xl text-[#38B6FF] font-semibold hover:text-[#2FA5EE] transition-colors"
+            >
+              Privacy Policy
+            </a>
+            <a 
+              href="/partner" 
+              className="px-4 py-2 text-xl text-[#38B6FF] font-semibold hover:text-[#2FA5EE] transition-colors"
+            >
+              Become a Partner
+            </a>
+            <a 
+              href="/contact" 
+              className="px-4 py-2 text-xl text-[#38B6FF] font-semibold hover:text-[#2FA5EE] transition-colors"
+            >
+              Contacts
+            </a>
+            <a 
+              href="/faqs" 
+              className="px-4 py-2 text-xl text-[#38B6FF] font-semibold hover:text-[#2FA5EE] transition-colors"
+            >
+              FAQs
+            </a>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
