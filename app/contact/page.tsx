@@ -2,15 +2,15 @@ import MobileNav from '../components/MobileNav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
-export default function About() {
+export default function Contact() {
   return (
     <div className="min-h-screen font-sans">
       <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[400px]:block min-[400px]:relative transition-all duration-500 ease-in-out pb-16">
         {/* Mobile Navigation */}
         <MobileNav links={[
           { href: '/', label: 'Home' },
-          { href: '/privacy', label: 'Privacy Policy' },
-          { href: '/partner', label: 'Become a Partner' }
+          { href: '/about', label: 'About us' },
+          { href: '/privacy', label: 'Privacy Policy' }
         ]} />
 
         {/* Desktop Logo */}
@@ -22,36 +22,43 @@ export default function About() {
         {/* Desktop Navigation */}
         <div className="hidden min-[600px]:flex absolute top-8 right-8 z-10 gap-6 items-start">
           <a href="/" className="text-white text-base font-medium hover:text-white/80 transition-colors">Home</a>
+          <a href="/about" className="text-white text-base font-medium hover:text-white/80 transition-colors">About us</a>
           <a href="/privacy" className="text-white text-base font-medium hover:text-white/80 transition-colors">Privacy Policy</a>
-          <a href="/partner" className="text-white text-base font-medium hover:text-white/80 transition-colors">Become a Partner</a>
         </div>
 
         {/* Content */}
         <main className="flex items-start justify-center min-h-screen p-8 pt-32">
           <div className="max-w-4xl text-white w-full">
-            <h1 className="font-black leading-tight text-white uppercase text-2xl min-[500px]:text-3xl min-[600px]:text-4xl md:text-5xl lg:text-6xl mb-12">About<br />ifound</h1>
-            <div className="text-lg leading-relaxed space-y-4 text-justify">
+            <h1 className="font-black leading-tight text-white uppercase text-2xl min-[500px]:text-3xl min-[600px]:text-4xl md:text-5xl lg:text-6xl mb-6">Contact<br />Us</h1>
+            <div className="text-lg leading-relaxed space-y-4">
               <p>
-                ifound was created by two friends with one shared belief: <strong>nothing truly lost should stay lost.</strong>
+                Have questions or need assistance? We're here to help!
               </p>
-              <p>
-                What began as a simple idea grew into a global mission to help people everywhere reconnect with what they've lost. From pets and wallets to personal belongings, stolen cars, and even missing people, <strong>ifound brings all lost and found cases together in one powerful, worldwide platform.</strong>
-              </p>
-              <p>
-                We're proud to be the <strong>first lost and found app to include people</strong>, because we believe every life matters, and every search deserves a chance to be seen.
-              </p>
-              <p>
-                ifound works because of community. The more people who join, the stronger it becomes. Every post, every share, and every alert increases the chances of a reunion.
-              </p>
-              <p>
-                No matter your age, your country, or what you're searching for, ifound is here to help. Together, we're building a world where loss is met with hope, and finding becomes possible.
-              </p>
-              <p className="font-semibold">
-                <strong>ifound because someone, somewhere, is looking too.</strong>
-              </p>
-              <p className="mt-8">
-                Available worldwide on the <strong>App Store</strong> and <strong>Google Play</strong>, ifound is accessible to anyone, anywhere. No matter your age, your country, or what you're searching for.
-              </p>
+              
+              <div className="space-y-6 mt-8">
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Email</h3>
+                  <p>suppport@ifound.tech</p>
+                </div>
+                
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Phone</h3>
+                  <p>+351</p>
+                </div>
+                
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Office Hours</h3>
+                  <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+                  <p>Saturday: Closed</p>
+                  <p>Sunday: Closed</p>
+                </div>
+                
+                <div>
+                  <h3 className="text-xl font-bold mb-2">Address</h3>
+                  <p>Rua</p>
+                  <p>Porto</p>
+                </div>
+              </div>
             </div>
           </div>
         </main>

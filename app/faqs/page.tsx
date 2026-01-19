@@ -1,16 +1,64 @@
+'use client';
+
+import { useState } from 'react';
 import MobileNav from '../components/MobileNav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
-export default function About() {
+export default function FAQs() {
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const faqs = [
+    {
+      question: "What is ifound?",
+      answer: "ifound is an app that allows anyone to post and search for lost or found objects, animals, vehicles, or people in a simple and collaborative way."
+    },
+    {
+      question: "How does it work?",
+      answer: "Users can: Post a lost or found item with a description and location; Contact other users directly about their posts; Browse cases by geographic area and help those in need."
+    },
+    {
+      question: "Is the app free?",
+      answer: "Yes. The current version of ifound is completely free—for those who post, help, or search."
+    },
+    {
+      question: "Are there notifications or automatic alerts?",
+      answer: "Not yet. The current version does not include push notifications or automatic alerts. Users must manually check the available cases in the app."
+    },
+    {
+      question: "Are messages anonymous?",
+      answer: "No. The messaging system is direct between users, with visible profiles. Communication is voluntary but not anonymous."
+    },
+    {
+      question: "Can I offer a reward?",
+      answer: "In the initial version, there is no built-in reward feature. Any agreements between users must be made outside the app."
+    },
+    {
+      question: "Which platforms is it available on?",
+      answer: "The app is currently available on: iOS (App Store) and Android (Google Play)."
+    },
+    {
+      question: "Can I use the app outside Portugal?",
+      answer: "Yes. The app works anywhere, but the initial focus is on the Portuguese market, where we are building an active community."
+    },
+    {
+      question: "What is iFound for if I haven't lost anything?",
+      answer: "You can help others recover what they've lost—by sharing posts, getting in touch, or even returning something you found. The strength of iFound lies in its community."
+    }
+  ];
+
+  const toggleFAQ = (index: number) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
     <div className="min-h-screen font-sans">
       <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[400px]:block min-[400px]:relative transition-all duration-500 ease-in-out pb-16">
         {/* Mobile Navigation */}
         <MobileNav links={[
           { href: '/', label: 'Home' },
-          { href: '/privacy', label: 'Privacy Policy' },
-          { href: '/partner', label: 'Become a Partner' }
+          { href: '/about', label: 'About us' },
+          { href: '/privacy', label: 'Privacy Policy' }
         ]} />
 
         {/* Desktop Logo */}
@@ -22,36 +70,41 @@ export default function About() {
         {/* Desktop Navigation */}
         <div className="hidden min-[600px]:flex absolute top-8 right-8 z-10 gap-6 items-start">
           <a href="/" className="text-white text-base font-medium hover:text-white/80 transition-colors">Home</a>
+          <a href="/about" className="text-white text-base font-medium hover:text-white/80 transition-colors">About us</a>
           <a href="/privacy" className="text-white text-base font-medium hover:text-white/80 transition-colors">Privacy Policy</a>
-          <a href="/partner" className="text-white text-base font-medium hover:text-white/80 transition-colors">Become a Partner</a>
         </div>
 
         {/* Content */}
-        <main className="flex items-start justify-center min-h-screen p-8 pt-32">
+        <main className="flex items-start justify-center min-h-screen p-8 pt-32 pb-16">
           <div className="max-w-4xl text-white w-full">
-            <h1 className="font-black leading-tight text-white uppercase text-2xl min-[500px]:text-3xl min-[600px]:text-4xl md:text-5xl lg:text-6xl mb-12">About<br />ifound</h1>
-            <div className="text-lg leading-relaxed space-y-4 text-justify">
-              <p>
-                ifound was created by two friends with one shared belief: <strong>nothing truly lost should stay lost.</strong>
-              </p>
-              <p>
-                What began as a simple idea grew into a global mission to help people everywhere reconnect with what they've lost. From pets and wallets to personal belongings, stolen cars, and even missing people, <strong>ifound brings all lost and found cases together in one powerful, worldwide platform.</strong>
-              </p>
-              <p>
-                We're proud to be the <strong>first lost and found app to include people</strong>, because we believe every life matters, and every search deserves a chance to be seen.
-              </p>
-              <p>
-                ifound works because of community. The more people who join, the stronger it becomes. Every post, every share, and every alert increases the chances of a reunion.
-              </p>
-              <p>
-                No matter your age, your country, or what you're searching for, ifound is here to help. Together, we're building a world where loss is met with hope, and finding becomes possible.
-              </p>
-              <p className="font-semibold">
-                <strong>ifound because someone, somewhere, is looking too.</strong>
-              </p>
-              <p className="mt-8">
-                Available worldwide on the <strong>App Store</strong> and <strong>Google Play</strong>, ifound is accessible to anyone, anywhere. No matter your age, your country, or what you're searching for.
-              </p>
+            <h1 className="font-black leading-tight text-white uppercase text-2xl min-[500px]:text-3xl min-[600px]:text-4xl md:text-5xl lg:text-6xl mb-8">Frequently<br />Asked<br />Questions</h1>
+            
+            <div className="space-y-4">
+              {faqs.map((faq, index) => (
+                <div key={index} className="bg-white rounded-lg overflow-hidden">
+                  <button
+                    onClick={() => toggleFAQ(index)}
+                    className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
+                  >
+                    <span className="text-lg font-semibold text-black pr-4">{faq.question}</span>
+                    <svg
+                      className={`w-6 h-6 text-[#38B6FF] flex-shrink-0 transition-transform ${
+                        openIndex === index ? 'rotate-180' : ''
+                      }`}
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
+                  {openIndex === index && (
+                    <div className="px-6 pb-4 text-gray-700">
+                      <p>{faq.answer}</p>
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
           </div>
         </main>

@@ -1,0 +1,109 @@
+import { useTranslations } from 'next-intl';
+import { Link } from '@/routing';
+import MobileNav from '../../components/MobileNav';
+import LanguageSwitcher from '../../components/LanguageSwitcher';
+
+export default function Contact() {
+  const t = useTranslations('contact');
+  const nav = useTranslations('nav');
+
+  return (
+    <div className="min-h-screen font-sans">
+      <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[400px]:block min-[400px]:relative transition-all duration-500 ease-in-out">
+        {/* Mobile Navigation */}
+        <MobileNav links={[
+          { href: '/', label: 'Home' },
+          { href: '/about', label: nav('aboutUs') },
+          { href: '/privacy', label: nav('privacyPolicy') }
+        ]} />
+
+        {/* Desktop Logo */}
+        <Link href="/" className="hidden min-[600px]:flex absolute top-4 left-8 z-10 items-start gap-0">
+          <img src="/logopin.png" alt="Logo" width={95} height={95} className="object-contain" />
+          <span className="text-white text-3xl font-semibold -ml-5 translate-y-4">ifound</span>
+        </Link>
+
+        {/* Desktop Navigation */}
+        <div className="hidden min-[600px]:flex absolute top-8 right-8 z-10 gap-6 items-start">
+          <Link href="/" className="text-white text-base font-medium hover:text-white/80 transition-colors">Home</Link>
+          <Link href="/about" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('aboutUs')}</Link>
+          <Link href="/privacy" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('privacyPolicy')}</Link>
+          <LanguageSwitcher />
+        </div>
+
+        {/* Content */}
+        <main className="flex items-start justify-center min-h-screen p-8 pt-32">
+          <div className="max-w-4xl text-white w-full">
+            <h1 className="font-black leading-tight text-white uppercase text-2xl min-[500px]:text-3xl min-[600px]:text-4xl md:text-5xl lg:text-6xl mb-6">{t('title')}</h1>
+            <div className="text-lg leading-relaxed space-y-4">
+              <p>{t('intro')}</p>
+              
+              <div className="space-y-6 mt-8">
+                <div>
+                  <h3 className="text-xl font-bold mb-2">{t('email')}</h3>
+                  <p>suppport@ifound.tech</p>
+                </div>
+                
+                <div>
+                  <h3 className="text-xl font-bold mb-2">{t('phone')}</h3>
+                  <p>+351</p>
+                </div>
+                
+                <div>
+                  <h3 className="text-xl font-bold mb-2">{t('officeHours')}</h3>
+                  <p>{t('mondayFriday')}</p>
+                  <p>{t('saturday')}</p>
+                  <p>{t('sunday')}</p>
+                </div>
+                
+                <div>
+                  <h3 className="text-xl font-bold mb-2">{t('address')}</h3>
+                  <p>Rua</p>
+                  <p>Porto</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      {/* White Section */}
+      <section className="w-full bg-white py-16 px-6 md:px-12 lg:px-16">
+        <div className="max-w-[1200px] mx-auto">
+          <div className="flex flex-wrap gap-4 justify-center">
+            <Link 
+              href="/about" 
+              className="px-4 py-2 text-xl text-[#38B6FF] font-semibold hover:text-[#2FA5EE] transition-colors"
+            >
+              {nav('aboutUs')}
+            </Link>
+            <Link 
+              href="/privacy" 
+              className="px-4 py-2 text-xl text-[#38B6FF] font-semibold hover:text-[#2FA5EE] transition-colors"
+            >
+              {nav('privacyPolicy')}
+            </Link>
+            <Link 
+              href="/partner" 
+              className="px-4 py-2 text-xl text-[#38B6FF] font-semibold hover:text-[#2FA5EE] transition-colors"
+            >
+              {nav('becomePartner')}
+            </Link>
+            <Link 
+              href="/contact" 
+              className="px-4 py-2 text-xl text-[#38B6FF] font-semibold hover:text-[#2FA5EE] transition-colors"
+            >
+              {nav('contacts')}
+            </Link>
+            <Link 
+              href="/faqs" 
+              className="px-4 py-2 text-xl text-[#38B6FF] font-semibold hover:text-[#2FA5EE] transition-colors"
+            >
+              {nav('faqs')}
+            </Link>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
