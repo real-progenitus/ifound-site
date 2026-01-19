@@ -1,4 +1,4 @@
-import MobileNav from '../components/MobileNav';
+import MobileNav from '../../components/MobileNav';
 import {useTranslations} from 'next-intl';
 import {Link} from '@/routing';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -75,22 +75,23 @@ export default function About() {
                 </Link>
                 {/* Social Icons */}
                 <div className="flex gap-4">
-                <a 
-                  href="https://instagram.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
-                >
-                  <FontAwesomeIcon icon={faInstagram} className="w-5 h-5 text-white" />
-                </a>
-                <a 
-                  href="https://linkedin.com" 
-                  target="_blank" 
-                  rel="noopener noreferrer"
-                  className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
-                >
-                  <FontAwesomeIcon icon={faLinkedin} className="w-5 h-5 text-white" />
-                </a>
+                  <a 
+                    href="https://instagram.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
+                  >
+                    <FontAwesomeIcon icon={faInstagram} className="w-5 h-5 text-white" />
+                  </a>
+                  <a 
+                    href="https://linkedin.com" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
+                  >
+                    <FontAwesomeIcon icon={faLinkedin} className="w-5 h-5 text-white" />
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -135,6 +136,7 @@ export default function About() {
               </ul>
             </div>
             </div>
+          </div>
           {/* Copyright */}
           <div className="border-t border-white/20 pt-2 text-center">
             <p className="text-white/60 text-sm">© 2026 ifound. All rights reserved.</p>
