@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faApple, faGooglePlay } from '@fortawesome/free-brands-svg-icons';
+import { faApple, faGooglePlay, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import MobileNav from './components/MobileNav';
 
 export default function Home() {

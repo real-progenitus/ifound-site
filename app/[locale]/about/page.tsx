@@ -73,7 +73,7 @@ export default function About() {
                 <Link href="/" className="text-white text-3xl font-semibold">
                   ifound
                 </Link>
-                {/* Social Icons */>
+                {/* Social Icons */}
                 <div className="flex gap-4">
                 <a 
                   href="https://instagram.com" 
@@ -96,7 +96,7 @@ export default function About() {
 
             {/* Quick Links and Support Container */}
             <div className="flex gap-16 items-start">
-              {/* Quick Links Column 1 */>
+              {/* Quick Links Column 1 */}
               <div>
                 <h3 className="text-white font-bold text-lg mb-3">Quick Links</h3>
               <ul className="space-y-3">

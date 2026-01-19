@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/routing';
 import MobileNav from '../../components/MobileNav';
-import LanguageSwitcher from '../../components/LanguageSwitcher';
 
 export default function FAQs() {
   const t = useTranslations('faqs');
@@ -47,7 +46,6 @@ export default function FAQs() {
           <Link href="/" className="text-white text-base font-medium hover:text-white/80 transition-colors">Home</Link>
           <Link href="/about" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('aboutUs')}</Link>
           <Link href="/privacy" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('privacyPolicy')}</Link>
-          <LanguageSwitcher />
         </div>
 
         {/* Content */}

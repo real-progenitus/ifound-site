@@ -1,7 +1,6 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/routing';
 import MobileNav from '../../components/MobileNav';
-import LanguageSwitcher from '../../components/LanguageSwitcher';
 
 export default function Privacy() {
   const t = useTranslations('privacy');
@@ -28,7 +27,7 @@ export default function Privacy() {
           <Link href="/" className="text-white text-base font-medium hover:text-white/80 transition-colors">Home</Link>
           <Link href="/about" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('aboutUs')}</Link>
           <Link href="/partner" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('becomePartner')}</Link>
-          <LanguageSwitcher />
+
         </div>
 
         {/* Content */}
