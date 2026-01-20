@@ -1,6 +1,7 @@
 import MobileNav from '../components/MobileNav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faApple, faGooglePlay } from '@fortawesome/free-brands-svg-icons';
+import PageFooter from '../components/PageFooter';
 
 export default function Contact() {
   return (
@@ -32,123 +33,58 @@ export default function Contact() {
             <h1 className="font-black leading-tight text-white uppercase text-2xl min-[500px]:text-3xl min-[600px]:text-4xl md:text-5xl lg:text-6xl mb-6">Contact<br />Us</h1>
             <div className="text-lg leading-relaxed space-y-4">
               <p>
-                Have questions or need assistance? We're here to help!
+                Have questions or need assistance? We&apos;re here to help!
               </p>
               
               <div className="space-y-6 mt-8">
                 <div>
                   <h3 className="text-xl font-bold mb-2">Email</h3>
-                  <p>suppport@ifound.tech</p>
+                  <a href="mailto:support@ifound.tech" className="text-[#1f3577] underline hover:text-[#1f3577]/80 transition-colors text-lg">
+                    support@ifound.tech
+                  </a>
                 </div>
-                
+
                 <div>
                   <h3 className="text-xl font-bold mb-2">Phone</h3>
-                  <p>+351</p>
+                  <a href="tel:+1234567890" className="text-[#1f3577] underline hover:text-[#1f3577]/80 transition-colors text-lg">
+                    +1 (234) 567-890
+                  </a>
                 </div>
-                
+
                 <div>
                   <h3 className="text-xl font-bold mb-2">Office Hours</h3>
                   <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
-                  <p>Saturday: Closed</p>
+                  <p>Saturday: 10:00 AM - 4:00 PM</p>
                   <p>Sunday: Closed</p>
                 </div>
-                
+
                 <div>
                   <h3 className="text-xl font-bold mb-2">Address</h3>
-                  <p>Rua</p>
-                  <p>Porto</p>
+                  <p>123 Tech Street</p>
+                  <p>Innovation District</p>
+                  <p>San Francisco, CA 94105</p>
                 </div>
               </div>
             </div>
           </div>
         </main>
-      </div>
 
-      {/* Footer */}
-      <footer className="w-full bg-[#2A2A2A] text-white min-h-[160px] px-6 md:px-12 lg:px-16">
-        <div className="max-w-[1400px] mx-auto h-full flex flex-col justify-between py-3">
-          <div className="grid grid-cols-1 min-[400px]:grid-cols-3 gap-8">
-            {/* Logo and Info */}
-            <div className="flex flex-col items-start gap-2 min-[400px]:items-start items-center">
-              <div className="flex flex-col items-start gap-0">
-                <img src="/logopin.png" alt="Logo" width={60} height={60} className="object-contain mt-3 ml-2" />
-                <a href="/" className="text-white text-2xl font-semibold -mt-3">
-                  ifound
-                </a>
-              </div>
-              {/* Social Icons */}
-              <div className="flex gap-2 mt-1 -ml-1">
-                  <a 
-                    href="https://instagram.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
-                  >
-                    <FontAwesomeIcon icon={faInstagram} className="w-4 h-4 text-white" />
-                  </a>
-                  <a 
-                    href="https://linkedin.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
-                  >
-                    <FontAwesomeIcon icon={faLinkedin} className="w-4 h-4 text-white" />
-                  </a>
-                </div>
-            </div>
-
-            {/* Quick Links and Support - Middle Column */}
-            <div className="flex flex-col min-[400px]:flex-row gap-8 justify-center items-start min-[400px]:self-center">
-            {/* Quick Links */}
-            <div>
-              <h3 className="text-white font-semibold text-base mb-2">Quick Links</h3>
-              <ul className="space-y-1.5">
-                <li>
-                  <a href="/about" className="text-white/60 hover:text-white transition-colors text-base">
-                    About us
-                  </a>
-                </li>
-                <li>
-                  <a href="/privacy" className="text-white/60 hover:text-white transition-colors text-base">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="/partner" className="text-white/60 hover:text-white transition-colors text-base">
-                    Become a Partner
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Support */}
-            <div>
-              <h3 className="text-white font-semibold text-base mb-2">Support</h3>
-              <ul className="space-y-1.5">
-                <li>
-                  <a href="/contact" className="text-white/60 hover:text-white transition-colors text-base">
-                    Contacts
-                  </a>
-                </li>
-                <li>
-                  <a href="/faqs" className="text-white/60 hover:text-white transition-colors text-base">
-                    FAQs
-                  </a>
-                </li>
-              </ul>
-            </div>
+        {/* App Store and Google Play Buttons */}
+        <div className="flex justify-center items-center pt-16 pb-12 px-4">
+          <div className="flex flex-row gap-3 text-sm font-semibold">
+            <button className="flex h-12 w-[130px] items-center justify-center gap-1.5 rounded-full bg-black text-white transition-colors hover:bg-black/80">
+              <FontAwesomeIcon icon={faApple} className="h-5 w-5 flex-shrink-0 -mt-0.5" />
+              <span className="text-sm leading-none">App Store</span>
+            </button>
+            <button className="flex h-12 w-[130px] items-center justify-center gap-1.5 rounded-full bg-white text-black transition-colors hover:bg-white/90">
+              <FontAwesomeIcon icon={faGooglePlay} className="h-4 w-4 flex-shrink-0" />
+              <span className="text-sm leading-none">Google Play</span>
+            </button>
           </div>
-
-          {/* Empty Column */}
-          <div></div>
-        </div>
-
-        {/* Copyright */}
-        <div className="border-t border-white/10 pt-1.5 text-center">
-          <p className="text-white/50 text-xs">© 2026 ifound. All rights reserved.</p>
         </div>
       </div>
-    </footer>
+
+      <PageFooter />
     </div>
   );
 }

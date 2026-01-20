@@ -1,7 +1,7 @@
 import {useTranslations} from 'next-intl';
 import {Link} from '@/routing';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faFacebook, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
 export default function Footer() {
   const nav = useTranslations('nav');
@@ -12,12 +12,22 @@ export default function Footer() {
         <div className="grid grid-cols-3 gap-12">
           {/* Logo and Info */}
           <div className="flex flex-col items-start gap-3">
-            <img src="/logopin.png" alt="Logo" width={80} height={80} className="object-contain" />
-            <Link href="/" className="text-white text-3xl font-semibold">
-              ifound
-            </Link>
+            <div className="flex flex-col items-center gap-0 ml-11">
+              <img src="/logopin.png" alt="Logo" width={80} height={80} className="object-contain" />
+              <Link href="/" className="text-white text-3xl font-semibold -mt-2">
+                ifound
+              </Link>
+            </div>
             {/* Social Icons */}
-            <div className="flex gap-3 mt-2">
+            <div className="flex gap-3">
+              <a 
+                href="https://facebook.com" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
+              >
+                <FontAwesomeIcon icon={faFacebook} className="w-5 h-5 text-white" />
+              </a>
               <a 
                 href="https://instagram.com" 
                 target="_blank" 
@@ -38,7 +48,7 @@ export default function Footer() {
           </div>
 
           {/* Quick Links and Support - Middle Column */}
-          <div className="flex gap-12 justify-center items-start self-center">
+          <div className="flex gap-12 justify-center items-start self-center ml-auto max-[500px]:mr-8 min-[501px]:ml-0 max-[300px]:ml-0 max-[300px]:mr-0">
             {/* Quick Links */}
             <div>
               <h3 className="text-white font-semibold text-lg mb-4">Quick Links</h3>

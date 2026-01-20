@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import MobileNav from '../components/MobileNav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faApple, faGooglePlay } from '@fortawesome/free-brands-svg-icons';
+import PageFooter from '../components/PageFooter';
 
 export default function Partner() {
   const [showNotification, setShowNotification] = useState(false);
@@ -69,10 +70,10 @@ export default function Partner() {
     // Clear the form
     e.currentTarget.reset();
     
-    // Hide notification after 10 seconds
+    // Auto-close after 5 seconds
     setTimeout(() => {
       closeNotification();
-    }, 10000);
+    }, 5000);
   };
 
   return (
@@ -99,248 +100,158 @@ export default function Partner() {
         </div>
 
         {/* Content */}
-        <main className="flex items-start justify-center min-h-screen p-8 pt-32">
-          <div className="max-w-4xl text-white w-full">
-            <h1 className="font-black leading-tight text-white uppercase text-2xl min-[500px]:text-3xl min-[600px]:text-4xl md:text-5xl lg:text-6xl mb-6">Become a<br />partner<br />with<br />ifound</h1>
-            <div className="text-lg leading-relaxed space-y-4">
+        <main className="flex items-start justify-center min-h-screen p-8 pt-32 pb-16">
+          <form onSubmit={handleSubmit} className="max-w-2xl text-white w-full">
+            <h1 className="font-black leading-tight text-white uppercase text-2xl min-[500px]:text-3xl min-[600px]:text-4xl md:text-5xl lg:text-6xl mb-6">
+              Become a<br />Partner
+            </h1>
+            
+            <div className="text-lg leading-relaxed space-y-4 mb-8">
               <p>
                 Every day, people lose important things in public places and many of them are found by staff before their owners ever realize where to look.
               </p>
-              <p>
+              <p className="font-semibold">
                 Make your establishment part of the ifound community.
               </p>
               <p>
-                Disco clubs, cafés, shopping malls, gyms, hotels, restaurants, and other public spaces can register their location on ifound and manage lost items digitally.
+                Disco clubs, cafes, shopping malls, gyms, hotels, restaurants, and other public spaces can register their location on ifound and manage lost items digitally.
               </p>
-              <p>Give visibility to your bussiness and help those who need it most to recover what they've lost.</p>
+              <p>
+                Give visibility to your business and help those who need it most to recover what they&apos;ve lost.
+              </p>
             </div>
 
-            {/* Partner Form */}
-            <div className="mt-12 bg-white rounded-lg p-8 text-black relative">
-              <h2 className="text-2xl font-black mb-6">Partner Application Form</h2>
-              
-              {/* Error Notification */}
-              {showError && (
-                <div className={`mb-6 bg-red-500 text-white px-6 py-4 rounded-lg shadow-lg flex items-center justify-center gap-3 ${
-                  isClosingError ? 'animate-slide-out' : 'animate-slide-in'
-                }`}>
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-                  </svg>
-                  <div>
-                    <p className="font-semibold">Please fill in all fields</p>
-                    <p className="text-sm">All fields are required to submit the form.</p>
-                  </div>
-                  <button 
-                    onClick={closeError}
-                    className="ml-4 hover:bg-red-600 rounded p-1 transition-colors"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-              )}
-              
+            <div className="space-y-6">
+              <h2 className="text-2xl font-bold mb-4">Partner Application Form</h2>
+
               {/* Success Notification */}
               {showNotification && (
-                <div className={`mb-6 bg-[#38B6FF] text-white px-6 py-4 rounded-lg shadow-lg flex items-center justify-center gap-3 ${
-                  isClosingNotification ? 'animate-slide-out' : 'animate-slide-in'
-                }`}>
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <div>
-                    <p className="font-semibold">Email sent successfully!</p>
-                    <p className="text-sm">We'll get back to you soon.</p>
+                <div className={`transition-all duration-300 ease-out ${isClosingNotification ? 'opacity-0 scale-95 -translate-y-2' : 'opacity-100 scale-100 translate-y-0'}`}>
+                  <div className="bg-green-500 text-white px-6 py-4 rounded-lg flex items-center gap-3">
+                    <div className="flex-1">
+                      <h3 className="font-bold text-lg">Email sent successfully!</h3>
+                      <p className="text-sm">We&apos;ll get back to you soon.</p>
+                    </div>
+                    <button
+                      onClick={closeNotification}
+                      className="text-white hover:text-white/80 text-2xl leading-none"
+                    >
+                      &times;
+                    </button>
                   </div>
-                  <button 
-                    onClick={closeNotification}
-                    className="ml-4 hover:bg-[#2FA5EE] rounded p-1 transition-colors"
-                  >
-                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
+                </div>
+              )}
+
+              {/* Error Notification */}
+              {showError && (
+                <div className={`transition-all duration-300 ease-out ${isClosingError ? 'opacity-0 scale-95 -translate-y-2' : 'opacity-100 scale-100 translate-y-0'}`}>
+                  <div className="bg-red-500 text-white px-6 py-4 rounded-lg flex items-center gap-3">
+                    <div className="flex-1">
+                      <h3 className="font-bold text-lg">Please fill in all fields</h3>
+                      <p className="text-sm">All fields are required to submit the form.</p>
+                    </div>
+                    <button
+                      onClick={closeError}
+                      className="text-white hover:text-white/80 text-2xl leading-none"
+                    >
+                      &times;
+                    </button>
+                  </div>
                 </div>
               )}
               
-              <form className="space-y-6" onSubmit={handleSubmit}>
-                {/* Company name */}
+              <div>
+                <label className="block text-sm font-semibold mb-2">
+                  Company name: <span className="text-red-300">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="company"
+                  onChange={() => handleFieldChange('company')}
+                  className={`w-full px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white ${emptyFields.includes('company') ? 'bg-red-100' : 'bg-white/90'}`}
+                  placeholder="Your company name"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="company" className="block text-sm font-semibold mb-2">
-                    Company name:
+                  <label className="block text-sm font-semibold mb-2">
+                    Contact name: <span className="text-red-300">*</span>
                   </label>
                   <input
                     type="text"
-                    id="company"
-                    name="company"
-                    onChange={() => handleFieldChange('company')}
-                    className={`w-full px-4 py-3 border-0 rounded focus:outline-none focus:ring-2 focus:ring-[#38B6FF] transition-all ${
-                      emptyFields.includes('company') ? '!bg-red-500/15 animate-flash-red' : 'bg-gray-100'
-                    }`}
+                    name="firstName"
+                    onChange={() => handleFieldChange('firstName')}
+                    className={`w-full px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white ${emptyFields.includes('firstName') ? 'bg-red-100' : 'bg-white/90'}`}
+                    placeholder="First"
                   />
                 </div>
-
-                {/* Contact name */}
                 <div>
-                  <label className="block text-sm font-semibold mb-2">
-                    Contact name:
-                  </label>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <input
-                      type="text"
-                      name="firstName"
-                      placeholder="First"
-                      onChange={() => handleFieldChange('firstName')}
-                      className={`w-full px-4 py-3 border-0 rounded focus:outline-none focus:ring-2 focus:ring-[#38B6FF] transition-all ${
-                        emptyFields.includes('firstName') ? '!bg-red-500/15 animate-flash-red' : 'bg-gray-100'
-                      }`}
-                    />
-                    <input
-                      type="text"
-                      name="lastName"
-                      placeholder="Last"
-                      onChange={() => handleFieldChange('lastName')}
-                      className={`w-full px-4 py-3 border-0 rounded focus:outline-none focus:ring-2 focus:ring-[#38B6FF] transition-all ${
-                        emptyFields.includes('lastName') ? '!bg-red-500/15 animate-flash-red' : 'bg-gray-100'
-                      }`}
-                    />
-                  </div>
-                </div>
-
-                {/* Email address */}
-                <div>
-                  <label htmlFor="email" className="block text-sm font-semibold mb-2">
-                    Email address:
+                  <label className="block text-sm font-semibold mb-2 opacity-0">
+                    Last name
                   </label>
                   <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    onChange={() => handleFieldChange('email')}
-                    className={`w-full px-4 py-3 border-0 rounded focus:outline-none focus:ring-2 focus:ring-[#38B6FF] transition-all ${
-                      emptyFields.includes('email') ? '!bg-red-500/15 animate-flash-red' : 'bg-gray-100'
-                    }`}
+                    type="text"
+                    name="lastName"
+                    onChange={() => handleFieldChange('lastName')}
+                    className={`w-full px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white ${emptyFields.includes('lastName') ? 'bg-red-100' : 'bg-white/90'}`}
+                    placeholder="Last"
                   />
                 </div>
-
-                {/* Message */}
-                <div>
-                  <label htmlFor="message" className="block text-sm font-semibold mb-2">
-                    Message:
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={6}
-                    onChange={() => handleFieldChange('message')}
-                    className={`w-full px-4 py-3 border-0 rounded focus:outline-none focus:ring-2 focus:ring-[#38B6FF] resize-none transition-all ${
-                      emptyFields.includes('message') ? '!bg-red-500/15 animate-flash-red' : 'bg-gray-100'
-                    }`}
-                  />
-                </div>
-
-                {/* Submit button */}
-                <div>
-                  <button
-                    type="submit"
-                    className="w-full md:w-auto px-8 py-3 bg-[#38B6FF] text-white font-semibold rounded hover:bg-[#2FA5EE] transition-colors"
-                  >
-                    Submit Application
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </main>
-      </div>
-
-      {/* Footer */}
-      <footer className="w-full bg-[#2A2A2A] text-white min-h-[160px] px-6 md:px-12 lg:px-16">
-        <div className="max-w-[1400px] mx-auto h-full flex flex-col justify-between py-3">
-          <div className="grid grid-cols-1 min-[400px]:grid-cols-3 gap-8">
-            {/* Logo and Info */}
-            <div className="flex flex-col items-start gap-2 min-[400px]:items-start items-center">
-              <div className="flex flex-col items-start gap-0">
-                <img src="/logopin.png" alt="Logo" width={60} height={60} className="object-contain mt-3 ml-2" />
-                <a href="/" className="text-white text-2xl font-semibold -mt-3">
-                  ifound
-                </a>
               </div>
-              {/* Social Icons */}
-              <div className="flex gap-2 mt-1 -ml-1">
-                  <a 
-                    href="https://instagram.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
-                  >
-                    <FontAwesomeIcon icon={faInstagram} className="w-4 h-4 text-white" />
-                  </a>
-                  <a 
-                    href="https://linkedin.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
-                  >
-                    <FontAwesomeIcon icon={faLinkedin} className="w-4 h-4 text-white" />
-                  </a>
-                </div>
-            </div>
 
-            {/* Quick Links and Support - Middle Column */}
-            <div className="flex flex-col min-[400px]:flex-row gap-8 justify-center items-start min-[400px]:self-center">
-            {/* Quick Links */}
-            <div>
-              <h3 className="text-white font-semibold text-base mb-2">Quick Links</h3>
-              <ul className="space-y-1.5">
-                <li>
-                  <a href="/about" className="text-white/60 hover:text-white transition-colors text-base">
-                    About us
-                  </a>
-                </li>
-                <li>
-                  <a href="/privacy" className="text-white/60 hover:text-white transition-colors text-base">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="/partner" className="text-white/60 hover:text-white transition-colors text-base">
-                    Become a Partner
-                  </a>
-                </li>
-              </ul>
-            </div>
+              <div>
+                <label className="block text-sm font-semibold mb-2">
+                  Email address: <span className="text-red-300">*</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  onChange={() => handleFieldChange('email')}
+                  className={`w-full px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white ${emptyFields.includes('email') ? 'bg-red-100' : 'bg-white/90'}`}
+                  placeholder="your@email.com"
+                />
+              </div>
 
-            {/* Support */}
-            <div>
-              <h3 className="text-white font-semibold text-base mb-2">Support</h3>
-              <ul className="space-y-1.5">
-                <li>
-                  <a href="/contact" className="text-white/60 hover:text-white transition-colors text-base">
-                    Contacts
-                  </a>
-                </li>
-                <li>
-                  <a href="/faqs" className="text-white/60 hover:text-white transition-colors text-base">
-                    FAQs
-                  </a>
-                </li>
-              </ul>
+              <div>
+                <label className="block text-sm font-semibold mb-2">
+                  Message: <span className="text-red-300">*</span>
+                </label>
+                <textarea
+                  name="message"
+                  onChange={() => handleFieldChange('message')}
+                  rows={5}
+                  className={`w-full px-4 py-3 rounded-lg text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-white resize-none ${emptyFields.includes('message') ? 'bg-red-100' : 'bg-white/90'}`}
+                  placeholder="Tell us about your business..."
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full bg-black text-white py-3 px-6 rounded-lg font-semibold hover:bg-black/80 transition-colors"
+              >
+                Submit Application
+              </button>
             </div>
+          </form>
+        </main>
+
+        {/* App Store and Google Play Buttons */}
+        <div className="flex justify-center items-center pt-16 pb-12 px-4">
+          <div className="flex flex-row gap-3 text-sm font-semibold">
+            <button className="flex h-12 w-[130px] items-center justify-center gap-1.5 rounded-full bg-black text-white transition-colors hover:bg-black/80">
+              <FontAwesomeIcon icon={faApple} className="h-5 w-5 flex-shrink-0 -mt-0.5" />
+              <span className="text-sm leading-none">App Store</span>
+            </button>
+            <button className="flex h-12 w-[130px] items-center justify-center gap-1.5 rounded-full bg-white text-black transition-colors hover:bg-white/90">
+              <FontAwesomeIcon icon={faGooglePlay} className="h-4 w-4 flex-shrink-0" />
+              <span className="text-sm leading-none">Google Play</span>
+            </button>
           </div>
-
-          {/* Empty Column */}
-          <div></div>
-        </div>
-
-        {/* Copyright */}
-        <div className="border-t border-white/10 pt-1.5 text-center">
-          <p className="text-white/50 text-xs">© 2026 ifound. All rights reserved.</p>
         </div>
       </div>
-    </footer>
+
+      <PageFooter />
     </div>
   );
 }

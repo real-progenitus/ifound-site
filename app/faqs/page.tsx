@@ -3,7 +3,8 @@
 import { useState } from 'react';
 import MobileNav from '../components/MobileNav';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faApple, faGooglePlay } from '@fortawesome/free-brands-svg-icons';
+import PageFooter from '../components/PageFooter';
 
 export default function FAQs() {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
@@ -38,18 +39,16 @@ export default function FAQs() {
       answer: "The app is currently available on: iOS (App Store) and Android (Google Play)."
     },
     {
-      question: "Can I use the app outside Portugal?",
-      answer: "Yes. The app works anywhere, but the initial focus is on the Portuguese market, where we are building an active community."
-    },
-    {
-      question: "What is iFound for if I haven't lost anything?",
-      answer: "You can help others recover what they've lost—by sharing posts, getting in touch, or even returning something you found. The strength of iFound lies in its community."
+      question: "Is my data secure?",
+      answer: (
+        <>
+          Yes. All data is handled according to current{' '}
+          <a href="/privacy" className="text-[#1f3577] underline hover:text-[#1f3577]/80">privacy</a>
+          {' '}and data protection laws. We do not share personal information with third parties.
+        </>
+      )
     }
   ];
-
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
 
   return (
     <div className="min-h-screen font-sans">
@@ -75,32 +74,25 @@ export default function FAQs() {
         </div>
 
         {/* Content */}
-        <main className="flex items-start justify-center min-h-screen p-8 pt-32 pb-16">
+        <main className="flex items-start justify-center min-h-screen p-8 pt-32">
           <div className="max-w-4xl text-white w-full">
             <h1 className="font-black leading-tight text-white uppercase text-2xl min-[500px]:text-3xl min-[600px]:text-4xl md:text-5xl lg:text-6xl mb-8">Frequently<br />Asked<br />Questions</h1>
             
             <div className="space-y-4">
               {faqs.map((faq, index) => (
-                <div key={index} className="bg-white rounded-lg overflow-hidden">
+                <div key={index} className="bg-white/10 backdrop-blur-sm rounded-lg overflow-hidden">
                   <button
-                    onClick={() => toggleFAQ(index)}
-                    className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
+                    onClick={() => setOpenIndex(openIndex === index ? null : index)}
+                    className="w-full text-left p-6 flex justify-between items-center hover:bg-white/5 transition-colors"
                   >
-                    <span className="text-lg font-semibold text-black pr-4">{faq.question}</span>
-                    <svg
-                      className={`w-6 h-6 text-[#38B6FF] flex-shrink-0 transition-transform ${
-                        openIndex === index ? 'rotate-180' : ''
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
+                    <span className="text-lg font-semibold pr-4">{faq.question}</span>
+                    <span className="text-2xl flex-shrink-0">
+                      {openIndex === index ? '−' : '+'}
+                    </span>
                   </button>
                   {openIndex === index && (
-                    <div className="px-6 pb-4 text-gray-700">
-                      <p>{faq.answer}</p>
+                    <div className="px-6 pb-6 text-white/90">
+                      {faq.answer}
                     </div>
                   )}
                 </div>
@@ -108,93 +100,23 @@ export default function FAQs() {
             </div>
           </div>
         </main>
-      </div>
 
-      {/* Footer */}
-      <footer className="w-full bg-[#2A2A2A] text-white min-h-[160px] px-6 md:px-12 lg:px-16">
-        <div className="max-w-[1400px] mx-auto h-full flex flex-col justify-between py-3">
-          <div className="grid grid-cols-1 min-[400px]:grid-cols-3 gap-8">
-            {/* Logo and Info */}
-            <div className="flex flex-col items-start gap-2 min-[400px]:items-start items-center">
-              <div className="flex flex-col items-start gap-0">
-                <img src="/logopin.png" alt="Logo" width={60} height={60} className="object-contain mt-3 ml-2" />
-                <a href="/" className="text-white text-2xl font-semibold -mt-3">
-                  ifound
-                </a>
-              </div>
-              {/* Social Icons */}
-              <div className="flex gap-2 mt-1 -ml-1">
-                  <a 
-                    href="https://instagram.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
-                  >
-                    <FontAwesomeIcon icon={faInstagram} className="w-4 h-4 text-white" />
-                  </a>
-                  <a 
-                    href="https://linkedin.com" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
-                  >
-                    <FontAwesomeIcon icon={faLinkedin} className="w-4 h-4 text-white" />
-                  </a>
-                </div>
-            </div>
-
-            {/* Quick Links and Support - Middle Column */}
-            <div className="flex flex-col min-[400px]:flex-row gap-8 justify-center items-start min-[400px]:self-center">
-            {/* Quick Links */}
-            <div>
-              <h3 className="text-white font-semibold text-base mb-2">Quick Links</h3>
-              <ul className="space-y-1.5">
-                <li>
-                  <a href="/about" className="text-white/60 hover:text-white transition-colors text-base">
-                    About us
-                  </a>
-                </li>
-                <li>
-                  <a href="/privacy" className="text-white/60 hover:text-white transition-colors text-base">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="/partner" className="text-white/60 hover:text-white transition-colors text-base">
-                    Become a Partner
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            {/* Support */}
-            <div>
-              <h3 className="text-white font-semibold text-base mb-2">Support</h3>
-              <ul className="space-y-1.5">
-                <li>
-                  <a href="/contact" className="text-white/60 hover:text-white transition-colors text-base">
-                    Contacts
-                  </a>
-                </li>
-                <li>
-                  <a href="/faqs" className="text-white/60 hover:text-white transition-colors text-base">
-                    FAQs
-                  </a>
-                </li>
-              </ul>
-            </div>
+        {/* App Store and Google Play Buttons */}
+        <div className="flex justify-center items-center pt-16 pb-12 px-4">
+          <div className="flex flex-row gap-3 text-sm font-semibold">
+            <button className="flex h-12 w-[130px] items-center justify-center gap-1.5 rounded-full bg-black text-white transition-colors hover:bg-black/80">
+              <FontAwesomeIcon icon={faApple} className="h-5 w-5 flex-shrink-0 -mt-0.5" />
+              <span className="text-sm leading-none">App Store</span>
+            </button>
+            <button className="flex h-12 w-[130px] items-center justify-center gap-1.5 rounded-full bg-white text-black transition-colors hover:bg-white/90">
+              <FontAwesomeIcon icon={faGooglePlay} className="h-4 w-4 flex-shrink-0" />
+              <span className="text-sm leading-none">Google Play</span>
+            </button>
           </div>
-
-          {/* Empty Column */}
-          <div></div>
-        </div>
-
-        {/* Copyright */}
-        <div className="border-t border-white/10 pt-1.5 text-center">
-          <p className="text-white/50 text-xs">© 2026 ifound. All rights reserved.</p>
         </div>
       </div>
-    </footer>
+
+      <PageFooter />
     </div>
   );
 }
