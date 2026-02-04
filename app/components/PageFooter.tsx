@@ -63,7 +63,7 @@ export default function PageFooter() {
             <h3 className="text-white font-bold text-sm mb-1">Follow Us</h3>
             <div className="flex gap-2.5">
               <a 
-                href="https://facebook.com" 
+                href="https://www.facebook.com/p/IFound-61578119646465/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
@@ -71,7 +71,7 @@ export default function PageFooter() {
                 <FontAwesomeIcon icon={faFacebook} className="w-4 h-4 text-white" />
               </a>
               <a 
-                href="https://instagram.com" 
+                href="https://www.instagram.com/ifound__app/" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
@@ -79,7 +79,7 @@ export default function PageFooter() {
                 <FontAwesomeIcon icon={faInstagram} className="w-4 h-4 text-white" />
               </a>
               <a 
-                href="https://linkedin.com" 
+                href="https://www.linkedin.com/company/ifoundapp" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 transition-colors flex items-center justify-center"
@@ -91,14 +91,14 @@ export default function PageFooter() {
 
           {/* App Store Buttons */}
           <div className="flex flex-col gap-2.5 items-start justify-start max-[599px]:hidden">
-            <button className="flex h-10 w-[135px] items-center justify-center gap-1.5 rounded-lg bg-black text-white transition-colors hover:bg-black/80 border border-white/20">
-              <FontAwesomeIcon icon={faApple} className="h-4 w-4 flex-shrink-0" />
+            <a href="https://apps.apple.com/us/app/ifound/id6470928381" target="_blank" rel="noopener noreferrer" className="flex h-12 w-[135px] items-center justify-center gap-1.5 rounded-full bg-black text-white transition-colors hover:bg-black/80">
+              <FontAwesomeIcon icon={faApple} className="h-5 w-5 flex-shrink-0 -mt-0.5" />
               <span className="text-sm font-medium leading-none">App Store</span>
-            </button>
-            <button className="flex h-10 w-[135px] items-center justify-center gap-1.5 rounded-lg bg-white text-black transition-colors hover:bg-white/90">
-              <FontAwesomeIcon icon={faGooglePlay} className="h-3.5 w-3.5 flex-shrink-0" />
+            </a>
+            <a href="https://play.google.com/store/apps/details?id=com.progenitus.ifound" target="_blank" rel="noopener noreferrer" className="flex h-12 w-[135px] items-center justify-center gap-1.5 rounded-full bg-white text-black transition-colors hover:bg-white/90">
+              <FontAwesomeIcon icon={faGooglePlay} className="h-4 w-4 flex-shrink-0" />
               <span className="text-sm font-medium leading-none">Google Play</span>
-            </button>
+            </a>
           </div>
         </div>
 

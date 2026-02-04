@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/routing';
 import MobileNav from '../../components/MobileNav';
+import PageFooter from '../../components/PageFooter';
 
 export default function FAQs() {
   const t = useTranslations('faqs');
@@ -121,6 +122,7 @@ export default function FAQs() {
           </div>
         </div>
       </section>
+      <PageFooter />
     </div>
   );
 }

@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/routing';
 import MobileNav from '../../components/MobileNav';
+import PageFooter from '../../components/PageFooter';
 
 export default function Contact() {
   const t = useTranslations('contact');
@@ -39,12 +40,7 @@ export default function Contact() {
               <div className="space-y-6 mt-8">
                 <div>
                   <h3 className="text-xl font-bold mb-2">{t('email')}</h3>
-                  <p>suppport@ifound.tech</p>
-                </div>
-                
-                <div>
-                  <h3 className="text-xl font-bold mb-2">{t('phone')}</h3>
-                  <p>+351</p>
+                  <p>support@ifound.tech</p>
                 </div>
                 
                 <div>
@@ -52,12 +48,6 @@ export default function Contact() {
                   <p>{t('mondayFriday')}</p>
                   <p>{t('saturday')}</p>
                   <p>{t('sunday')}</p>
-                </div>
-                
-                <div>
-                  <h3 className="text-xl font-bold mb-2">{t('address')}</h3>
-                  <p>Rua</p>
-                  <p>Porto</p>
                 </div>
               </div>
             </div>
@@ -102,6 +92,7 @@ export default function Contact() {
           </div>
         </div>
       </section>
+      <PageFooter />
     </div>
   );
 }

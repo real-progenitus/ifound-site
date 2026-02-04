@@ -1,6 +1,7 @@
 import { useTranslations } from 'next-intl';
 import { Link } from '@/routing';
 import MobileNav from '../../components/MobileNav';
+import PageFooter from '../../components/PageFooter';
 
 export default function Privacy() {
   const t = useTranslations('privacy');
@@ -105,6 +106,7 @@ export default function Privacy() {
           </div>
         </div>
       </section>
+      <PageFooter />
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Link } from '@/routing';
 import MobileNav from '../../components/MobileNav';
+import PageFooter from '../../components/PageFooter';
 
 export default function Partner() {
   const t = useTranslations('partner');
@@ -235,6 +236,7 @@ export default function Partner() {
           </div>
         </div>
       </section>
+      <PageFooter />
     </div>
   );
 }
