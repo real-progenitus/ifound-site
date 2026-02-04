@@ -34,7 +34,7 @@ export default function Home() {
 
         {/* Mobile Content */}
         <main className="pt-10 pb-4 flex-1 flex flex-col justify-center min-[600px]:hidden transition-all duration-500 ease-in-out">
-          <div className="text-left w-full max-w-[320px] mx-auto pl-10 pr-4 transition-all duration-500 ease-in-out">
+          <div className="text-left w-full mx-auto pl-10 pr-4 transition-all duration-500 ease-in-out">
             <h1 className="font-black leading-tight text-white uppercase text-3xl transition-all duration-500 ease-in-out">
               {t('title')}
             </h1>
@@ -56,7 +56,7 @@ export default function Home() {
 
         {/* Mobile Phone Image */}
         <div className="flex justify-center pb-4 min-[600px]:hidden transition-all duration-500 ease-in-out">
-          <div className="w-full max-w-[320px] mx-auto px-4 transition-all duration-500 ease-in-out">
+          <div className="w-full mx-auto px-4 transition-all duration-500 ease-in-out">
             <img
               src="/final.png"
               alt="App preview"
