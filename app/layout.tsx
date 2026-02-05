@@ -22,6 +22,25 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+  openGraph: {
+    title: "iFound - Lost & Found App",
+    description: "The general purpose lost and found app that changes the way you recover your lost items.",
+    images: [
+      {
+        url: "/preview.png",
+        width: 600,
+        height: 600,
+        alt: "iFound - Lost & Found App",
+      },
+    ],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "iFound - Lost & Found App",
+    description: "The general purpose lost and found app that changes the way you recover your lost items.",
+    images: ["/preview.png"],
+  },
 };
 
 export default async function RootLayout({

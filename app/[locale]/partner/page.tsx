@@ -6,6 +6,7 @@ import { Link } from '@/routing';
 import MobileNav from '../../components/MobileNav';
 import PageFooter from '../../components/PageFooter';
 import Logo from '../../components/Logo';
+import { sendPartnerEmail } from '../../actions/sendPartnerEmail';
 
 export default function Partner() {
   const t = useTranslations('partner');
@@ -13,7 +14,7 @@ export default function Partner() {
   const [showNotification, setShowNotification] = useState(false);
   const [showError, setShowError] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     const formData = new FormData(e.currentTarget);
@@ -25,6 +26,23 @@ export default function Partner() {
     
     // Validate all fields are filled
     if (!company || !firstName || !lastName || !email || !message) {
+      setShowError(true);
+      setTimeout(() => {
+        setShowError(false);
+      }, 10000);
+      return;
+    }
+
+    // Send email
+    const result = await sendPartnerEmail({
+      company,
+      firstName,
+      lastName,
+      email,
+      message,
+    });
+
+    if (!result.success) {
       setShowError(true);
       setTimeout(() => {
         setShowError(false);
