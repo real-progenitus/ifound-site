@@ -17,9 +17,10 @@ export async function sendPartnerEmail(data: PartnerFormData) {
     const { company, firstName, lastName, email, message } = data;
 
     const result = await resend.emails.send({
-      from: 'noreply@ifound.app',
+      from: 'hello@gadgetconsulting.pt',
       to: 'joaoalvaromota@gmail.com',
       subject: `New Partner Inquiry from ${company}`,
+      text: `New Partner Inquiry\nCompany: ${company}\nContact Name: ${firstName} ${lastName}\nEmail: ${email}\n\nMessage:\n${message}`,
       html: `
         <h2>New Partner Inquiry</h2>
         <p><strong>Company:</strong> ${company}</p>

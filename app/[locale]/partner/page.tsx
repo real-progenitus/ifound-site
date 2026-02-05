@@ -17,7 +17,8 @@ export default function Partner() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-    const formData = new FormData(e.currentTarget);
+    const form = e.currentTarget;
+    const formData = new FormData(form);
     const company = formData.get('company') as string;
     const firstName = formData.get('firstName') as string;
     const lastName = formData.get('lastName') as string;
@@ -54,7 +55,7 @@ export default function Partner() {
     setShowNotification(true);
     
     // Clear the form
-    e.currentTarget.reset();
+    form.reset();
     
     // Hide notification after 10 seconds
     setTimeout(() => {
