@@ -20,9 +20,9 @@ export default function Home() {
         ]} />
 
         {/* Desktop Logo */}
-        <Link href="/" className="hidden min-[600px]:flex absolute top-4 left-8 z-10 items-start gap-0">
-          <img src="/logopin.png" alt="Logo" width={95} height={95} className="object-contain" />
-          <span className="text-white text-3xl font-semibold -ml-5 translate-y-4">ifound</span>
+        <Link href="/" className="hidden min-[600px]:flex absolute top-4 left-8 z-10 items-center gap-1">
+          <img src="/favicon.png" alt="Logo" width={80} height={80} className="object-contain" />
+          <span className="text-white text-3xl font-semibold">ifound</span>
         </Link>
 
         {/* Desktop Navigation */}
@@ -34,20 +34,20 @@ export default function Home() {
 
         {/* Mobile Content */}
         <main className="pt-10 pb-4 flex-1 flex flex-col justify-center min-[600px]:hidden transition-all duration-500 ease-in-out">
-          <div className="text-left w-full mx-auto pl-10 pr-4 transition-all duration-500 ease-in-out">
+          <div className="text-left w-full mx-auto px-14 transition-all duration-500 ease-in-out">
             <h1 className="font-black leading-tight text-white uppercase text-3xl transition-all duration-500 ease-in-out">
               {t('title')}
             </h1>
             <p className="mt-4 text-sm leading-relaxed text-white/90 max-w-xs">
               {t('description')}
             </p>
-            <div className="flex flex-row gap-3 text-sm font-semibold mt-6 justify-start">
-              <a href="https://apps.apple.com/us/app/ifound/id6470928381" target="_blank" rel="noopener noreferrer" className="flex h-12 w-[110px] items-center justify-center gap-1.5 rounded-full bg-black text-white transition-colors hover:bg-black/80">
-                <FontAwesomeIcon icon={faApple} className="h-5 w-5 flex-shrink-0 -mt-0.5" />
+            <div className="flex flex-row gap-3 text-sm font-semibold mt-6 justify-center items-center">
+              <a href="https://apps.apple.com/us/app/ifound/id6470928381" target="_blank" rel="noopener noreferrer" className="flex h-12 w-[140px] items-center justify-center gap-1.5 rounded-full bg-black text-white transition-colors hover:bg-black/80">
+                <FontAwesomeIcon icon={faApple} className="h-5 w-5 flex-shrink-0" />
                 <span className="text-sm leading-none">{t('appStore')}</span>
               </a>
-              <a href="https://play.google.com/store/apps/details?id=com.progenitus.ifound" target="_blank" rel="noopener noreferrer" className="flex h-12 w-[110px] items-center justify-center gap-1.5 rounded-full bg-white text-black transition-colors hover:bg-white/90">
-                <FontAwesomeIcon icon={faGooglePlay} className="h-4 w-4 flex-shrink-0" />
+              <a href="https://play.google.com/store/apps/details?id=com.progenitus.ifound" target="_blank" rel="noopener noreferrer" className="flex h-12 w-[140px] items-center justify-center gap-1.5 rounded-full bg-white text-black transition-colors hover:bg-white/90">
+                <FontAwesomeIcon icon={faGooglePlay} className="h-5 w-5 flex-shrink-0" />
                 <span className="text-sm leading-none">{t('googlePlay')}</span>
               </a>
             </div>
@@ -78,11 +78,11 @@ export default function Home() {
                 {t('description')}
               </p>
               <div className="flex flex-row gap-2 min-[500px]:gap-3 min-[600px]:gap-4 text-xs min-[500px]:text-sm min-[600px]:text-base font-semibold mt-5 min-[500px]:mt-6 min-[600px]:mt-7 md:mt-8 justify-start">
-                <a href="https://apps.apple.com/us/app/ifound/id6470928381" target="_blank" rel="noopener noreferrer" className="flex h-10 min-[500px]:h-11 min-[600px]:h-12 md:h-14 w-[100px] min-[500px]:w-[110px] min-[600px]:w-[130px] md:w-[150px] items-center justify-center gap-1.5 rounded-full bg-black text-white transition-colors hover:bg-black/80">
+                <a href="https://apps.apple.com/us/app/ifound/id6470928381" target="_blank" rel="noopener noreferrer" className="flex h-10 min-[500px]:h-11 min-[600px]:h-12 md:h-14 px-4 min-[500px]:px-5 min-[600px]:px-6 items-center justify-center gap-1.5 rounded-full bg-black text-white transition-colors hover:bg-black/80">
                   <FontAwesomeIcon icon={faApple} className="h-4 min-[500px]:h-5 min-[600px]:h-6 flex-shrink-0 -mt-0.5" />
                   <span className="leading-none">{t('appStore')}</span>
                 </a>
-                <a href="https://play.google.com/store/apps/details?id=com.progenitus.ifound" target="_blank" rel="noopener noreferrer" className="flex h-10 min-[500px]:h-11 min-[600px]:h-12 md:h-14 w-[100px] min-[500px]:w-[110px] min-[600px]:w-[130px] md:w-[150px] items-center justify-center gap-1.5 rounded-full bg-white text-black transition-colors hover:bg-white/90">
+                <a href="https://play.google.com/store/apps/details?id=com.progenitus.ifound" target="_blank" rel="noopener noreferrer" className="flex h-10 min-[500px]:h-11 min-[600px]:h-12 md:h-14 px-4 min-[500px]:px-5 min-[600px]:px-6 items-center justify-center gap-1.5 rounded-full bg-white text-black transition-colors hover:bg-white/90">
                   <FontAwesomeIcon icon={faGooglePlay} className="h-3 min-[500px]:h-4 min-[600px]:h-5 flex-shrink-0" />
                   <span className="leading-none">{t('googlePlay')}</span>
                 </a>

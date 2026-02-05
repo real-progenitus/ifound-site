@@ -17,14 +17,14 @@ export default function MobileNav({ links }: MobileNavProps) {
   return (
     <>
       {/* Mobile Header */}
-      <header className="flex items-center justify-between px-6 pt-6 min-[600px]:hidden relative z-50">
-        <a href="/" className="flex items-center gap-2">
+      <header className="flex items-center justify-between px-10 pt-6 min-[600px]:hidden relative z-50">
+        <a href="/" className="flex items-center">
           <img
-            src="/logopin.png"
+            src="/favicon.png"
             alt="Logo"
-            width={48}
-            height={48}
-            className="h-12 w-12 object-contain"
+            width={60}
+            height={60}
+            className="h-16 w-16 object-contain"
           />
           <span className="text-white text-2xl font-semibold">ifound</span>
         </a>

@@ -9,15 +9,15 @@ interface LogoProps extends Omit<ComponentProps<'a'>, 'href'> {
 
 export default function Logo({ 
   className = "", 
-  width = 95, 
-  height = 95,
-  textClassName = "text-white text-3xl font-semibold -ml-5 translate-y-4",
+  width = 80, 
+  height = 80,
+  textClassName = "text-white text-3xl font-semibold",
   href = "/",
   ...props
 }: LogoProps) {
   return (
-    <a href={href} className={`flex items-start gap-0 ${className}`} {...props}>
-      <img src="/logopin.png" alt="Logo" width={width} height={height} className="object-contain" />
+    <a href={href} className={`flex items-center gap-1 ${className}`} {...props}>
+      <img src="/favicon.png" alt="Logo" width={width} height={height} className="object-contain" />
       <span className={textClassName}>ifound</span>
     </a>
   );

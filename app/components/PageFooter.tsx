@@ -10,8 +10,8 @@ export default function PageFooter() {
           {/* Logo */}
           <div className="flex flex-col items-center gap-2">
             <div className="flex flex-col items-center gap-0">
-              <img src="/logopin.png" alt="Logo" width={50} height={50} className="object-contain" />
-              <a href="/" className="text-white text-xl font-semibold -mt-2">
+              <img src="/favicon.png" alt="Logo" width={80} height={80} className="object-contain" />
+              <a href="/" className="text-white text-xl font-semibold">
                 ifound
               </a>
             </div>
@@ -20,7 +20,7 @@ export default function PageFooter() {
           {/* Links Grid */}
           <div className="grid grid-cols-2 gap-6">
             {/* Quick Links */}
-            <div>
+            <div className="text-center">
               <h3 className="text-white font-bold text-sm mb-3">Quick Links</h3>
               <ul className="space-y-2">
                 <li>
@@ -42,7 +42,7 @@ export default function PageFooter() {
             </div>
 
             {/* Support */}
-            <div>
+            <div className="text-center">
               <h3 className="text-white font-bold text-sm mb-3">Support</h3>
               <ul className="space-y-2">
                 <li>
@@ -108,8 +108,8 @@ export default function PageFooter() {
           {/* Logo and ifound */}
           <div className="flex flex-col items-start gap-2">
             <div className="flex flex-col items-center gap-0">
-              <img src="/logopin.png" alt="Logo" width={60} height={60} className="object-contain" />
-              <a href="/" className="text-white text-2xl font-semibold -mt-2">
+              <img src="/favicon.png" alt="Logo" width={60} height={60} className="object-contain" />
+              <a href="/" className="text-white text-2xl font-semibold">
                 ifound
               </a>
             </div>

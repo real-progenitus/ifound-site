@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/routing';
 import MobileNav from '../../components/MobileNav';
 import PageFooter from '../../components/PageFooter';
+import Logo from '../../components/Logo';
 
 export default function FAQs() {
   const t = useTranslations('faqs');
@@ -37,10 +38,7 @@ export default function FAQs() {
         ]} />
 
         {/* Desktop Logo */}
-        <Link href="/" className="hidden min-[600px]:flex absolute top-4 left-8 z-10 items-start gap-0">
-          <img src="/logopin.png" alt="Logo" width={95} height={95} className="object-contain" />
-          <span className="text-white text-3xl font-semibold -ml-5 translate-y-4">ifound</span>
-        </Link>
+        <Logo className="hidden min-[600px]:flex absolute top-4 left-8 z-10" />
 
         {/* Desktop Navigation */}
         <div className="hidden min-[600px]:flex absolute top-8 right-8 z-10 gap-6 items-start">
