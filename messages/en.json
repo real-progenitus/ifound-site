@@ -101,5 +101,11 @@
     "a7": "Once you find your item on ifound, you'll need to contact the establishment directly to verify ownership and arrange collection.",
     "q8": "Is my personal information safe?",
     "a8": "Yes, we take privacy seriously. Please review our Privacy Policy for detailed information about how we handle and protect your data."
+  },
+  "footer": {
+    "quickLinks": "Quick Links",
+    "support": "Support",
+    "followUs": "Follow Us",
+    "allRightsReserved": "All rights reserved."
   }
 }

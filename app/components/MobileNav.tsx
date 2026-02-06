@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import LanguageSwitcher from './LanguageSwitcher';
 
 interface NavLink {
   href: string;
@@ -36,31 +37,30 @@ export default function MobileNav({ links }: MobileNavProps) {
           aria-label="Toggle menu"
         >
           <span
-            className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ${
-              isOpen ? 'rotate-45 translate-y-2' : ''
-            }`}
+            className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ${isOpen ? 'rotate-45 translate-y-2' : ''
+              }`}
           />
           <span
-            className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ${
-              isOpen ? 'opacity-0' : ''
-            }`}
+            className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ${isOpen ? 'opacity-0' : ''
+              }`}
           />
           <span
-            className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ${
-              isOpen ? '-rotate-45 -translate-y-2' : ''
-            }`}
+            className={`w-6 h-0.5 bg-white rounded-full transition-all duration-300 ${isOpen ? '-rotate-45 -translate-y-2' : ''
+              }`}
           />
         </button>
       </header>
 
       {/* Mobile Menu Overlay */}
       <div
-        className={`fixed inset-0 bg-[#38B6FF] z-40 min-[600px]:hidden transition-all duration-300 ease-in-out ${
-          isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
-        }`}
+        className={`fixed inset-0 bg-[#38B6FF] z-40 min-[600px]:hidden transition-all duration-300 ease-in-out ${isOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'
+          }`}
         style={{ top: '88px' }}
       >
         <nav className="flex flex-col items-center justify-center gap-8 h-full px-6">
+          <div className="absolute top-8">
+            <LanguageSwitcher />
+          </div>
           {links.map((link) => (
             <a
               key={link.href}

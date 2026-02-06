@@ -1,9 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faApple, faGooglePlay } from '@fortawesome/free-brands-svg-icons';
 import MobileNav from '../components/MobileNav';
-import {useTranslations} from 'next-intl';
-import {Link} from '@/routing';
+import { useTranslations } from 'next-intl';
+import { Link } from '@/routing';
 import PageFooter from '../components/PageFooter';
+import LanguageSwitcher from '../components/LanguageSwitcher';
 
 export default function Home() {
   const t = useTranslations('home');
@@ -30,6 +31,7 @@ export default function Home() {
           <Link href="/about" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('aboutUs')}</Link>
           <Link href="/privacy" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('privacyPolicy')}</Link>
           <Link href="/partner" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('becomePartner')}</Link>
+          <LanguageSwitcher />
         </div>
 
         {/* Mobile Content */}
