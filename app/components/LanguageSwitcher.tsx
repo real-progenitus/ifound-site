@@ -42,12 +42,12 @@ export default function LanguageSwitcher() {
         <div className="relative" ref={dropdownRef}>
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="text-white text-base font-medium hover:opacity-75 transition-opacity cursor-pointer flex items-center gap-1.5"
+                className="text-white text-base font-medium hover:opacity-75 transition-opacity cursor-pointer flex items-center gap-2"
                 title={currentLocaleData?.label}
             >
-                <span className="uppercase">{currentLocale}</span>
+                <span className="text-3xl max-[599px]:text-3xl">{currentLocaleData?.flag}</span>
                 <svg
-                    className={`w-3 h-3 text-white transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                    className={`w-4 h-4 max-[599px]:w-4 max-[599px]:h-4 text-white transition-transform ${isOpen ? 'rotate-180' : ''}`}
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -57,18 +57,18 @@ export default function LanguageSwitcher() {
             </button>
 
             {isOpen && (
-                <div className="absolute top-full right-0 mt-2 bg-white rounded-lg shadow-lg overflow-hidden min-w-[140px] z-50">
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white rounded-lg shadow-lg overflow-hidden min-w-[140px] max-[599px]:min-w-[180px] z-50">
                     {locales.map((locale) => {
                         const isActive = currentLocale === locale.code;
                         return (
                             <button
                                 key={locale.code}
                                 onClick={() => handleLocaleChange(locale.code)}
-                                className={`w-full flex items-center gap-3 px-4 py-2.5 hover:bg-gray-100 transition-colors ${isActive ? 'bg-gray-50 font-medium' : ''
+                                className={`w-full flex items-center gap-3 max-[599px]:gap-4 px-4 max-[599px]:px-5 py-2.5 max-[599px]:py-3.5 hover:bg-gray-100 transition-colors ${isActive ? 'bg-gray-50 font-medium' : ''
                                     }`}
                             >
-                                <span className="text-xl">{locale.flag}</span>
-                                <span className="text-sm text-gray-800">{locale.label}</span>
+                                <span className="text-xl max-[599px]:text-2xl">{locale.flag}</span>
+                                <span className="text-sm max-[599px]:text-base text-gray-800">{locale.label}</span>
                             </button>
                         );
                     })}

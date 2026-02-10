@@ -58,7 +58,7 @@ export default function MobileNav({ links }: MobileNavProps) {
         style={{ top: '88px' }}
       >
         <nav className="flex flex-col items-center justify-center gap-8 h-full px-6">
-          <div className="absolute top-8">
+          <div className="flex justify-center mb-2">
             <LanguageSwitcher />
           </div>
           {links.map((link) => (
