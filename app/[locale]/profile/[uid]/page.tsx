@@ -7,6 +7,8 @@ import PageFooter from '../../../components/PageFooter';
 import Logo from '../../../components/Logo';
 import CopyButton from '../../../components/CopyButton';
 
+export const dynamic = 'force-dynamic';
+
 export default async function ProfilePage({ params }: { params: Promise<{ uid: string; locale: string }> }) {
   const { uid } = await params;
   const profile = await getUserProfile(uid);
