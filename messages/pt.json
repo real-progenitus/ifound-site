@@ -102,6 +102,18 @@
         "q8": "As minhas informações pessoais estão seguras?",
         "a8": "Sim, levamos a privacidade a sério. Por favor reveja a nossa Política de Privacidade para informações detalhadas sobre como tratamos e protegemos os seus dados."
     },
+    "profile": {
+        "foundSomething": "Encontrou algo meu?",
+        "memberSince": "Membro desde",
+        "email": "Email",
+        "phone": "Telefone",
+        "userNotFound": "Utilizador Não Encontrado",
+        "userNotFoundDescription": "O perfil que procura não existe.",
+        "goHome": "Ir para Início",
+        "posts": "Itens Perdidos",
+        "reward": "Recompensa",
+        "resolved": "Resolvido"
+    },
     "footer": {
         "quickLinks": "Links Rápidos",
         "support": "Suporte",

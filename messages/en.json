@@ -102,6 +102,18 @@
     "q8": "Is my personal information safe?",
     "a8": "Yes, we take privacy seriously. Please review our Privacy Policy for detailed information about how we handle and protect your data."
   },
+  "profile": {
+    "foundSomething": "Found something of mine?",
+    "memberSince": "Member since",
+    "email": "Email",
+    "phone": "Phone",
+    "userNotFound": "User Not Found",
+    "userNotFoundDescription": "The profile you're looking for doesn't exist.",
+    "goHome": "Go Home",
+    "posts": "Lost Items",
+    "reward": "Reward",
+    "resolved": "Resolved"
+  },
   "footer": {
     "quickLinks": "Quick Links",
     "support": "Support",

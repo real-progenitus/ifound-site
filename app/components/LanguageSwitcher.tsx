@@ -13,7 +13,11 @@ export default function LanguageSwitcher() {
 
     const locales = [
         { code: 'en', flag: '🇬🇧', label: 'English' },
-        { code: 'pt', flag: '🇵🇹', label: 'Português' }
+        { code: 'pt', flag: '🇵🇹', label: 'Português' },
+        { code: 'es', flag: '🇪🇸', label: 'Español' },
+        { code: 'fr', flag: '🇫🇷', label: 'Français' },
+        { code: 'it', flag: '🇮🇹', label: 'Italiano' },
+        { code: 'de', flag: '🇩🇪', label: 'Deutsch' }
     ];
 
     const currentLocaleData = locales.find(loc => loc.code === currentLocale);
@@ -45,7 +49,7 @@ export default function LanguageSwitcher() {
                 className="text-white text-base font-medium hover:opacity-75 transition-opacity cursor-pointer flex items-center gap-2"
                 title={currentLocaleData?.label}
             >
-                <span className="text-3xl max-[599px]:text-3xl">{currentLocaleData?.flag}</span>
+                <span className="text-2xl max-[599px]:text-2xl">{currentLocaleData?.flag}</span>
                 <svg
                     className={`w-4 h-4 max-[599px]:w-4 max-[599px]:h-4 text-white transition-transform ${isOpen ? 'rotate-180' : ''}`}
                     fill="none"
@@ -57,7 +61,7 @@ export default function LanguageSwitcher() {
             </button>
 
             {isOpen && (
-                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 bg-white rounded-lg shadow-lg overflow-hidden min-w-[140px] max-[599px]:min-w-[180px] z-50">
+                <div className="absolute top-full right-0 mt-2 bg-white rounded-lg shadow-lg overflow-hidden min-w-[140px] max-[599px]:min-w-[180px] z-50">
                     {locales.map((locale) => {
                         const isActive = currentLocale === locale.code;
                         return (
