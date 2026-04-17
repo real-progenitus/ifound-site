@@ -16,7 +16,7 @@ export interface PublicPost {
 
 export async function getUserPosts(userEmail: string): Promise<PublicPost[]> {
   try {
-    const snapshot = await db
+    const snapshot = await db()
       .collection('QA_Posts')
       .where('user', '==', userEmail)
       .where('isDeleted', '==', false)

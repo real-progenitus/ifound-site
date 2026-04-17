@@ -15,7 +15,7 @@ export interface PublicUserProfile {
 export async function getUserProfile(uid: string): Promise<PublicUserProfile | null> {
   try {
     console.log('[Profile] Fetching user with uid:', uid);
-    const snapshot = await db.collection('QA_Users').where('uid', '==', uid).limit(1).get();
+    const snapshot = await db().collection('QA_Users').where('uid', '==', uid).limit(1).get();
     console.log('[Profile] Document found:', !snapshot.empty);
 
     if (snapshot.empty) {
