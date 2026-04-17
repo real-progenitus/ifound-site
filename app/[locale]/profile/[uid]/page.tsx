@@ -144,12 +144,31 @@ export default async function ProfilePage({ params }: { params: Promise<{ uid: s
                     });
                     return (
                       <div key={post.id} className="bg-white backdrop-blur-sm rounded-xl overflow-hidden text-gray-800 flex-shrink-0 w-56">
-                        {post.images.length > 0 && (
+                        {post.images.length > 0 ? (
                           <img
                             src={post.images[0]}
                             alt={post.title}
                             className="w-full h-32 object-cover"
                           />
+                        ) : (
+                          <div className="w-full h-32 bg-[#38B6FF]/10 flex items-center justify-center">
+                            <img
+                              src={`/${(() => {
+                                const cat = post.category?.toLowerCase() ?? '';
+                                if (cat.includes('electronic')) return 'earpods.svg';
+                                if (cat.includes('glass') || cat.includes('eyewear')) return 'glasses.svg';
+                                if (cat.includes('key')) return 'key.svg';
+                                if (cat.includes('pet') || cat.includes('animal')) return 'paw.svg';
+                                if (cat.includes('person') || cat.includes('people')) return 'person.svg';
+                                if (cat.includes('cloth') || cat.includes('apparel')) return 'tshirt.svg';
+                                if (cat.includes('vehicle') || cat.includes('car')) return 'vehicles.svg';
+                                if (cat.includes('wallet') || cat.includes('purse')) return 'wallet.svg';
+                                return 'box.svg';
+                              })()}`}
+                              alt={post.category}
+                              className="w-12 h-12 opacity-60"
+                            />
+                          </div>
                         )}
                         <div className="p-3">
                           <div className="flex items-center gap-1.5 flex-wrap mb-1.5">
