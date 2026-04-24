@@ -10,7 +10,8 @@
         "title": "A APP DE PERDIDOS E ACHADOS",
         "description": "A app de perdidos e achados de uso geral que muda a forma como recupera os seus itens perdidos. Em qualquer lugar, a qualquer hora, com qualquer pessoa.",
         "appStore": "App Store",
-        "googlePlay": "Google Play"
+        "googlePlay": "Google Play",
+        "exploreMap": "Explorar o Mapa"
     },
     "about": {
         "title": "SOBRE O IFOUND",
@@ -119,5 +120,46 @@
         "support": "Suporte",
         "followUs": "Siga-nos",
         "allRightsReserved": "Todos os direitos reservados."
+    },
+    "map": {
+      "searchPlaceholder": "Pesquisar um local",
+      "lost": "Perdido",
+      "found": "Encontrado",
+      "partnerView": "Locais Parceiros",
+      "postsView": "Perdidos e Achados",
+      "noResults": "Nenhum item encontrado nesta área",
+      "category": "Categoria",
+      "date": "Data",
+      "location": "Localização",
+      "description": "Descrição",
+      "reward": "Recompensa",
+      "unspecified": "Não especificado",
+      "downloadApp": "Descarrega a app para reclamar este item",
+    "downloadLauncher": "Transferir\napp",
+    "downloadTitle": "Obtém a app iFound",
+    "downloadQrHint": "Lê este código QR com a câmara do telemóvel ou uma app de leitura de códigos QR.",
+      "reportSighting": "Reportar\nAvistamento",
+      "seeMore": "Ver mais",
+      "seeLess": "Ver menos",
+      "resolved": "Resolvido",
+      "contact": "Contacto",
+      "contactCta": "Contacta-me",
+      "downloadCta": "Transferir a app",
+      "promoted": "Promovido",
+      "close": "Fechar",
+      "items": "itens",
+      "nearbyItems": "{count} itens próximos",
+      "categories": {
+        "other": "Outro",
+        "electronics": "Eletrónica",
+        "phones": "Telemóveis",
+        "glasses": "Óculos",
+        "keys": "Chaves",
+        "pets": "Animais",
+        "persons": "Pessoas",
+        "clothes": "Roupa",
+        "vehicles": "Veículos",
+        "wallets": "Carteiras"
+      }
     }
 }

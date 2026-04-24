@@ -17,7 +17,8 @@ export default function Home() {
         <MobileNav links={[
           { href: '/about', label: nav('aboutUs') },
           { href: '/privacy', label: nav('privacyPolicy') },
-          { href: '/partner', label: nav('becomePartner') }
+          { href: '/partner', label: nav('becomePartner') },
+          { href: '/map', label: 'Map' }
         ]} />
 
         {/* Desktop Logo */}
@@ -31,6 +32,7 @@ export default function Home() {
           <Link href="/about" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('aboutUs')}</Link>
           <Link href="/privacy" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('privacyPolicy')}</Link>
           <Link href="/partner" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('becomePartner')}</Link>
+          <Link href="/map" className="text-white text-base font-medium hover:text-white/80 transition-colors">Map</Link>
           <LanguageSwitcher />
         </div>
 

@@ -1,4 +1,7 @@
 import { db } from './firebase-admin';
+import { createLogger } from './logger';
+
+const log = createLogger('user-posts');
 
 export interface PublicPost {
   id: string;
@@ -44,7 +47,7 @@ export async function getUserPosts(userEmail: string): Promise<PublicPost[]> {
       };
     });
   } catch (error) {
-    console.error('Error fetching user posts:', error);
+    log.error('failed to fetch user posts', error);
     return [];
   }
 }

@@ -1,4 +1,7 @@
 import { db } from './firebase-admin';
+import { createLogger } from './logger';
+
+const log = createLogger('profile');
 
 // Whitelist of fields safe to expose publicly
 const PUBLIC_FIELDS = ['name', 'profilePicture', 'email', 'phoneNumber', 'createdAt'] as const;
@@ -14,9 +17,11 @@ export interface PublicUserProfile {
 
 export async function getUserProfile(uid: string): Promise<PublicUserProfile | null> {
   try {
-    console.log('[Profile] Fetching user with uid:', uid);
+    // Do not log `uid` in production — it's a user identifier and ends up in
+    // log retention. If you need to correlate, hash it or use a request id.
+    log.debug('fetching user profile', { uid });
     const snapshot = await db().collection('QA_Users').where('uid', '==', uid).limit(1).get();
-    console.log('[Profile] Document found:', !snapshot.empty);
+    log.debug('profile lookup result', { found: !snapshot.empty });
 
     if (snapshot.empty) {
       return null;
@@ -38,7 +43,7 @@ export async function getUserProfile(uid: string): Promise<PublicUserProfile | n
 
     return profile;
   } catch (error) {
-    console.error('Error fetching user profile:', error);
+    log.error('failed to fetch user profile', error);
     return null;
   }
 }

@@ -10,7 +10,8 @@
     "title": "DIE FUNDBÜRO-APP",
     "description": "Die universelle Fundbüro-App, die die Art und Weise verändert, wie Sie Ihre verlorenen Gegenstände wiederfinden. Überall, jederzeit, mit jedem.",
     "appStore": "App Store",
-    "googlePlay": "Google Play"
+    "googlePlay": "Google Play",
+    "exploreMap": "Karte erkunden"
   },
   "about": {
     "title": "ÜBER IFOUND",
@@ -119,5 +120,46 @@
     "support": "Support",
     "followUs": "Folgen Sie uns",
     "allRightsReserved": "Alle Rechte vorbehalten."
+  },
+  "map": {
+    "searchPlaceholder": "Ort suchen",
+    "lost": "Verloren",
+    "found": "Gefunden",
+    "partnerView": "Partnerstandorte",
+    "postsView": "Verloren & Gefunden",
+    "noResults": "Keine Gegenstände in diesem Bereich gefunden",
+    "category": "Kategorie",
+    "date": "Datum",
+    "location": "Standort",
+    "description": "Beschreibung",
+    "reward": "Belohnung",
+    "unspecified": "Nicht angegeben",
+    "downloadApp": "Lade die App herunter, um diesen Gegenstand zu beanspruchen",
+    "downloadLauncher": "App\nladen",
+    "downloadTitle": "Hol dir die iFound App",
+    "downloadQrHint": "Scanne diesen QR-Code mit der Kamera deines Telefons oder mit einer QR-Code-Scanner-App.",
+    "reportSighting": "Sichtung\nmelden",
+    "seeMore": "Mehr anzeigen",
+    "seeLess": "Weniger anzeigen",
+    "resolved": "Gelöst",
+    "contact": "Kontakt",
+    "contactCta": "Kontaktiere mich",
+    "downloadCta": "App herunterladen",
+    "promoted": "Gefördert",
+    "close": "Schließen",
+    "items": "Gegenstände",
+    "nearbyItems": "{count} Gegenstände in der Nähe",
+    "categories": {
+      "other": "Sonstiges",
+      "electronics": "Elektronik",
+      "phones": "Telefone",
+      "glasses": "Brillen",
+      "keys": "Schlüssel",
+      "pets": "Haustiere",
+      "persons": "Personen",
+      "clothes": "Kleidung",
+      "vehicles": "Fahrzeuge",
+      "wallets": "Geldbörsen"
+    }
   }
 }

@@ -10,7 +10,8 @@
     "title": "L'APPLICATION DES OBJETS TROUVÉS",
     "description": "L'application d'objets trouvés polyvalente qui change la façon dont vous récupérez vos objets perdus. N'importe où, n'importe quand, avec n'importe qui.",
     "appStore": "App Store",
-    "googlePlay": "Google Play"
+    "googlePlay": "Google Play",
+    "exploreMap": "Explorer la Carte"
   },
   "about": {
     "title": "À PROPOS D'IFOUND",
@@ -119,5 +120,46 @@
     "support": "Support",
     "followUs": "Suivez-nous",
     "allRightsReserved": "Tous droits réservés."
+  },
+  "map": {
+    "searchPlaceholder": "Rechercher un lieu",
+    "lost": "Perdu",
+    "found": "Trouvé",
+    "partnerView": "Emplacements Partenaires",
+    "postsView": "Objets Perdus et Trouvés",
+    "noResults": "Aucun objet trouvé dans cette zone",
+    "category": "Catégorie",
+    "date": "Date",
+    "location": "Emplacement",
+    "description": "Description",
+    "reward": "Récompense",
+    "unspecified": "Non spécifié",
+    "downloadApp": "Téléchargez l'app pour réclamer cet objet",
+    "downloadLauncher": "Télécharger\nl'app",
+    "downloadTitle": "Obtenez l'app iFound",
+    "downloadQrHint": "Scannez ce code QR avec l'appareil photo de votre téléphone ou avec une application de lecture de codes QR.",
+    "reportSighting": "Signaler\nun objet",
+    "seeMore": "Voir plus",
+    "seeLess": "Voir moins",
+    "resolved": "Résolu",
+    "contact": "Contact",
+    "contactCta": "Contactez-moi",
+    "downloadCta": "Télécharger l'app",
+    "promoted": "Promu",
+    "close": "Fermer",
+    "items": "objets",
+    "nearbyItems": "{count} objets à proximité",
+    "categories": {
+      "other": "Autre",
+      "electronics": "Électronique",
+      "phones": "Téléphones",
+      "glasses": "Lunettes",
+      "keys": "Clés",
+      "pets": "Animaux",
+      "persons": "Personnes",
+      "clothes": "Vêtements",
+      "vehicles": "Véhicules",
+      "wallets": "Portefeuilles"
+    }
   }
 }

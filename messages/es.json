@@ -10,7 +10,8 @@
     "title": "LA APP DE OBJETOS PERDIDOS",
     "description": "La aplicación de objetos perdidos de uso general que cambia la forma en que recuperas tus objetos perdidos. En cualquier lugar, en cualquier momento, con cualquier persona.",
     "appStore": "App Store",
-    "googlePlay": "Google Play"
+    "googlePlay": "Google Play",
+    "exploreMap": "Explorar el Mapa"
   },
   "about": {
     "title": "SOBRE IFOUND",
@@ -119,5 +120,46 @@
     "support": "Soporte",
     "followUs": "Síguenos",
     "allRightsReserved": "Todos los derechos reservados."
+  },
+  "map": {
+    "searchPlaceholder": "Buscar un lugar",
+    "lost": "Perdido",
+    "found": "Encontrado",
+    "partnerView": "Ubicaciones de Socios",
+    "postsView": "Perdidos y Encontrados",
+    "noResults": "No se encontraron artículos en esta área",
+    "category": "Categoría",
+    "date": "Fecha",
+    "location": "Ubicación",
+    "description": "Descripción",
+    "reward": "Recompensa",
+    "unspecified": "No especificado",
+    "downloadApp": "Descarga la app para reclamar este objeto",
+    "downloadLauncher": "Descargar\napp",
+    "downloadTitle": "Obtén la app iFound",
+    "downloadQrHint": "Escanea este código QR con la cámara del móvil o con cualquier app lectora de códigos QR.",
+    "reportSighting": "Reportar\nAvistamiento",
+    "seeMore": "Ver más",
+    "seeLess": "Ver menos",
+    "resolved": "Resuelto",
+    "contact": "Contacto",
+    "contactCta": "Contáctame",
+    "downloadCta": "Descargar la app",
+    "promoted": "Promocionado",
+    "close": "Cerrar",
+    "items": "artículos",
+    "nearbyItems": "{count} artículos cercanos",
+    "categories": {
+      "other": "Otro",
+      "electronics": "Electrónica",
+      "phones": "Teléfonos",
+      "glasses": "Gafas",
+      "keys": "Llaves",
+      "pets": "Mascotas",
+      "persons": "Personas",
+      "clothes": "Ropa",
+      "vehicles": "Vehículos",
+      "wallets": "Carteras"
+    }
   }
 }

@@ -10,7 +10,8 @@
     "title": "THE LOST AND FOUND APP",
     "description": "The general purpose lost and found app that changes the way you recover your lost items. Anywhere, anytime, with anyone.",
     "appStore": "App Store",
-    "googlePlay": "Google Play"
+    "googlePlay": "Google Play",
+    "exploreMap": "Explore the Map"
   },
   "about": {
     "title": "ABOUT IFOUND",
@@ -119,5 +120,46 @@
     "support": "Support",
     "followUs": "Follow Us",
     "allRightsReserved": "All rights reserved."
+  },
+  "map": {
+    "searchPlaceholder": "Search a place",
+    "lost": "Lost",
+    "found": "Found",
+    "partnerView": "Partner Locations",
+    "postsView": "Lost & Found",
+    "noResults": "No items found in this area",
+    "category": "Category",
+    "date": "Date",
+    "location": "Location",
+    "description": "Description",
+    "reward": "Reward",
+    "unspecified": "Unspecified",
+    "downloadApp": "Get the app to claim this item",
+    "downloadLauncher": "Download\napp",
+    "downloadTitle": "Get the ifound app",
+    "downloadQrHint": "Scan this QR code with your phone camera or any QR code reader app.",
+    "reportSighting": "Report\nSighting",
+    "seeMore": "See more",
+    "seeLess": "See less",
+    "resolved": "Resolved",
+    "contact": "Contact",
+    "contactCta": "Contact me",
+    "downloadCta": "Download the app",
+    "promoted": "Promoted",
+    "close": "Close",
+    "items": "items",
+    "nearbyItems": "{count} nearby items",
+    "categories": {
+      "other": "Other",
+      "electronics": "Electronics",
+      "phones": "Phones",
+      "glasses": "Glasses",
+      "keys": "Keys",
+      "pets": "Pets",
+      "persons": "Persons",
+      "clothes": "Clothes",
+      "vehicles": "Vehicles",
+      "wallets": "Wallets"
+    }
   }
 }

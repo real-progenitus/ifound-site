@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { getUserProfile } from '@/lib/get-user-profile';
 import { getUserPosts } from '@/lib/get-user-posts';
 import { getTranslations } from 'next-intl/server';
@@ -7,7 +8,15 @@ import PageFooter from '../../../components/PageFooter';
 import Logo from '../../../components/Logo';
 import CopyButton from '../../../components/CopyButton';
 
-export const dynamic = 'force-dynamic';
+// `force-dynamic` was removed deliberately. The per-request guard + rate
+// limit for this path now lives in `middleware.ts`, which also attaches
+// `Cache-Control: public, s-maxage=60, stale-while-revalidate=300` on
+// successful renders so Vercel's edge absorbs repeated hits to the same uid.
+// A missing profile triggers `notFound()`, which renders the sibling
+// `not-found.tsx` with a 404 status; Next.js's default cache behaviour keeps
+// those out of the shared CDN cache, matching the `no-store for 404s`
+// recommendation without us having to set the header manually from a Server
+// Component (which has no way to do so).
 
 export default async function ProfilePage({ params }: { params: Promise<{ uid: string; locale: string }> }) {
   const { uid } = await params;
@@ -16,32 +25,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ uid: s
   const nav = await getTranslations('nav');
 
   if (!profile) {
-    return (
-      <div className="min-h-screen font-sans">
-        <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[400px]:block min-[400px]:relative transition-all duration-500 ease-in-out">
-          <MobileNav links={[
-            { href: '/', label: 'Home' },
-            { href: '/about', label: nav('aboutUs') },
-            { href: '/contact', label: nav('contacts') }
-          ]} />
-          <Logo className="hidden min-[600px]:flex absolute top-4 left-8 z-10" />
-          <div className="hidden min-[600px]:flex absolute top-8 right-8 z-10 gap-6 items-center">
-            <Link href="/" className="text-white text-base font-medium hover:text-white/80 transition-colors">Home</Link>
-            <Link href="/about" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('aboutUs')}</Link>
-            <Link href="/contact" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('contacts')}</Link>
-          </div>
-          <main className="flex items-center justify-center min-h-screen p-8">
-            <div className="text-center text-white">
-              <h1 className="text-4xl font-black mb-4">{t('userNotFound')}</h1>
-              <p className="text-lg mb-8 opacity-80">{t('userNotFoundDescription')}</p>
-              <Link href="/" className="inline-block bg-white text-[#38B6FF] font-semibold px-6 py-3 rounded-full hover:bg-white/90 transition-colors">
-                {t('goHome')}
-              </Link>
-            </div>
-          </main>
-        </div>
-      </div>
-    );
+    notFound();
   }
 
   const posts = await getUserPosts(profile.email);

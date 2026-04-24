@@ -10,7 +10,8 @@
     "title": "L'APP DEGLI OGGETTI SMARRITI",
     "description": "L'app per oggetti smarriti che cambia il modo in cui recuperi i tuoi oggetti persi. Ovunque, in qualsiasi momento, con chiunque.",
     "appStore": "App Store",
-    "googlePlay": "Google Play"
+    "googlePlay": "Google Play",
+    "exploreMap": "Esplora la Mappa"
   },
   "about": {
     "title": "INFORMAZIONI SU IFOUND",
@@ -119,5 +120,46 @@
     "support": "Supporto",
     "followUs": "Seguici",
     "allRightsReserved": "Tutti i diritti riservati."
+  },
+  "map": {
+    "searchPlaceholder": "Cerca un luogo",
+    "lost": "Perso",
+    "found": "Trovato",
+    "partnerView": "Sedi Partner",
+    "postsView": "Oggetti Smarriti",
+    "noResults": "Nessun oggetto trovato in quest'area",
+    "category": "Categoria",
+    "date": "Data",
+    "location": "Posizione",
+    "description": "Descrizione",
+    "reward": "Ricompensa",
+    "unspecified": "Non specificato",
+    "downloadApp": "Scarica l'app per reclamare questo oggetto",
+    "downloadLauncher": "Scarica\napp",
+    "downloadTitle": "Ottieni l'app iFound",
+    "downloadQrHint": "Scansiona questo codice QR con la fotocamera del telefono o con qualsiasi app per leggere i codici QR.",
+    "reportSighting": "Segnala\navvistamento",
+    "seeMore": "Vedi di più",
+    "seeLess": "Vedi meno",
+    "resolved": "Risolto",
+    "contact": "Contatto",
+    "contactCta": "Contattami",
+    "downloadCta": "Scarica l'app",
+    "promoted": "Promosso",
+    "close": "Chiudi",
+    "items": "oggetti",
+    "nearbyItems": "{count} oggetti nelle vicinanze",
+    "categories": {
+      "other": "Altro",
+      "electronics": "Elettronica",
+      "phones": "Telefoni",
+      "glasses": "Occhiali",
+      "keys": "Chiavi",
+      "pets": "Animali",
+      "persons": "Persone",
+      "clothes": "Abbigliamento",
+      "vehicles": "Veicoli",
+      "wallets": "Portafogli"
+    }
   }
 }
