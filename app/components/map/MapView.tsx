@@ -322,6 +322,46 @@ export default function MapView() {
       .sort((a, b) => (b.timestamp ?? 0) - (a.timestamp ?? 0));
   }, [posts, selectedPartner]);
 
+  // Unified click handler for cards in the side / bottom list panels.
+  //
+  // If the clicked post belongs to a partner location, surface the partner
+  // modal instead of the single-post detail — the partner's whole inventory
+  // is more useful context than one item, and it mirrors what tapping the
+  // partner pin on the map does. Falls back to the regular post detail when
+  // the post isn't partner-affiliated, or when the partner record can't be
+  // found (e.g. partner deleted but a stale post still references it).
+  //
+  // The flyTo target follows the modal target: if we're opening the partner,
+  // we fly to the partner's lat/lng so the pin is visible behind the modal.
+  const handleCardClick = useCallback(
+    (post: MapPost) => {
+      if (post.partnerLocationId) {
+        const partner = partners.find((p) => p.id === post.partnerLocationId);
+        if (partner) {
+          setSelectedPost(null);
+          setMarkerScreenPos(null);
+          setSelectedPartner(partner);
+          setFlyTo({
+            lat: partner.latitude,
+            lng: partner.longitude,
+            zoom: 15,
+            ts: Date.now(),
+          });
+          return;
+        }
+      }
+      setSelectedPost(post);
+      setMarkerScreenPos({ x: 0, y: 0 });
+      setFlyTo({
+        lat: post.latitude,
+        lng: post.longitude,
+        zoom: 15,
+        ts: Date.now(),
+      });
+    },
+    [partners]
+  );
+
   return (
     <div
       className="relative flex flex-col w-full overflow-hidden"
@@ -404,11 +444,7 @@ export default function MapView() {
             posts={sortedPosts}
             selectedPost={selectedPost}
             loading={loading}
-            onCardClick={(post) => {
-              setSelectedPost(post);
-              setMarkerScreenPos({ x: 0, y: 0 });
-              setFlyTo({ lat: post.latitude, lng: post.longitude, zoom: 15, ts: Date.now() });
-            }}
+            onCardClick={handleCardClick}
           />
         </div>
 
@@ -496,9 +532,9 @@ export default function MapView() {
               loading={loading}
               variant="list"
               onCardClick={(post) => {
-                setSelectedPost(post);
-                setMarkerScreenPos({ x: 0, y: 0 });
-                setFlyTo({ lat: post.latitude, lng: post.longitude, zoom: 15, ts: Date.now() });
+                handleCardClick(post);
+                // Always collapse the bottom sheet on mobile so the map (and
+                // either the partner modal or the post detail) is visible.
                 setSheetExpanded(false);
               }}
             />
