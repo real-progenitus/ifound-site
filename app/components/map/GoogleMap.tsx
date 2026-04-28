@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback, useState, useMemo } from 'react';
 import { setOptions, importLibrary } from '@googlemaps/js-api-loader';
 import { MapPost, PartnerLocation, RegionCounter, getPinIcon } from './types';
 
@@ -12,6 +12,7 @@ interface GoogleMapProps {
   selectedPostId: string | null;
   flyTo: { lat: number; lng: number; zoom: number; ts: number } | null;
   onPostClick: (post: MapPost, screenPos: { x: number; y: number }) => void;
+  onPartnerClick?: (partner: PartnerLocation) => void;
   onBoundsChange: (bounds: { north: number; south: number; east: number; west: number }) => void;
   onZoomChange?: (zoom: number) => void;
 }
@@ -122,28 +123,155 @@ function pinIcon(url: string, height: number): google.maps.Icon {
   };
 }
 
-// Partner marker: white dot with the partner logo inside, plus a slightly
-// stronger version of the regular grey drop shadow (opacity 0.3).
-function partnerIcon(logoUrl: string | null): google.maps.Icon {
-  const dot = 36;
-  const pad = 6;
-  const total = dot + pad * 2;
-  const c = total / 2;
-  const r = dot / 2;
-  const inner = logoUrl
-    ? `<image href="${logoUrl}" x="${c - 14}" y="${c - 14}" width="28" height="28" clip-path="circle(14px at ${c}px ${c}px)"/>`
-    : `<circle cx="${c}" cy="${c}" r="10" fill="#009DE0" opacity="0.7"/>`;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${total}" height="${total}">
+// Partner marker — teardrop pin from /public/partner-icon.svg with the
+// partner's circular logo overlaid in the head. Rendered slightly larger
+// (44px) than regular post pins (38px) so partner brands stand out, with
+// the anchor at bottom-center so the tip lands exactly on the partner's
+// lat/lng (matches `pinIcon` for posts).
+//
+// Why the two-path implementation:
+// SVGs that Google Maps consumes as Marker icon URLs are loaded via the
+// browser's <img> pipeline, which sandboxes them so they CANNOT make
+// network requests for embedded <image href="https://..."> resources.
+// They CAN, however, render inline data: URIs. So we pre-fetch each
+// partner logo with `fetch()` (where CORS is just a normal HTTP request),
+// convert the response to a base64 data URL, and inline it into the
+// composite SVG. The first paint shows the plain blue pin; we swap to
+// the logo'd version via marker.setIcon() as soon as the fetch resolves.
+
+const PARTNER_PIN_PATH =
+  'M19.6992 27.6133C22.796 28.6609 24.7615 30.4503 24.7617 32.5684C24.7617 35.9637 19.6987 38.5254 12.9922 38.5254C6.28584 38.5253 1.22363 35.9636 1.22363 32.5684C1.22385 30.4733 3.15824 28.6988 6.2168 27.6436C6.76737 28.3088 7.32638 28.9436 7.87695 29.54C5.10889 30.2894 3.52559 31.5668 3.52539 32.5762C3.52539 34.1056 7.1271 36.2392 13 36.2393C18.8729 36.2393 22.4746 34.1056 22.4746 32.5762C22.4744 31.5591 20.8686 30.2671 18.0547 29.5254C18.6053 28.9289 19.1564 28.2864 19.707 27.6211L19.6992 27.6133ZM13 0C20.1806 0 26 5.98789 26 13.2373C25.9998 20.4866 15.6231 30.9471 13 32.5762C10.2545 30.863 0.000230064 20.5478 0 13.2373C0 5.92672 5.81941 1.31186e-07 13 0Z';
+
+const PARTNER_PIN_SRC_W = 26;
+const PARTNER_PIN_SRC_H = 39;
+const PARTNER_PIN_HEIGHT = 44;
+const PARTNER_PIN_WIDTH = Math.round(
+  (PARTNER_PIN_HEIGHT * PARTNER_PIN_SRC_W) / PARTNER_PIN_SRC_H
+);
+
+// Process-wide caches for partner logo data URLs. `dataUrlCache` holds
+// resolved values; `inflight` coalesces concurrent fetches for the same
+// URL so we don't trigger N requests when N partner markers mount in the
+// same effect tick.
+const logoDataUrlCache = new Map<string, string>();
+const logoInflightFetches = new Map<string, Promise<string | null>>();
+
+function fetchLogoAsDataUrl(url: string): Promise<string | null> {
+  const cached = logoDataUrlCache.get(url);
+  if (cached) return Promise.resolve(cached);
+
+  const inflight = logoInflightFetches.get(url);
+  if (inflight) return inflight;
+
+  const promise = (async () => {
+    try {
+      // We go through our own /api/partner-logo proxy because Firebase
+      // Storage does NOT include `Access-Control-Allow-Origin` on its
+      // actual GET responses (only on the OPTIONS preflight), so a direct
+      // browser fetch with `mode: 'cors'` is blocked. The proxy is
+      // same-origin and applies SSRF defense to the upstream URL.
+      const proxied = `/api/partner-logo?url=${encodeURIComponent(url)}`;
+      const res = await fetch(proxied);
+      if (!res.ok) return null;
+      const blob = await res.blob();
+      // Skip absurdly large logos — they bloat the SVG data URI and some
+      // browsers struggle to render multi-megabyte data URIs as Marker
+      // icons. Anything over ~512KB falls back to the plain pin.
+      if (blob.size > 512 * 1024) return null;
+      const dataUrl = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+      logoDataUrlCache.set(url, dataUrl);
+      return dataUrl;
+    } catch {
+      // Network failure → graceful fallback to plain pin.
+      return null;
+    } finally {
+      logoInflightFetches.delete(url);
+    }
+  })();
+  logoInflightFetches.set(url, promise);
+  return promise;
+}
+
+function partnerIcon(logoDataUrl: string | null = null): google.maps.Icon {
+  // No logo (or not yet fetched) → serve the static pin file directly.
+  // Avoids the data-URI overhead and lets the browser cache the SVG.
+  if (!logoDataUrl) {
+    return {
+      url: '/partner-icon.svg',
+      size: new google.maps.Size(PARTNER_PIN_WIDTH, PARTNER_PIN_HEIGHT),
+      scaledSize: new google.maps.Size(PARTNER_PIN_WIDTH, PARTNER_PIN_HEIGHT),
+      anchor: new google.maps.Point(PARTNER_PIN_WIDTH / 2, PARTNER_PIN_HEIGHT),
+    };
+  }
+
+  // Logo available — build a composite SVG with the logo embedded as a
+  // base64 data URL, clipped to a circle inside the pin head with a thin
+  // white ring around it. Image clip (r=10.5) is 0.7 viewBox units smaller
+  // than the white circle (r=11.2), giving ~0.8px of visible white border
+  // at the rendered 44px height. The pin head's path radius is ~13.2 so
+  // r=11.2 still leaves ~2 units of blue between the ring and the pin edge.
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${PARTNER_PIN_WIDTH}" height="${PARTNER_PIN_HEIGHT}" viewBox="0 0 ${PARTNER_PIN_SRC_W} ${PARTNER_PIN_SRC_H}">
     <defs>
-      <filter id="ps" x="-50%" y="-50%" width="200%" height="200%">
-        <feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#000000" flood-opacity="0.3"/>
-      </filter>
+      <clipPath id="lc"><circle cx="13" cy="13" r="10.5"/></clipPath>
     </defs>
-    <circle cx="${c}" cy="${c}" r="${r}" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1" filter="url(#ps)"/>
-    ${inner}
+    <path d="${PARTNER_PIN_PATH}" fill="#009DE0"/>
+    <circle cx="13" cy="13" r="11.2" fill="#FFFFFF"/>
+    <image href="${logoDataUrl}" x="2.5" y="2.5" width="21" height="21" clip-path="url(#lc)" preserveAspectRatio="xMidYMid slice"/>
   </svg>`;
+
   return {
     url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg),
+    size: new google.maps.Size(PARTNER_PIN_WIDTH, PARTNER_PIN_HEIGHT),
+    scaledSize: new google.maps.Size(PARTNER_PIN_WIDTH, PARTNER_PIN_HEIGHT),
+    anchor: new google.maps.Point(PARTNER_PIN_WIDTH / 2, PARTNER_PIN_HEIGHT),
+  };
+}
+
+// Partner dot — the intermediate-zoom representation of a partner pin.
+// Used between DOT_ZOOM_THRESHOLD and PIN_ZOOM_THRESHOLD where rendering
+// the full teardrop would be visually too heavy. The "dot" is actually the
+// partner's profile picture clipped into a small circle with a thin white
+// ring (matches the post dot-marker visual language: subtle hairline ring
+// + drop shadow for depth). When the logo isn't available we fall back to
+// a solid blue dot so the partner stays visible.
+//
+// Anchor is centered (not bottom) since this is a circular pip, not a
+// teardrop with a tip.
+const PARTNER_DOT_SIZE = 18;
+const PARTNER_DOT_PAD = 6;
+const PARTNER_DOT_TOTAL = PARTNER_DOT_SIZE + PARTNER_DOT_PAD * 2;
+
+function partnerDotIcon(logoDataUrl: string | null = null): google.maps.Icon {
+  const total = PARTNER_DOT_TOTAL;
+  const c = total / 2;
+  const r = PARTNER_DOT_SIZE / 2;
+  const filter = `<filter id="s" x="-50%" y="-50%" width="200%" height="200%">
+    <feDropShadow dx="0" dy="2" stdDeviation="1.5" flood-color="#000000" flood-opacity="0.25"/>
+  </filter>`;
+
+  const inner = logoDataUrl
+    ? // White outer disc + image clipped to a slightly smaller radius so the
+      // 1-unit white ring shows around the photo (matches the pin border).
+      `<defs>
+         ${filter}
+         <clipPath id="pdc"><circle cx="${c}" cy="${c}" r="${r - 1}"/></clipPath>
+       </defs>
+       <circle cx="${c}" cy="${c}" r="${r}" fill="#FFFFFF" filter="url(#s)"/>
+       <image href="${logoDataUrl}" x="${c - (r - 1)}" y="${c - (r - 1)}" width="${(r - 1) * 2}" height="${(r - 1) * 2}" clip-path="url(#pdc)" preserveAspectRatio="xMidYMid slice"/>`
+    : // Fallback: solid brand-blue dot when no logo is available yet.
+      `<defs>${filter}</defs>
+       <circle cx="${c}" cy="${c}" r="${r}" fill="#009DE0" stroke="#FFFFFF" stroke-width="1" filter="url(#s)"/>`;
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${total}" height="${total}">${inner}</svg>`;
+
+  return {
+    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg),
+    size: new google.maps.Size(total, total),
     scaledSize: new google.maps.Size(total, total),
     anchor: new google.maps.Point(c, c),
   };
@@ -220,6 +348,7 @@ export default function GoogleMap({
   selectedPostId,
   flyTo,
   onPostClick,
+  onPartnerClick,
   onBoundsChange,
   onZoomChange,
 }: GoogleMapProps) {
@@ -228,15 +357,27 @@ export default function GoogleMap({
   const bubbleMarkersRef = useRef<google.maps.Marker[]>([]);
   const postMarkersRef = useRef<Map<string, google.maps.Marker>>(new Map());
   const partnerMarkersRef = useRef<Map<string, google.maps.Marker>>(new Map());
+  // Tracks the visual mode of the post layer ('bubble' / 'dot' / 'pin').
   const renderModeRef = useRef<'bubble' | 'dot' | 'pin'>('bubble');
+  // Tracks the visual mode of the partner layer ('dot' / 'pin'). We track
+  // this separately from renderModeRef because partners don't have a bubble
+  // representation — at bubble zoom they're hidden entirely. Used to detect
+  // dot↔pin transitions so we can re-skin existing markers in place rather
+  // than recreating them on every zoom change.
+  const partnerModeRef = useRef<'dot' | 'pin'>('pin');
   const infoWindowRef = useRef<google.maps.InfoWindow | null>(null);
   const onPostClickRef = useRef(onPostClick);
+  const onPartnerClickRef = useRef(onPartnerClick);
   const [zoom, setZoom] = useState(6);
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
     onPostClickRef.current = onPostClick;
   }, [onPostClick]);
+
+  useEffect(() => {
+    onPartnerClickRef.current = onPartnerClick;
+  }, [onPartnerClick]);
 
   const clearMarkers = useCallback(() => {
     bubbleMarkersRef.current.forEach((m) => m.setMap(null));
@@ -329,6 +470,34 @@ export default function GoogleMap({
     map.panTo({ lat: flyTo.lat, lng: flyTo.lng });
     map.setZoom(flyTo.zoom);
   }, [flyTo]);
+
+  // Set of partner-location ids that WILL be rendered as partner pins in
+  // the current view. A partner is rendered when:
+  //   1. We're not in bubble/counter zoom (zoom >= DOT_ZOOM_THRESHOLD)
+  //   2. We have its document in `partners` (i.e. it's still active)
+  //   3. At least one currently-loaded post points at it
+  //
+  // Because `posts` is already category-filtered upstream in MapView, the
+  // active category filter is honoured automatically — partners whose only
+  // posts are in another category drop off without a separate code path.
+  //
+  // This set drives BOTH effects below: the partner layer renders these,
+  // and the post layer hides any post whose `partnerLocationId` is in it
+  // (matching React Native MapMarkers — a post that belongs to a rendered
+  // partner is rolled into the partner pin so they don't overlap on the
+  // exact same lat/lng).
+  const renderedPartnerIds = useMemo(() => {
+    if (zoom < DOT_ZOOM_THRESHOLD) return new Set<string>();
+    const referenced = new Set<string>();
+    for (const p of posts) {
+      if (p.partnerLocationId) referenced.add(p.partnerLocationId);
+    }
+    const result = new Set<string>();
+    for (const partner of partners) {
+      if (referenced.has(partner.id)) result.add(partner.id);
+    }
+    return result;
+  }, [posts, partners, zoom]);
 
   // --- Render markers ---
   useEffect(() => {
@@ -486,9 +655,17 @@ export default function GoogleMap({
         renderModeRef.current = mode;
       }
 
+      // Hide posts whose partner location is being rendered — the partner
+      // pin already represents them. Without this, the post pin draws on
+      // top of the partner pin at the same lat/lng (most partner posts
+      // share the partner's exact coordinates) and the partner is invisible.
+      const postsForLayer = posts.filter(
+        (p) => !p.partnerLocationId || !renderedPartnerIds.has(p.partnerLocationId)
+      );
+
       const visiblePosts = mode === 'pin'
-        ? (posts.length > MAX_INDIVIDUAL_MARKERS ? posts.slice(0, MAX_INDIVIDUAL_MARKERS) : posts)
-        : posts;
+        ? (postsForLayer.length > MAX_INDIVIDUAL_MARKERS ? postsForLayer.slice(0, MAX_INDIVIDUAL_MARKERS) : postsForLayer)
+        : postsForLayer;
 
       const desiredIds = new Set(visiblePosts.map((p) => p.id));
       for (const [id, marker] of postMarkersRef.current) {
@@ -553,14 +730,36 @@ export default function GoogleMap({
         }
       }
     }
-  }, [posts, regionCounters, categoryFilter, selectedPostId, zoom, ready]);
+  }, [posts, regionCounters, categoryFilter, selectedPostId, zoom, ready, renderedPartnerIds]);
 
-  // --- Partner markers (independent from posts to avoid flicker) ---
+  // --- Partner markers ---
+  //
+  // Visibility rules (mirrors the RN map's normal mode):
+  //   • Bubble / counter zoom (zoom < DOT_ZOOM_THRESHOLD) → no partner pins
+  //     (matches RN's `longitudeDelta > 2.2` counters mode, which hides both
+  //     post and partner markers).
+  //   • DOT_ZOOM_THRESHOLD ≤ zoom < PIN_ZOOM_THRESHOLD → render each partner
+  //     as a small circular dot containing the partner's profile photo
+  //     (`partnerDotIcon`). Mirrors the RN `PartnerDotMarker` at intermediate
+  //     zoom and matches the visual language of the post-dot layer.
+  //   • zoom ≥ PIN_ZOOM_THRESHOLD → render each partner as a full teardrop
+  //     pin with the photo embedded in the head (`partnerIcon`).
+  // Posts attached to a rendered partner are excluded from the post layer
+  // above so the partner marker owns the lat/lng without a post marker on top.
   useEffect(() => {
     const map = mapRef.current;
     if (!map || !ready) return;
 
-    const desiredIds = new Set(partners.map((p) => p.id));
+    const partnerMode: 'dot' | 'pin' = zoom >= PIN_ZOOM_THRESHOLD ? 'pin' : 'dot';
+    const modeChanged = partnerModeRef.current !== partnerMode;
+    partnerModeRef.current = partnerMode;
+
+    const buildIcon = (logo: string | null) =>
+      partnerMode === 'pin' ? partnerIcon(logo) : partnerDotIcon(logo);
+
+    const visiblePartners = partners.filter((p) => renderedPartnerIds.has(p.id));
+
+    const desiredIds = new Set(visiblePartners.map((p) => p.id));
     for (const [id, marker] of partnerMarkersRef.current) {
       if (!desiredIds.has(id)) {
         marker.setMap(null);
@@ -568,26 +767,31 @@ export default function GoogleMap({
       }
     }
 
-    for (const partner of partners) {
+    for (const partner of visiblePartners) {
       let marker = partnerMarkersRef.current.get(partner.id);
+      // Read the cache synchronously so a marker re-creation after pan/zoom
+      // doesn't briefly flash the plain pin if we already fetched the logo.
+      const cachedLogo = partner.logoUrl
+        ? logoDataUrlCache.get(partner.logoUrl) ?? null
+        : null;
+
       if (!marker) {
         marker = new google.maps.Marker({
           position: { lat: partner.latitude, lng: partner.longitude },
           map,
-          icon: partnerIcon(partner.logoUrl),
+          icon: buildIcon(cachedLogo),
           zIndex: 30,
-          optimized: true,
+          // optimized:false because we mutate the icon when the logo
+          // fetch resolves and when the partner mode flips dot↔pin; with
+          // optimized:true some renderers don't pick up the swap reliably.
+          optimized: false,
         });
 
         marker.addListener('click', () => {
-          if (!infoWindowRef.current) return;
-          infoWindowRef.current.setContent(
-            `<div style="font-family:Roboto,sans-serif;min-width:150px;">
-              <strong style="color:#3A3B3E;">${partner.title}</strong>
-              ${partner.contact ? `<br/><span style="color:#555;font-size:12px;">📞 ${partner.contact}</span>` : ''}
-            </div>`
-          );
-          infoWindowRef.current.open(map, marker);
+          // Close any open InfoWindow leftover from previous interactions,
+          // then hand control to the partner-modal flow in MapView.
+          infoWindowRef.current?.close();
+          onPartnerClickRef.current?.(partner);
         });
 
         partnerMarkersRef.current.set(partner.id, marker);
@@ -596,9 +800,39 @@ export default function GoogleMap({
         if (!pos || pos.lat() !== partner.latitude || pos.lng() !== partner.longitude) {
           marker.setPosition({ lat: partner.latitude, lng: partner.longitude });
         }
+        if (!marker.getMap()) {
+          marker.setMap(map);
+        }
+        // If we crossed the dot↔pin threshold, re-skin in place (no
+        // recreate, so the click listener and ref entry survive).
+        if (modeChanged) {
+          marker.setIcon(buildIcon(cachedLogo));
+        }
+      }
+
+      // If we don't yet have the logo cached, fetch it and swap the
+      // marker icon when it arrives. The marker reference is captured
+      // in the closure so we can find this exact marker after the await.
+      if (partner.logoUrl && !cachedLogo) {
+        const url = partner.logoUrl;
+        const partnerId = partner.id;
+        fetchLogoAsDataUrl(url).then((dataUrl) => {
+          if (!dataUrl) return;
+          // Re-look-up the marker — by the time the fetch resolves it
+          // may have been removed (panned out of view) or recreated.
+          const current = partnerMarkersRef.current.get(partnerId);
+          if (!current) return;
+          // Use the CURRENT mode rather than the mode at fetch start —
+          // the user may have zoomed across the threshold while waiting.
+          const icon =
+            partnerModeRef.current === 'pin'
+              ? partnerIcon(dataUrl)
+              : partnerDotIcon(dataUrl);
+          current.setIcon(icon);
+        });
       }
     }
-  }, [partners, ready]);
+  }, [partners, renderedPartnerIds, ready, zoom]);
 
   return <div ref={containerRef} className="w-full h-full md:rounded-2xl" />;
 }

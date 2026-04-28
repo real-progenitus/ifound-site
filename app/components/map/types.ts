@@ -13,6 +13,10 @@ export interface MapPost {
   isPromoted: boolean;
   latitude: number;
   longitude: number;
+  // Empty string when the post is not attached to a partner location.
+  // Used by GoogleMap to gate partner-marker visibility (a partner pin only
+  // appears when at least one currently-loaded post references it).
+  partnerLocationId: string;
 }
 
 export interface PartnerLocation {

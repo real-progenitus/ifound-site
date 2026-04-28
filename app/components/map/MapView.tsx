@@ -9,6 +9,7 @@ import { getCachedPosts, setCacheTile, getMergedCachedPosts } from './postCache'
 import MapHeader from './MapHeader';
 import PostDetailPanel from './PostDetailPanel';
 import PostListPanel from './PostListPanel';
+import PartnerLocationModal from './PartnerLocationModal';
 import { createLogger } from '@/lib/logger';
 
 const log = createLogger('map-view');
@@ -21,6 +22,7 @@ interface GoogleMapProps {
   selectedPostId: string | null;
   flyTo: { lat: number; lng: number; zoom: number; ts: number } | null;
   onPostClick: (post: MapPost, screenPos: { x: number; y: number }) => void;
+  onPartnerClick?: (partner: PartnerLocation) => void;
   onBoundsChange: (bounds: { north: number; south: number; east: number; west: number }) => void;
   onZoomChange?: (zoom: number) => void;
 }
@@ -57,6 +59,7 @@ export default function MapView() {
   });
   const [selectedPost, setSelectedPost] = useState<MapPost | null>(null);
   const [markerScreenPos, setMarkerScreenPos] = useState<{ x: number; y: number } | null>(null);
+  const [selectedPartner, setSelectedPartner] = useState<PartnerLocation | null>(null);
   const [flyTo, setFlyTo] = useState<{ lat: number; lng: number; zoom: number; ts: number } | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
@@ -308,6 +311,17 @@ export default function MapView() {
     });
   }, [viewportPosts]);
 
+  // Items posted at the currently-selected partner location.
+  // Source set is `posts` (the full cache), NOT `filteredPosts` — we want
+  // every item the partner has, ignoring the global category filter,
+  // because the user opened the partner specifically to browse its items.
+  const partnerPosts = useMemo(() => {
+    if (!selectedPartner) return [];
+    return posts
+      .filter((p) => p.partnerLocationId === selectedPartner.id)
+      .sort((a, b) => (b.timestamp ?? 0) - (a.timestamp ?? 0));
+  }, [posts, selectedPartner]);
+
   return (
     <div
       className="relative flex flex-col w-full overflow-hidden"
@@ -348,9 +362,30 @@ export default function MapView() {
                 setSelectedPost(post);
                 setMarkerScreenPos(screenPos);
               }}
+              onPartnerClick={(partner) => {
+                // Opening a partner modal closes any existing post detail
+                // so the two layers can never stack with stale state.
+                setSelectedPost(null);
+                setMarkerScreenPos(null);
+                setSelectedPartner(partner);
+              }}
               onZoomChange={setMapZoom}
               onBoundsChange={fetchPosts}
             />
+
+            {/* Partner-location modal — sits below PostDetailPanel so the
+                post detail can open on top when the user picks an item. */}
+            {selectedPartner && (
+              <PartnerLocationModal
+                partner={selectedPartner}
+                posts={partnerPosts}
+                onClose={() => setSelectedPartner(null)}
+                onPostClick={(post) => {
+                  setSelectedPost(post);
+                  setMarkerScreenPos({ x: 0, y: 0 });
+                }}
+              />
+            )}
 
             {/* Floating popup (kept on both desktop and mobile) */}
             {selectedPost && markerScreenPos && (

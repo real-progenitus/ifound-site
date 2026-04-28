@@ -183,6 +183,7 @@ describe('GET /api/map-posts', () => {
     'isPromoted',
     'latitude',
     'longitude',
+    'partnerLocationId',
   ]);
 
   it('projects only whitelisted fields and drops poison fields', async () => {

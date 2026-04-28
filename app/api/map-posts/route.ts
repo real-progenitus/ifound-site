@@ -47,6 +47,11 @@ function transformDoc(doc: FirebaseFirestore.QueryDocumentSnapshot) {
     isPromoted: d.promotion?.tier === 'max_exposure' && d.promotion?.status === 'active',
     latitude: lat as number,
     longitude: lng as number,
+    // Used by the web map to gate partner-marker visibility — a partner pin
+    // only renders when at least one visible post references its id. Empty
+    // string when the post isn't attached to a partner location.
+    partnerLocationId:
+      typeof d.partnerLocationId === 'string' ? d.partnerLocationId : '',
   };
 }
 
@@ -56,27 +61,55 @@ async function fetchActivePosts(): Promise<NonNullable<ReturnType<typeof transfo
   // like-for-like; mixed-type comparisons silently return zero results.
   const cutoff = Date.now() - WINDOW_MS;
 
-  // Push all coarse filters into Firestore so we pay for rows we actually
-  // need. Requires a composite index on Posts:
-  //   isDeleted ASC, isResolved ASC, timestamp DESC
-  // Firestore will print a console link the first time this query runs
-  // without the index; follow it to create the index.
-  const snapshot = await db()
+  // Active-post visibility mirrors the React Native client (src/libraries/map.js):
+  //   isResolved == false
+  //   accountWasDeleted == false  (enforced in transformDoc)
+  //   isDeleted == false
+  //   AND ( hasUnlimitedExpiration == true  OR  timestamp >= 60 days ago )
+  //
+  // The Admin SDK supports `Filter.or(...)` since v11, but a disjunctive query
+  // would need a brand-new composite index covering both branches. Two parallel
+  // single-branch queries deduped by document id are cheaper to operate, easier
+  // to reason about, and work with the existing indexes:
+  //
+  //   Posts (isDeleted ASC, isResolved ASC, timestamp DESC)              ← already exists
+  //   Posts (isDeleted ASC, isResolved ASC, hasUnlimitedExpiration ASC)  ← may auto-serve
+  //
+  // Firestore will print a console link the first time the second query runs
+  // without an index; follow it if needed.
+  const baseQuery = db()
     .collection('Posts')
     .where('isDeleted', '==', false)
-    .where('isResolved', '==', false)
-    .where('timestamp', '>=', cutoff)
-    .orderBy('timestamp', 'desc')
-    .limit(SAFETY_LIMIT)
-    .get();
+    .where('isResolved', '==', false);
 
-  if (snapshot.size >= SAFETY_LIMIT) {
-    log.warn('safety limit hit; active window larger than expected', {
-      limit: SAFETY_LIMIT,
-    });
+  const [recentSnap, unlimitedSnap] = await Promise.all([
+    baseQuery
+      .where('timestamp', '>=', cutoff)
+      .orderBy('timestamp', 'desc')
+      .limit(SAFETY_LIMIT)
+      .get(),
+    baseQuery
+      .where('hasUnlimitedExpiration', '==', true)
+      .limit(SAFETY_LIMIT)
+      .get(),
+  ]);
+
+  if (recentSnap.size >= SAFETY_LIMIT) {
+    log.warn('safety limit hit on recent-window query', { limit: SAFETY_LIMIT });
+  }
+  if (unlimitedSnap.size >= SAFETY_LIMIT) {
+    log.warn('safety limit hit on unlimited-expiration query', { limit: SAFETY_LIMIT });
   }
 
-  return snapshot.docs
+  // Merge by document id so a post that satisfies both branches isn't
+  // counted twice.
+  const seen = new Map<string, FirebaseFirestore.QueryDocumentSnapshot>();
+  for (const doc of recentSnap.docs) seen.set(doc.id, doc);
+  for (const doc of unlimitedSnap.docs) {
+    if (!seen.has(doc.id)) seen.set(doc.id, doc);
+  }
+
+  return Array.from(seen.values())
     .map(transformDoc)
     .filter((p): p is NonNullable<typeof p> => p !== null);
 }

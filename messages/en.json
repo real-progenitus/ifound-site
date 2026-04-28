@@ -149,6 +149,8 @@
     "close": "Close",
     "items": "items",
     "nearbyItems": "{count} nearby items",
+    "searchItem": "Search an item",
+    "noItemsAtPartner": "No items posted yet",
     "categories": {
       "other": "Other",
       "electronics": "Electronics",

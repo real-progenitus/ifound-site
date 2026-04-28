@@ -149,6 +149,8 @@
       "close": "Fechar",
       "items": "itens",
       "nearbyItems": "{count} itens próximos",
+      "searchItem": "Procurar um item",
+      "noItemsAtPartner": "Sem itens publicados",
       "categories": {
         "other": "Outro",
         "electronics": "Eletrónica",
