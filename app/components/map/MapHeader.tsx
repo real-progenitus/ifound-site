@@ -98,9 +98,13 @@ export default function MapHeader({ searchValue, onSearchChange, onFlyTo, catego
   return (
     <>
       {/* ===== MOBILE: fixed transparent overlay ===== */}
-      <div className="md:hidden fixed top-0 left-0 right-0 z-[1000]">
+      <div
+        id="mobile-map-header"
+        className="md:hidden fixed top-0 left-0 right-0 z-[1000]"
+        style={{ paddingTop: 'env(safe-area-inset-top)' }}
+      >
         {/* Row 1: hamburger + search */}
-        <div className="flex items-center gap-3 px-4 pt-8 pb-2">
+        <div className="flex items-center gap-3 px-4 pt-4 pb-2">
           <Link href="/" className="shrink-0" aria-label="Home">
             <img src="/favicon.png" alt="iFound" width={56} height={56} className="object-contain [filter:drop-shadow(0_5px_8px_rgba(0,0,0,0.4))]" />
           </Link>
@@ -157,7 +161,7 @@ export default function MapHeader({ searchValue, onSearchChange, onFlyTo, catego
               <button
                 key={cat.key}
                 onClick={() => onCategorySelect(isActive ? null : cat.filterValue)}
-                className={`flex items-center gap-1.5 px-3.5 py-2 rounded-full text-sm font-[550] whitespace-nowrap shrink-0 transition-colors shadow-md ${
+                className={`flex items-center gap-1 pl-1.5 pr-2.5 py-1 rounded-full text-sm font-[550] whitespace-nowrap shrink-0 transition-colors shadow-md ${
                   isActive ? 'bg-black text-white' : 'bg-white text-[#3A3B3E]'
                 }`}
               >

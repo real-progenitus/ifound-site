@@ -65,6 +65,11 @@ export default function MapView() {
   const [currentBounds, setCurrentBounds] = useState<{ north: number; south: number; east: number; west: number } | null>(null);
   const [sheetExpanded, setSheetExpanded] = useState(false);
   const [dragHeight, setDragHeight] = useState<number | null>(null);
+  // Measured height of the mobile header (search row + category pills).
+  // Used to size the expanded bottom sheet so it never gets overlayed by
+  // the fixed header on real devices (which can be taller than the
+  // hardcoded estimate due to iOS safe-area insets).
+  const [mobileHeaderHeight, setMobileHeaderHeight] = useState(140);
   const dragStartRef = useRef<{ startY: number; startHeight: number } | null>(null);
   const tMap = useTranslations('map');
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -73,6 +78,43 @@ export default function MapView() {
   useEffect(() => {
     postsRef.current = posts;
   }, [posts]);
+
+  // Lock document scroll while the map page is mounted. Without this, mobile
+  // browsers happily scroll the body when the user pans or swipes, and 100vh
+  // ends up taller than the visible viewport so the bottom sheet sits below
+  // the fold on first paint.
+  useEffect(() => {
+    const html = document.documentElement;
+    const body = document.body;
+    const prev = {
+      htmlOverflow: html.style.overflow,
+      bodyOverflow: body.style.overflow,
+      bodyOverscroll: body.style.overscrollBehavior,
+      bodyTouchAction: body.style.touchAction,
+    };
+    html.style.overflow = 'hidden';
+    body.style.overflow = 'hidden';
+    body.style.overscrollBehavior = 'none';
+    body.style.touchAction = 'none';
+    return () => {
+      html.style.overflow = prev.htmlOverflow;
+      body.style.overflow = prev.bodyOverflow;
+      body.style.overscrollBehavior = prev.bodyOverscroll;
+      body.style.touchAction = prev.bodyTouchAction;
+    };
+  }, []);
+
+  // Track the rendered height of the mobile header so the expanded sheet
+  // sits flush below it (handles safe-area insets, taller URL bars, etc.).
+  useEffect(() => {
+    const el = document.getElementById('mobile-map-header');
+    if (!el || typeof ResizeObserver === 'undefined') return;
+    const update = () => setMobileHeaderHeight(el.offsetHeight);
+    update();
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
 
   const samePostIdSet = useCallback((a: MapPost[], b: MapPost[]) => {
     if (a.length !== b.length) return false;
@@ -267,7 +309,10 @@ export default function MapView() {
   }, [viewportPosts]);
 
   return (
-    <div className="relative flex flex-col w-full h-screen overflow-hidden">
+    <div
+      className="relative flex flex-col w-full overflow-hidden"
+      style={{ height: '100dvh' }}
+    >
       {/* Header: fixed transparent overlay on mobile, in-flow on desktop */}
       <MapHeader
         searchValue={searchQuery}
@@ -335,9 +380,9 @@ export default function MapView() {
         {/* Loading pill (mobile) — floats just above the bottom sheet */}
         {loading && (
           <div
-            className="md:hidden absolute left-1/2 -translate-x-1/2 z-[950] bg-white rounded-full px-3.5 py-2 shadow-md text-sm font-[550] text-[#3A3B3E] pointer-events-none"
+            className="md:hidden absolute left-1/2 -translate-x-1/2 z-[1150] bg-white rounded-full px-3.5 py-2 shadow-md text-sm font-[550] text-[#3A3B3E] pointer-events-none"
             style={{
-              bottom: `${(dragHeight !== null ? dragHeight : (sheetExpanded ? (typeof window !== 'undefined' ? window.innerHeight - 140 : 500) : 92)) + 12}px`,
+              bottom: `${(dragHeight !== null ? dragHeight : (sheetExpanded ? (typeof window !== 'undefined' ? window.innerHeight - mobileHeaderHeight : 500) : 92)) + 12}px`,
               transition: dragHeight !== null ? 'none' : 'bottom 300ms ease-in-out',
             }}
           >
@@ -345,11 +390,16 @@ export default function MapView() {
           </div>
         )}
 
-        {/* ── Mobile bottom sheet — always visible, peek / expanded ── */}
+        {/* ── Mobile bottom sheet — always visible, peek / expanded ──
+            z-[1100] so the sheet sits above the fixed mobile header (z-[1000])
+            when fully expanded; otherwise the category pill row would clip
+            into the top of the sheet on real devices. */}
         <div
-          className="md:hidden absolute bottom-0 left-0 right-0 z-[900] bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.12)] overflow-hidden flex flex-col"
+          className="md:hidden absolute bottom-0 left-0 right-0 z-[1100] bg-white rounded-t-2xl shadow-[0_-4px_20px_rgba(0,0,0,0.12)] overflow-hidden flex flex-col"
           style={{
-            height: dragHeight !== null ? `${dragHeight}px` : (sheetExpanded ? 'calc(100vh - 140px)' : '92px'),
+            height: dragHeight !== null
+              ? `${dragHeight}px`
+              : (sheetExpanded ? `calc(100dvh - ${mobileHeaderHeight}px)` : '92px'),
             transition: dragHeight !== null ? 'none' : 'height 300ms ease-in-out',
           }}
         >
@@ -358,7 +408,7 @@ export default function MapView() {
             className="flex flex-col items-center pt-4 pb-1.5 cursor-pointer select-none shrink-0"
             style={{ touchAction: 'none' }}
             onPointerDown={(e) => {
-              const maxHeight = window.innerHeight - 140;
+              const maxHeight = window.innerHeight - mobileHeaderHeight;
               const currentHeight = sheetExpanded ? maxHeight : 92;
               dragStartRef.current = { startY: e.clientY, startHeight: currentHeight };
               (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
@@ -366,7 +416,7 @@ export default function MapView() {
             onPointerMove={(e) => {
               if (!dragStartRef.current) return;
               const delta = dragStartRef.current.startY - e.clientY;
-              const maxHeight = window.innerHeight - 140;
+              const maxHeight = window.innerHeight - mobileHeaderHeight;
               const next = Math.max(92, Math.min(maxHeight, dragStartRef.current.startHeight + delta));
               setDragHeight(next);
             }}
@@ -374,7 +424,7 @@ export default function MapView() {
               if (!dragStartRef.current) return;
               const delta = dragStartRef.current.startY - e.clientY;
               const moved = Math.abs(delta) > 5;
-              const maxHeight = window.innerHeight - 140;
+              const maxHeight = window.innerHeight - mobileHeaderHeight;
               if (!moved) {
                 setSheetExpanded((p) => !p);
               } else {

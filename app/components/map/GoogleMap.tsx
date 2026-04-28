@@ -232,6 +232,10 @@ export default function GoogleMap({
         streetViewControl: false,
         fullscreenControl: false,
         clickableIcons: false,
+        // 'greedy' lets a single finger pan the map on touch devices, instead
+        // of the default 'auto' which requires two fingers when the map is
+        // not full-page. We lock body scroll on mobile so this is safe.
+        gestureHandling: 'greedy',
         zoomControlOptions: {
           position: google.maps.ControlPosition.RIGHT_BOTTOM,
         },
@@ -313,6 +317,7 @@ export default function GoogleMap({
       interface Bubble {
         lat: number; lng: number; count: number;
         swLat: number; swLng: number; neLat: number; neLng: number;
+        regionCount: number;
       }
 
       let bubbles: Bubble[] = [];
@@ -357,6 +362,7 @@ export default function GoogleMap({
           lat: centerLat, lng: centerLng, count,
           swLat: bounds.southWest.lat, swLng: bounds.southWest.lng,
           neLat: bounds.northEast.lat, neLng: bounds.northEast.lng,
+          regionCount: 1,
         });
       }
 
@@ -383,6 +389,7 @@ export default function GoogleMap({
                 swLng: Math.min(cur.swLng, bubbles[j].swLng),
                 neLat: Math.max(cur.neLat, bubbles[j].neLat),
                 neLng: Math.max(cur.neLng, bubbles[j].neLng),
+                regionCount: cur.regionCount + bubbles[j].regionCount,
               };
               used.add(j);
               merged = true;
@@ -412,7 +419,17 @@ export default function GoogleMap({
         });
 
         const fitBounds = { south: bub.swLat, west: bub.swLng, north: bub.neLat, east: bub.neLng };
-        marker.addListener('click', () => map.fitBounds(fitBounds, 40));
+        const isLeafBubble = bub.regionCount === 1;
+        marker.addListener('click', () => {
+          if (isLeafBubble) {
+            // Leaf (single-region) bubble: skip the intermediate fitBounds step
+            // and go straight to the dots view, centered on the region.
+            map.panTo({ lat: bub.lat, lng: bub.lng });
+            map.setZoom(DOT_ZOOM_THRESHOLD);
+          } else {
+            map.fitBounds(fitBounds, 40);
+          }
+        });
         nextBubbleMarkers.push(marker);
       }
       bubbleMarkersRef.current = nextBubbleMarkers;

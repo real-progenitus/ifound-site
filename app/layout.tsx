@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Roboto } from "next/font/google";
 import {NextIntlClientProvider} from 'next-intl';
 import {getMessages} from 'next-intl/server';
@@ -21,6 +21,15 @@ const roboto = Roboto({
   subsets: ["latin"],
   weight: ["400", "500", "700"],
 });
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  // viewport-fit=cover lets us read env(safe-area-inset-*) values on
+  // notched iOS devices, which the map page uses to keep the fixed
+  // header below the status bar / dynamic island.
+  viewportFit: 'cover',
+};
 
 export const metadata: Metadata = {
   title: "iFound - Lost & Found App",
