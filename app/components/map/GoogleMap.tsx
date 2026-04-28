@@ -68,15 +68,44 @@ function bubbleIcon(size: number, label: string, fontSize: number): google.maps.
   };
 }
 
-function dotIcon(color: string, size: number): google.maps.Symbol {
+// SVG-based dot with a soft drop shadow.
+//
+// Mirrors the React Native shadow values used in the mobile app:
+//   regular  → grey drop shadow  (offset 0/3, opacity 0.2, radius 4)
+//   promoted → gold glow         (offset 0/0, opacity 0.6, radius 4)
+// We build the icon as an SVG data-URI because google.maps.Symbol (SymbolPath.CIRCLE)
+// has no shadow support.
+function dotIcon(
+  color: string,
+  size: number,
+  variant: 'regular' | 'promoted' = 'regular'
+): google.maps.Icon {
+  // Padding leaves room for the blur + offset of the drop shadow so it
+  // doesn't get clipped at the SVG viewport edges.
+  const pad = 6;
+  const total = size + pad * 2;
+  const c = total / 2;
+  const r = size / 2;
+
+  const filter =
+    variant === 'promoted'
+      ? `<filter id="s" x="-50%" y="-50%" width="200%" height="200%">
+           <feDropShadow dx="0" dy="0" stdDeviation="2" flood-color="#FFD700" flood-opacity="0.6"/>
+         </filter>`
+      : `<filter id="s" x="-50%" y="-50%" width="200%" height="200%">
+           <feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#000000" flood-opacity="0.2"/>
+         </filter>`;
+
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${total}" height="${total}">
+    <defs>${filter}</defs>
+    <circle cx="${c}" cy="${c}" r="${r}" fill="${color}" stroke="#FFFFFF" stroke-width="1" filter="url(#s)"/>
+  </svg>`;
+
   return {
-    path: google.maps.SymbolPath.CIRCLE,
-    fillColor: color,
-    fillOpacity: 1,
-    strokeColor: '#FFFFFF',
-    strokeOpacity: 1,
-    strokeWeight: 2,
-    scale: size / 2,
+    url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg),
+    size: new google.maps.Size(total, total),
+    scaledSize: new google.maps.Size(total, total),
+    anchor: new google.maps.Point(c, c),
   };
 }
 
@@ -93,18 +122,30 @@ function pinIcon(url: string, height: number): google.maps.Icon {
   };
 }
 
+// Partner marker: white dot with the partner logo inside, plus a slightly
+// stronger version of the regular grey drop shadow (opacity 0.3).
 function partnerIcon(logoUrl: string | null): google.maps.Icon {
+  const dot = 36;
+  const pad = 6;
+  const total = dot + pad * 2;
+  const c = total / 2;
+  const r = dot / 2;
   const inner = logoUrl
-    ? `<image href="${logoUrl}" x="4" y="4" width="28" height="28" clip-path="circle(14px at 14px 14px)"/>`
-    : `<circle cx="18" cy="18" r="10" fill="white" opacity="0.7"/>`;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36">
-    <circle cx="18" cy="18" r="17" fill="${logoUrl ? 'white' : '#009DE0'}" stroke="#009DE0" stroke-width="2"/>
+    ? `<image href="${logoUrl}" x="${c - 14}" y="${c - 14}" width="28" height="28" clip-path="circle(14px at ${c}px ${c}px)"/>`
+    : `<circle cx="${c}" cy="${c}" r="10" fill="#009DE0" opacity="0.7"/>`;
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${total}" height="${total}">
+    <defs>
+      <filter id="ps" x="-50%" y="-50%" width="200%" height="200%">
+        <feDropShadow dx="0" dy="3" stdDeviation="2" flood-color="#000000" flood-opacity="0.3"/>
+      </filter>
+    </defs>
+    <circle cx="${c}" cy="${c}" r="${r}" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="1" filter="url(#ps)"/>
     ${inner}
   </svg>`;
   return {
     url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(svg),
-    scaledSize: new google.maps.Size(36, 36),
-    anchor: new google.maps.Point(18, 18),
+    scaledSize: new google.maps.Size(total, total),
+    anchor: new google.maps.Point(c, c),
   };
 }
 
@@ -496,9 +537,9 @@ export default function GoogleMap({
 
         if (prevSig !== nextSig) {
           if (mode === 'dot') {
-            const color = post.isPromoted ? '#FFD700' : post.type === 'Lost' ? '#F97316' : '#009DE0';
-            const size = isSelected ? 18 : 14;
-            marker.setIcon(dotIcon(color, size));
+            const color = post.isPromoted ? '#FFD700' : post.type === 'Lost' ? '#FF5449' : '#009DE0';
+            const size = isSelected ? 13 : 10;
+            marker.setIcon(dotIcon(color, size, post.isPromoted ? 'promoted' : 'regular'));
           } else {
             const sz = isSelected ? 48 : 38;
             marker.setIcon(pinIcon(getPinIcon(post.category, post.type, post.isPromoted), sz));
