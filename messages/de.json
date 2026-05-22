@@ -167,6 +167,8 @@
     "intro": "Verwenden Sie dieses Formular, um einen neuen Partner-Eintrag einzureichen. Geben Sie einen klaren Titel, Beschreibung, Kategorie und bis zu 3 Fotos an.",
     "formTitle": "Partner-Einreichung",
     "titleLabel": "Titel:",
+    "partnerNameLabel": "Partnername:",
+    "partnerNamePlaceholder": "z.B. Das Grand Hotel",
     "descriptionLabel": "Beschreibung:",
     "categoryLabel": "Kategorie:",
     "categoryPlaceholder": "Kategorie auswählen",

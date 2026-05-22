@@ -169,6 +169,8 @@
     "intro": "Use this form to submit a new partner item. Provide a clear title, description, category, and up to 3 photos.",
     "formTitle": "Partner Submission",
     "titleLabel": "Title:",
+    "partnerNameLabel": "Partner Name:",
+    "partnerNamePlaceholder": "e.g. The Grand Hotel",
     "descriptionLabel": "Description:",
     "categoryLabel": "Category:",
     "categoryPlaceholder": "Select a category",

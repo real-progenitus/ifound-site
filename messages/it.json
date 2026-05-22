@@ -167,6 +167,8 @@
     "intro": "Usa questo modulo per inviare un nuovo articolo partner. Fornisci un titolo chiaro, descrizione, categoria e fino a 3 foto.",
     "formTitle": "Invio Partner",
     "titleLabel": "Titolo:",
+    "partnerNameLabel": "Nome del partner:",
+    "partnerNamePlaceholder": "es. Il Grand Hotel",
     "descriptionLabel": "Descrizione:",
     "categoryLabel": "Categoria:",
     "categoryPlaceholder": "Seleziona una categoria",

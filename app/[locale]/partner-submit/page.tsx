@@ -93,6 +93,7 @@ export default function PartnerSubmit() {
   const locale = useLocale();
 
   const [title, setTitle] = useState('');
+  const [partnerName, setPartnerName] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState<CategoryKey | ''>('');
   const [images, setImages] = useState<ImageEntry[]>([]);
@@ -162,6 +163,7 @@ export default function PartnerSubmit() {
   function resetForm() {
     images.forEach((img) => URL.revokeObjectURL(img.previewUrl));
     setTitle('');
+    setPartnerName('');
     setDescription('');
     setCategory('');
     setImages([]);
@@ -184,6 +186,7 @@ export default function PartnerSubmit() {
     try {
       const formData = new FormData();
       formData.set('title', title.trim());
+      formData.set('partnerName', partnerName.trim());
       formData.set('description', description.trim());
       formData.set('category', category);
       formData.set('locale', locale);
@@ -317,6 +320,23 @@ export default function PartnerSubmit() {
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     maxLength={200}
+                    className="w-full px-4 py-3 bg-gray-100 border-0 rounded focus:outline-none focus:ring-2 focus:ring-[#38B6FF]"
+                  />
+                </div>
+
+                {/* Partner Name */}
+                <div>
+                  <label htmlFor="ps-partner-name" className="block text-sm font-semibold mb-2">
+                    {t('partnerNameLabel')}
+                  </label>
+                  <input
+                    type="text"
+                    id="ps-partner-name"
+                    name="partnerName"
+                    value={partnerName}
+                    onChange={(e) => setPartnerName(e.target.value)}
+                    maxLength={100}
+                    placeholder={t('partnerNamePlaceholder')}
                     className="w-full px-4 py-3 bg-gray-100 border-0 rounded focus:outline-none focus:ring-2 focus:ring-[#38B6FF]"
                   />
                 </div>

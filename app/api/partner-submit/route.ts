@@ -45,6 +45,7 @@ const CATEGORY_ALLOWLIST = new Set([
 const LIMITS = {
   title: 200,
   description: 5000,
+  partnerName: 100,
   locale: 10,
   maxImages: 3,
   perImageBytes: 1 * 1024 * 1024,  // 1 MB — client compresses before upload
@@ -118,10 +119,13 @@ export async function POST(request: NextRequest) {
   if (!rawDescription) return badRequest('Description is required.');
   if (!rawCategory) return badRequest('Category is required.');
 
+  const rawPartnerName = readString(form, 'partnerName');
+
   const title = rawTitle.trim();
   const description = rawDescription.trim();
   const category = rawCategory.trim().toLowerCase();
   const locale = (rawLocale ?? '').trim().slice(0, LIMITS.locale);
+  const partnerName = (rawPartnerName ?? '').trim().slice(0, LIMITS.partnerName);
 
   if (title.length === 0) return badRequest('Title is required.');
   if (description.length === 0) return badRequest('Description is required.');
@@ -207,6 +211,7 @@ export async function POST(request: NextRequest) {
       description,
       category,
       locale,
+      partnerName,
       images: imageUrls,
       createdAt: ts,
     });

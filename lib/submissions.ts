@@ -31,6 +31,7 @@ export interface Submission {
   description: string;
   category: string;
   locale: string;
+  partnerName: string;
   images: string[]; // Vercel Blob public URLs
 }
 
@@ -106,6 +107,7 @@ export async function saveSubmission(
     description: submission.description,
     category: submission.category,
     locale: submission.locale,
+    partnerName: submission.partnerName,
     images: submission.images,
   };
 

@@ -169,6 +169,8 @@
         "intro": "Use este formulário para submeter um novo item de parceiro. Indique um título claro, descrição, categoria e até 3 fotografias.",
         "formTitle": "Submissão de Parceiro",
         "titleLabel": "Título:",
+        "partnerNameLabel": "Nome do parceiro:",
+        "partnerNamePlaceholder": "ex. O Grande Hotel",
         "descriptionLabel": "Descrição:",
         "categoryLabel": "Categoria:",
         "categoryPlaceholder": "Selecione uma categoria",

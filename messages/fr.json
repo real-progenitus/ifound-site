@@ -167,6 +167,8 @@
     "intro": "Utilisez ce formulaire pour soumettre un nouvel article partenaire. Indiquez un titre clair, une description, une catégorie et jusqu'à 3 photos.",
     "formTitle": "Soumission Partenaire",
     "titleLabel": "Titre :",
+    "partnerNameLabel": "Nom du partenaire :",
+    "partnerNamePlaceholder": "p.ex. Le Grand Hôtel",
     "descriptionLabel": "Description :",
     "categoryLabel": "Catégorie :",
     "categoryPlaceholder": "Sélectionnez une catégorie",

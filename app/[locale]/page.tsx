@@ -25,16 +25,7 @@ async function SubmissionsSection({
 
   if (submissions.length === 0) return null;
 
-  return (
-    <section className="w-full bg-gray-50 py-16 px-6 md:px-12 lg:px-16">
-      <div className="max-w-[1200px] mx-auto">
-        <h2 className="text-2xl md:text-3xl font-black text-[#3A3B3E] uppercase mb-10">
-          Partner Submissions
-        </h2>
-        <SubmissionsGrid submissions={submissions} adminKey={adminKey} />
-      </div>
-    </section>
-  );
+  return <SubmissionsGrid submissions={submissions} adminKey={adminKey} />;
 }
 
 export default function Home({

@@ -167,6 +167,8 @@
     "intro": "Utilice este formulario para enviar un nuevo artículo de socio. Indique un título claro, descripción, categoría y hasta 3 fotos.",
     "formTitle": "Envío de Socio",
     "titleLabel": "Título:",
+    "partnerNameLabel": "Nombre del socio:",
+    "partnerNamePlaceholder": "ej. El Gran Hotel",
     "descriptionLabel": "Descripción:",
     "categoryLabel": "Categoría:",
     "categoryPlaceholder": "Seleccione una categoría",
