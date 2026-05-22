@@ -21,6 +21,9 @@ const REQUIRED = [
   'FIREBASE_PROJECT_ID',
   'FIREBASE_CLIENT_EMAIL',
   'FIREBASE_PRIVATE_KEY',
+  // Required by app/api/partner-submit (Vercel Blob image uploads) and
+  // lib/submissions.ts (Redis metadata store).
+  'BLOB_READ_WRITE_TOKEN',
 ];
 
 const isVercelProd = process.env.VERCEL_ENV === 'production';

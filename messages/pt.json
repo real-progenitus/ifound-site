@@ -163,5 +163,26 @@
         "vehicles": "Veículos",
         "wallets": "Carteiras"
       }
+    },
+    "partnerSubmit": {
+        "title": "SUBMETER LISTAGEM DE PARCEIRO",
+        "intro": "Use este formulário para submeter um novo item de parceiro. Indique um título claro, descrição, categoria e até 3 fotografias.",
+        "formTitle": "Submissão de Parceiro",
+        "titleLabel": "Título:",
+        "descriptionLabel": "Descrição:",
+        "categoryLabel": "Categoria:",
+        "categoryPlaceholder": "Selecione uma categoria",
+        "imagesLabel": "Fotografias:",
+        "imagesHint": "Até 3 imagens — comprimidas automaticamente até 1 MB.",
+        "submitButton": "Submeter",
+        "submitting": "A submeter...",
+        "compressing": "A comprimir imagens...",
+        "successTitle": "Submissão recebida!",
+        "successMessage": "A sua listagem foi registada.",
+        "errorTitle": "Submissão falhou",
+        "errorMessage": "Verifique todos os campos e tente novamente.",
+        "tooManyImages": "Pode anexar no máximo 3 imagens.",
+        "imageTooLarge": "Cada imagem deve ter 8 MB ou menos.",
+        "invalidImageType": "Apenas ficheiros de imagem são permitidos."
     }
 }

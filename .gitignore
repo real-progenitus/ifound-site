@@ -32,6 +32,24 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env
+.env.*
+!.env.example
+
+# Credentials / service account keys
+*.pem
+*.key
+*.p8
+*.p12
+*.pfx
+*serviceaccount*.json
+*service-account*.json
+*adminsdk*.json
+*firebase-admin*.json
+ifound-4a41c-*.json
+gcp-key*.json
+google-credentials*.json
+/credentials
+credentials/
 
 # vercel
 .vercel
@@ -39,3 +57,4 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+.env*.local

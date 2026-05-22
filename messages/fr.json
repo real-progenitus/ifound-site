@@ -161,5 +161,26 @@
       "vehicles": "Véhicules",
       "wallets": "Portefeuilles"
     }
+  },
+  "partnerSubmit": {
+    "title": "SOUMETTRE UNE ANNONCE PARTENAIRE",
+    "intro": "Utilisez ce formulaire pour soumettre un nouvel article partenaire. Indiquez un titre clair, une description, une catégorie et jusqu'à 3 photos.",
+    "formTitle": "Soumission Partenaire",
+    "titleLabel": "Titre :",
+    "descriptionLabel": "Description :",
+    "categoryLabel": "Catégorie :",
+    "categoryPlaceholder": "Sélectionnez une catégorie",
+    "imagesLabel": "Photos :",
+    "imagesHint": "Jusqu'à 3 images — compressées automatiquement à 1 Mo.",
+    "submitButton": "Envoyer",
+    "submitting": "Envoi...",
+    "compressing": "Compression des images...",
+    "successTitle": "Soumission reçue !",
+    "successMessage": "Votre annonce a été enregistrée.",
+    "errorTitle": "Échec de la soumission",
+    "errorMessage": "Veuillez vérifier tous les champs et réessayer.",
+    "tooManyImages": "Vous pouvez joindre au maximum 3 images.",
+    "imageTooLarge": "Chaque image doit faire 8 Mo ou moins.",
+    "invalidImageType": "Seuls les fichiers image sont autorisés."
   }
 }
