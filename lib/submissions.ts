@@ -166,3 +166,19 @@ export async function listSubmissions(limit = 20): Promise<Submission[]> {
   }
   return submissions;
 }
+
+/**
+ * Remove a single submission from Redis (sorted set member + string key).
+ */
+export async function deleteSubmission(id: string): Promise<void> {
+  const redis = getRedis();
+  if (!redis) {
+    log.warn('deleteSubmission called but Redis is not configured');
+    return;
+  }
+  const pipeline = redis.pipeline();
+  pipeline.zrem(SUBMISSIONS_KEY, id);
+  pipeline.del(`${SUBMISSION_PREFIX}${id}`);
+  await pipeline.exec();
+  log.info('submission deleted', { id });
+}

@@ -24,6 +24,8 @@ const REQUIRED = [
   // Required by app/api/partner-submit (Vercel Blob image uploads) and
   // lib/submissions.ts (Redis metadata store).
   'BLOB_READ_WRITE_TOKEN',
+  // Required by DELETE /api/partner-submissions/[id] — protects admin deletion.
+  'ADMIN_SECRET_TOKEN',
 ];
 
 const isVercelProd = process.env.VERCEL_ENV === 'production';

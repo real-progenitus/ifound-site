@@ -8,8 +8,14 @@ import LanguageSwitcher from '../components/LanguageSwitcher';
 import Image from 'next/image';
 import { listSubmissions } from '@/lib/submissions';
 import type { Submission } from '@/lib/submissions';
+import SubmissionsGrid from '@/app/components/SubmissionsGrid';
 
-async function SubmissionsSection() {
+async function SubmissionsSection({
+  searchParams,
+}: {
+  searchParams: Promise<{ admin?: string }>;
+}) {
+  const { admin: adminKey = '' } = await searchParams;
   let submissions: Submission[] = [];
   try {
     submissions = await listSubmissions(20);
@@ -25,54 +31,17 @@ async function SubmissionsSection() {
         <h2 className="text-2xl md:text-3xl font-black text-[#3A3B3E] uppercase mb-10">
           Partner Submissions
         </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {submissions.map((sub) => (
-            <div key={sub.id} className="bg-white rounded-xl shadow-sm overflow-hidden flex flex-col">
-              {/* Image */}
-              {sub.images[0] && (
-                <Image
-                  src={sub.images[0]}
-                  alt={sub.title}
-                  width={600}
-                  height={400}
-                  className="w-full h-48 object-cover"
-                />
-              )}
-              <div className="p-5 flex flex-col flex-1 gap-2">
-                {/* Category badge */}
-                <span className="inline-block self-start text-xs font-semibold bg-[#38B6FF]/15 text-[#009DE0] rounded-full px-3 py-1 capitalize">
-                  {sub.category}
-                </span>
-                <h3 className="text-base font-bold text-[#3A3B3E] line-clamp-2">{sub.title}</h3>
-                <p className="text-sm text-gray-500 line-clamp-3 flex-1">{sub.description}</p>
-                {/* Extra images */}
-                {sub.images.length > 1 && (
-                  <div className="flex gap-2 mt-2">
-                    {sub.images.slice(1).map((url, i) => (
-                      <Image
-                        key={i}
-                        src={url}
-                        alt={`${sub.title} photo ${i + 2}`}
-                        width={56}
-                        height={56}
-                        className="w-14 h-14 rounded object-cover ring-1 ring-gray-200"
-                      />
-                    ))}
-                  </div>
-                )}
-                <p className="text-xs text-gray-400 mt-auto pt-2">
-                  {new Date(sub.createdAt).toLocaleDateString()}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
+        <SubmissionsGrid submissions={submissions} adminKey={adminKey} />
       </div>
     </section>
   );
 }
 
-export default function Home() {
+export default function Home({
+  searchParams,
+}: {
+  searchParams: Promise<{ admin?: string }>;
+}) {
   const t = useTranslations('home');
   const nav = useTranslations('nav');
 
@@ -166,7 +135,7 @@ export default function Home() {
         </div>
       </div>
 
-      <SubmissionsSection />
+      <SubmissionsSection searchParams={searchParams} />
       <PageFooter />
     </div>
   );
