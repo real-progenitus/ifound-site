@@ -102,7 +102,9 @@ export async function POST(request: NextRequest) {
   try {
     form = await request.formData();
   } catch (err) {
-    log.warn('failed to parse multipart body', err);
+    log.warn('failed to parse multipart body', {
+      message: err instanceof Error ? err.message : String(err),
+    });
     return badRequest('Invalid form data.');
   }
 
