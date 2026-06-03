@@ -201,7 +201,7 @@ export async function sendPartnerEmail(data: PartnerFormData): Promise<PartnerEm
 
   try {
     const result = await resend.emails.send({
-      from: 'hello@gadgetconsulting.pt',
+      from: 'iFound <hello@ifound.tech>',
       to: 'joaoalvaromota@gmail.com',
       subject,
       text: textBody,
