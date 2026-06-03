@@ -163,28 +163,5 @@
       "vehicles": "Vehicles",
       "wallets": "Wallets"
     }
-  },
-  "partnerSubmit": {
-    "title": "SUBMIT A PARTNER LISTING",
-    "intro": "Use this form to submit a new partner item. Provide a clear title, description, category, and up to 3 photos.",
-    "formTitle": "Partner Submission",
-    "titleLabel": "Title:",
-    "partnerNameLabel": "Partner Name:",
-    "partnerNamePlaceholder": "e.g. The Grand Hotel",
-    "descriptionLabel": "Description:",
-    "categoryLabel": "Category:",
-    "categoryPlaceholder": "Select a category",
-    "imagesLabel": "Photos:",
-    "imagesHint": "Up to 3 images — automatically compressed to 1 MB.",
-    "submitButton": "Submit",
-    "submitting": "Submitting...",
-    "compressing": "Compressing images...",
-    "successTitle": "Submission received!",
-    "successMessage": "Your listing has been recorded.",
-    "errorTitle": "Submission failed",
-    "errorMessage": "Please check all fields and try again.",
-    "tooManyImages": "You can attach at most 3 images.",
-    "imageTooLarge": "Each image must be 8 MB or smaller.",
-    "invalidImageType": "Only image files are allowed."
   }
 }

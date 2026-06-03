@@ -6,33 +6,7 @@ import { Link } from '@/routing';
 import PageFooter from '../components/PageFooter';
 import LanguageSwitcher from '../components/LanguageSwitcher';
 import Image from 'next/image';
-import { listSubmissions } from '@/lib/submissions';
-import type { Submission } from '@/lib/submissions';
-import SubmissionsGrid from '@/app/components/SubmissionsGrid';
-
-async function SubmissionsSection({
-  searchParams,
-}: {
-  searchParams: Promise<{ admin?: string }>;
-}) {
-  const { admin: adminKey = '' } = await searchParams;
-  let submissions: Submission[] = [];
-  try {
-    submissions = await listSubmissions(20);
-  } catch {
-    // Redis may not be configured locally — degrade silently
-  }
-
-  if (submissions.length === 0) return null;
-
-  return <SubmissionsGrid submissions={submissions} adminKey={adminKey} />;
-}
-
-export default function Home({
-  searchParams,
-}: {
-  searchParams: Promise<{ admin?: string }>;
-}) {
+export default function Home() {
   const t = useTranslations('home');
   const nav = useTranslations('nav');
 
@@ -126,7 +100,6 @@ export default function Home({
         </div>
       </div>
 
-      <SubmissionsSection searchParams={searchParams} />
       <PageFooter />
     </div>
   );

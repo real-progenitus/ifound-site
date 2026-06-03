@@ -161,28 +161,5 @@
       "vehicles": "Vehículos",
       "wallets": "Carteras"
     }
-  },
-  "partnerSubmit": {
-    "title": "ENVIAR ANUNCIO DE SOCIO",
-    "intro": "Utilice este formulario para enviar un nuevo artículo de socio. Indique un título claro, descripción, categoría y hasta 3 fotos.",
-    "formTitle": "Envío de Socio",
-    "titleLabel": "Título:",
-    "partnerNameLabel": "Nombre del socio:",
-    "partnerNamePlaceholder": "ej. El Gran Hotel",
-    "descriptionLabel": "Descripción:",
-    "categoryLabel": "Categoría:",
-    "categoryPlaceholder": "Seleccione una categoría",
-    "imagesLabel": "Fotos:",
-    "imagesHint": "Hasta 3 imágenes — se comprimen automáticamente a 1 MB.",
-    "submitButton": "Enviar",
-    "submitting": "Enviando...",
-    "compressing": "Comprimiendo imágenes...",
-    "successTitle": "¡Envío recibido!",
-    "successMessage": "Su anuncio ha sido registrado.",
-    "errorTitle": "Error al enviar",
-    "errorMessage": "Compruebe todos los campos e inténtelo de nuevo.",
-    "tooManyImages": "Puede adjuntar como máximo 3 imágenes.",
-    "imageTooLarge": "Cada imagen debe pesar 8 MB o menos.",
-    "invalidImageType": "Sólo se permiten archivos de imagen."
   }
 }

@@ -161,28 +161,5 @@
       "vehicles": "Veicoli",
       "wallets": "Portafogli"
     }
-  },
-  "partnerSubmit": {
-    "title": "INVIA ANNUNCIO PARTNER",
-    "intro": "Usa questo modulo per inviare un nuovo articolo partner. Fornisci un titolo chiaro, descrizione, categoria e fino a 3 foto.",
-    "formTitle": "Invio Partner",
-    "titleLabel": "Titolo:",
-    "partnerNameLabel": "Nome del partner:",
-    "partnerNamePlaceholder": "es. Il Grand Hotel",
-    "descriptionLabel": "Descrizione:",
-    "categoryLabel": "Categoria:",
-    "categoryPlaceholder": "Seleziona una categoria",
-    "imagesLabel": "Foto:",
-    "imagesHint": "Fino a 3 immagini — compresse automaticamente a 1 MB.",
-    "submitButton": "Invia",
-    "submitting": "Invio in corso...",
-    "compressing": "Compressione immagini...",
-    "successTitle": "Invio ricevuto!",
-    "successMessage": "Il tuo annuncio è stato registrato.",
-    "errorTitle": "Invio fallito",
-    "errorMessage": "Controlla tutti i campi e riprova.",
-    "tooManyImages": "Puoi allegare al massimo 3 immagini.",
-    "imageTooLarge": "Ogni immagine deve essere di 8 MB o meno.",
-    "invalidImageType": "Sono ammessi solo file immagine."
   }
 }
