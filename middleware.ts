@@ -87,5 +87,5 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/(en|es|pt|fr|it|de)/:path*', '/((?!_next|_vercel|api|download|.*\\..*).*)']
+  matcher: ['/', '/(en|es|pt|fr|it|de)/:path*', '/((?!_next|_vercel|api|download|enable-notifications|.*\\..*).*)']
 };
