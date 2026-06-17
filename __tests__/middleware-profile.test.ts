@@ -28,7 +28,7 @@ vi.mock('next-intl/middleware', () => ({
 // middleware under test actually uses.
 vi.mock('@/routing', () => ({
   routing: {
-    locales: ['en', 'pt', 'es', 'fr', 'it', 'de'],
+    locales: ['en', 'pt', 'es', 'fr', 'it', 'de', 'hu'],
     defaultLocale: 'en',
     localePrefix: 'as-needed',
   },

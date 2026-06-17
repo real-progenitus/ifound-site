@@ -17,7 +17,8 @@ export default function LanguageSwitcher() {
         { code: 'es', flag: '🇪🇸', label: 'Español' },
         { code: 'fr', flag: '🇫🇷', label: 'Français' },
         { code: 'it', flag: '🇮🇹', label: 'Italiano' },
-        { code: 'de', flag: '🇩🇪', label: 'Deutsch' }
+        { code: 'de', flag: '🇩🇪', label: 'Deutsch' },
+        { code: 'hu', flag: '🇭🇺', label: 'Magyar' }
     ];
 
     const currentLocaleData = locales.find(loc => loc.code === currentLocale);
