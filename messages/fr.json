@@ -160,6 +160,24 @@
       "clothes": "Vêtements",
       "vehicles": "Véhicules",
       "wallets": "Portefeuilles"
-    }
+    },
+    "searchItem": "Rechercher un article",
+    "noItemsAtPartner": "Aucun article publié pour le moment"
+  },
+  "cloakroom": {
+    "title": "Vestiaire",
+    "subtitle": "Enregistrez votre article pour le déposer. Vous recevrez un QR code à montrer au préposé.",
+    "phoneLabel": "Numéro de téléphone",
+    "phonePlaceholder": "ex. : 912 345 678",
+    "descriptionLabel": "Description de l’article",
+    "descriptionPlaceholder": "ex. : Manteau noir Nike",
+    "submit": "Envoyer",
+    "submitting": "Envoi…",
+    "required": "Veuillez remplir les deux champs.",
+    "errorGeneric": "Une erreur s’est produite. Réessayez.",
+    "invalidLocation": "Le vestiaire n’est pas disponible à cet endroit.",
+    "successTitle": "C’est fait !",
+    "showAttendant": "Montrez ce QR code au préposé pour déposer votre article.",
+    "successInstruction": "Conservez ce code pour récupérer votre article."
   }
 }

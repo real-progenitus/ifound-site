@@ -163,5 +163,21 @@
       "vehicles": "Vehicles",
       "wallets": "Wallets"
     }
+  },
+  "cloakroom": {
+    "title": "Cloakroom",
+    "subtitle": "Register your item to drop it off. You will get a QR code to show the attendant.",
+    "phoneLabel": "Phone number",
+    "phonePlaceholder": "e.g. 912 345 678",
+    "descriptionLabel": "Item description",
+    "descriptionPlaceholder": "e.g. Black Nike coat",
+    "submit": "Submit",
+    "submitting": "Submitting…",
+    "required": "Please fill in both fields.",
+    "errorGeneric": "Something went wrong. Please try again.",
+    "invalidLocation": "Cloakroom is not available at this location.",
+    "successTitle": "All set!",
+    "showAttendant": "Show this QR code to the attendant to drop off your item.",
+    "successInstruction": "Keep this code to pick your item back up."
   }
 }

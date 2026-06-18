@@ -160,6 +160,24 @@
       "clothes": "Ropa",
       "vehicles": "Vehículos",
       "wallets": "Carteras"
-    }
+    },
+    "searchItem": "Buscar un artículo",
+    "noItemsAtPartner": "Aún no hay artículos publicados"
+  },
+  "cloakroom": {
+    "title": "Guardarropa",
+    "subtitle": "Registra tu artículo para dejarlo. Recibirás un código QR para mostrar al encargado.",
+    "phoneLabel": "Número de teléfono",
+    "phonePlaceholder": "ej.: 912 345 678",
+    "descriptionLabel": "Descripción del artículo",
+    "descriptionPlaceholder": "ej.: Abrigo negro Nike",
+    "submit": "Enviar",
+    "submitting": "Enviando…",
+    "required": "Por favor completa ambos campos.",
+    "errorGeneric": "Algo salió mal. Inténtalo de nuevo.",
+    "invalidLocation": "El guardarropa no está disponible en este lugar.",
+    "successTitle": "¡Listo!",
+    "showAttendant": "Muestra este código QR al encargado para dejar tu artículo.",
+    "successInstruction": "Guarda este código para recoger tu artículo."
   }
 }

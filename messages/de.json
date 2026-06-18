@@ -160,6 +160,24 @@
       "clothes": "Kleidung",
       "vehicles": "Fahrzeuge",
       "wallets": "Geldbörsen"
-    }
+    },
+    "searchItem": "Einen Gegenstand suchen",
+    "noItemsAtPartner": "Noch keine Gegenstände veröffentlicht"
+  },
+  "cloakroom": {
+    "title": "Garderobe",
+    "subtitle": "Registriere deinen Gegenstand zur Abgabe. Du erhältst einen QR-Code, den du dem Personal zeigst.",
+    "phoneLabel": "Telefonnummer",
+    "phonePlaceholder": "z. B. 912 345 678",
+    "descriptionLabel": "Beschreibung des Gegenstands",
+    "descriptionPlaceholder": "z. B. Schwarzer Nike-Mantel",
+    "submit": "Absenden",
+    "submitting": "Wird gesendet…",
+    "required": "Bitte fülle beide Felder aus.",
+    "errorGeneric": "Etwas ist schiefgelaufen. Bitte versuche es erneut.",
+    "invalidLocation": "Garderobe ist an diesem Ort nicht verfügbar.",
+    "successTitle": "Fertig!",
+    "showAttendant": "Zeige diesen QR-Code dem Personal, um deinen Gegenstand abzugeben.",
+    "successInstruction": "Bewahre diesen Code auf, um deinen Gegenstand abzuholen."
   }
 }

@@ -160,6 +160,24 @@
       "clothes": "Abbigliamento",
       "vehicles": "Veicoli",
       "wallets": "Portafogli"
-    }
+    },
+    "searchItem": "Cerca un articolo",
+    "noItemsAtPartner": "Ancora nessun articolo pubblicato"
+  },
+  "cloakroom": {
+    "title": "Guardaroba",
+    "subtitle": "Registra il tuo articolo per consegnarlo. Riceverai un codice QR da mostrare all’addetto.",
+    "phoneLabel": "Numero di telefono",
+    "phonePlaceholder": "es.: 912 345 678",
+    "descriptionLabel": "Descrizione dell’articolo",
+    "descriptionPlaceholder": "es.: Cappotto nero Nike",
+    "submit": "Invia",
+    "submitting": "Invio…",
+    "required": "Compila entrambi i campi.",
+    "errorGeneric": "Qualcosa è andato storto. Riprova.",
+    "invalidLocation": "Il guardaroba non è disponibile in questo luogo.",
+    "successTitle": "Fatto!",
+    "showAttendant": "Mostra questo codice QR all’addetto per consegnare il tuo articolo.",
+    "successInstruction": "Conserva questo codice per ritirare il tuo articolo."
   }
 }

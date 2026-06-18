@@ -163,5 +163,21 @@
       "vehicles": "Veículos",
       "wallets": "Carteiras"
     }
+  },
+  "cloakroom": {
+    "title": "Bengaleiro",
+    "subtitle": "Regista o teu artigo para o entregar. Vais receber um código QR para mostrares ao funcionário.",
+    "phoneLabel": "Número de telemóvel",
+    "phonePlaceholder": "ex.: 912 345 678",
+    "descriptionLabel": "Descrição do artigo",
+    "descriptionPlaceholder": "ex.: Casaco preto Nike",
+    "submit": "Submeter",
+    "submitting": "A submeter…",
+    "required": "Por favor preenche ambos os campos.",
+    "errorGeneric": "Ocorreu um erro. Tenta novamente.",
+    "invalidLocation": "O bengaleiro não está disponível neste local.",
+    "successTitle": "Tudo pronto!",
+    "showAttendant": "Mostra este código QR ao funcionário para entregares o teu artigo.",
+    "successInstruction": "Guarda este código para levantares o teu artigo."
   }
 }

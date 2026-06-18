@@ -163,5 +163,21 @@
       "vehicles": "Járművek",
       "wallets": "Pénztárcák"
     }
+  },
+  "cloakroom": {
+    "title": "Ruhatár",
+    "subtitle": "Regisztráld a tárgyadat a leadáshoz. Kapsz egy QR-kódot, amelyet megmutathatsz a személyzetnek.",
+    "phoneLabel": "Telefonszám",
+    "phonePlaceholder": "pl.: 912 345 678",
+    "descriptionLabel": "A tárgy leírása",
+    "descriptionPlaceholder": "pl.: Fekete Nike kabát",
+    "submit": "Küldés",
+    "submitting": "Küldés…",
+    "required": "Kérjük, töltsd ki mindkét mezőt.",
+    "errorGeneric": "Valami hiba történt. Próbáld újra.",
+    "invalidLocation": "A ruhatár nem érhető el ezen a helyen.",
+    "successTitle": "Kész!",
+    "showAttendant": "Mutasd meg ezt a QR-kódot a személyzetnek a tárgy leadásához.",
+    "successInstruction": "Őrizd meg ezt a kódot a tárgyad átvételéhez."
   }
 }
