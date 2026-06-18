@@ -11,9 +11,6 @@ import { QRCodeSVG } from 'qrcode.react';
 // other visitors.
 const QA_STORAGE_KEY = 'cloakroom-qa-mode';
 const TAPS_TO_TOGGLE = 12;
-// Reveal a progress hint once the tester is clearly past an accidental tap.
-const HINT_AFTER_TAPS = 5;
-// A pause longer than this resets the tap streak.
 const TAP_RESET_MS = 1500;
 
 export default function CloakroomRegistration() {
@@ -123,9 +120,6 @@ export default function CloakroomRegistration() {
     }
   };
 
-  // The hidden toggle lives on the logo at the bottom of the form. Shown on both
-  // the form and the success screen so the tester always knows the active mode.
-  const tapsRemaining = TAPS_TO_TOGGLE - tapCount;
   const logoFooter = (
     <div className="mt-8 flex flex-col items-center gap-1.5">
       {qaMode && (
@@ -148,11 +142,6 @@ export default function CloakroomRegistration() {
           className="object-contain"
         />
       </button>
-      {tapCount >= HINT_AFTER_TAPS && tapCount < TAPS_TO_TOGGLE && (
-        <span className="text-[11px] text-[#A78BDA]">
-          {tapsRemaining} more…
-        </span>
-      )}
     </div>
   );
 
@@ -192,8 +181,8 @@ export default function CloakroomRegistration() {
           <p className="mt-6 text-[13px] leading-snug text-[#888888]">
             {t('successInstruction')}
           </p>
-          {logoFooter}
         </div>
+        {logoFooter}
         {toastEl}
       </main>
     );
@@ -246,8 +235,8 @@ export default function CloakroomRegistration() {
           </button>
         </form>
 
-        {logoFooter}
       </div>
+      {logoFooter}
       {toastEl}
     </main>
   );
