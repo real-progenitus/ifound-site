@@ -157,7 +157,7 @@ export default function CloakroomRegistration() {
   // After submission: show the QR for the attendant to scan.
   if (token) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-[#F5F3FF] px-6 py-12">
+      <main className="flex min-h-screen flex-col items-center justify-center bg-[#38B6FF] px-6 py-12">
         <div className="w-full max-w-sm rounded-3xl bg-white p-8 text-center shadow-lg">
           {qaMode && (
             <span className="mb-3 inline-block rounded-full bg-[#EDE9FE] px-3 py-1 text-xs font-semibold text-[#6D28D9]">
@@ -189,7 +189,7 @@ export default function CloakroomRegistration() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-[#F5F3FF] px-6 py-12">
+    <main className="flex min-h-screen flex-col items-center justify-center bg-[#38B6FF] px-6 py-12">
       <div className="w-full max-w-sm rounded-3xl bg-white p-8 shadow-lg">
         <h1 className="text-2xl font-bold text-[#171717]">{t('title')}</h1>
         <p className="mt-2 text-[15px] leading-snug text-[#555555]">{t('subtitle')}</p>
