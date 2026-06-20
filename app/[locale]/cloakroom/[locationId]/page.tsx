@@ -26,6 +26,11 @@ export default function CloakroomRegistration() {
   const [error, setError] = useState('');
   const [token, setToken] = useState('');
 
+  // Venue branding shown above the form (logo + name).
+  const [location, setLocation] = useState<{ title: string; logoUrl: string } | null>(
+    null
+  );
+
   const [qaMode, setQaMode] = useState(false);
   const [tapCount, setTapCount] = useState(0);
   const [toast, setToast] = useState('');
@@ -45,6 +50,31 @@ export default function CloakroomRegistration() {
       if (toastTimer.current) clearTimeout(toastTimer.current);
     };
   }, []);
+
+  // Fetch the venue's display info (logo + name) for the header. Re-runs if the
+  // QA toggle flips so we read from the matching environment's collection.
+  useEffect(() => {
+    if (!locationId) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch(
+          `/api/cloakroom?locationId=${encodeURIComponent(locationId)}` +
+            `&environment=${qaMode ? 'qa' : 'production'}`
+        );
+        if (!res.ok) return;
+        const data = (await res.json()) as { title?: string; logoUrl?: string };
+        if (!cancelled) {
+          setLocation({ title: data.title ?? '', logoUrl: data.logoUrl ?? '' });
+        }
+      } catch {
+        /* branding is non-critical — ignore failures */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [locationId, qaMode]);
 
   const showToast = (message: string) => {
     setToast(message);
@@ -120,6 +150,23 @@ export default function CloakroomRegistration() {
     }
   };
 
+  // Venue branding above the card. Rendered on both the form and success views.
+  const partnerHeader = location?.logoUrl ? (
+    <div className="mb-6 flex flex-col items-center gap-2">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={location.logoUrl}
+        alt={location.title || 'Partner'}
+        className="h-20 w-20 rounded-2xl border-4 border-white bg-white object-cover shadow-lg"
+      />
+      {location.title && (
+        <span className="text-center text-base font-semibold text-white">
+          {location.title}
+        </span>
+      )}
+    </div>
+  ) : null;
+
   const logoFooter = (
     <div className="mt-8 flex flex-col items-center gap-1.5">
       {qaMode && (
@@ -137,8 +184,8 @@ export default function CloakroomRegistration() {
         <img
           src="/favicon.png"
           alt="iFound"
-          width={36}
-          height={36}
+          width={48}
+          height={48}
           className="object-contain"
         />
       </button>
@@ -158,6 +205,7 @@ export default function CloakroomRegistration() {
   if (token) {
     return (
       <main className="flex min-h-screen flex-col items-center justify-center bg-[#38B6FF] px-6 py-12">
+        {partnerHeader}
         <div className="w-full max-w-sm rounded-3xl bg-white p-8 text-center shadow-lg">
           {qaMode && (
             <span className="mb-3 inline-block rounded-full bg-[#EDE9FE] px-3 py-1 text-xs font-semibold text-[#6D28D9]">
@@ -190,6 +238,7 @@ export default function CloakroomRegistration() {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center bg-[#38B6FF] px-6 py-12">
+      {partnerHeader}
       <div className="w-full max-w-sm rounded-3xl bg-white p-8 shadow-lg">
         <h1 className="text-2xl font-bold text-[#171717]">{t('title')}</h1>
         <p className="mt-2 text-[15px] leading-snug text-[#555555]">{t('subtitle')}</p>
@@ -229,7 +278,7 @@ export default function CloakroomRegistration() {
           <button
             type="submit"
             disabled={submitting}
-            className="mt-2 rounded-xl bg-[#7C3AED] py-3.5 text-[16px] font-bold text-white transition-opacity disabled:opacity-60"
+            className="mt-2 rounded-xl bg-[#38B6FF] py-3.5 text-[16px] font-bold text-white transition-opacity disabled:opacity-60"
           >
             {submitting ? t('submitting') : t('submit')}
           </button>

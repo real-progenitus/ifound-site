@@ -14,6 +14,62 @@ const MAX_PHONE = 40;
 const MAX_DESCRIPTION = 280;
 
 /**
+ * Public lookup used by the registration page to render the venue's branding
+ * (logo + name) above the form. Returns only non-sensitive display fields, and
+ * only when the location actually offers a cloakroom.
+ */
+export async function GET(request: NextRequest) {
+  const blocked = await guardApiRequest(request, {
+    name: 'cloakroom-location',
+    requestsPerMinute: 60,
+  });
+  if (blocked) return blocked;
+
+  const locationId = request.nextUrl.searchParams.get('locationId')?.trim();
+  if (!locationId) {
+    return NextResponse.json({ error: 'Missing location' }, { status: 400 });
+  }
+
+  const environment = resolveCloakroomEnvironment(
+    request.nextUrl.searchParams.get('environment')
+  );
+  const locationsCollection = cloakroomCollection('PartnerLocations', environment);
+
+  try {
+    const snap = await db().collection(locationsCollection).doc(locationId).get();
+    const location = snap.data();
+    if (
+      !snap.exists ||
+      !location ||
+      location.isDeleted === true ||
+      location.isActive === false ||
+      location.hasCloakroom !== true
+    ) {
+      return NextResponse.json(
+        { error: 'Cloakroom is not available at this location' },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(
+      {
+        title: location.title ?? '',
+        logoUrl: location.logoUrl ?? '',
+      },
+      {
+        headers: {
+          'Cache-Control':
+            'public, max-age=300, s-maxage=900, stale-while-revalidate=120',
+        },
+      }
+    );
+  } catch (error) {
+    log.error('failed to fetch cloakroom location', error);
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  }
+}
+
+/**
  * Public endpoint hit by a customer registering an item at a venue cloakroom.
  * Creates a pending CloakroomItems doc and returns the secret token that the
  * customer's QR encodes. The partner's agent later scans that token in the app
