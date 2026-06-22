@@ -15,8 +15,14 @@ const MAX_DESCRIPTION = 280;
 
 /**
  * Public lookup used by the registration page to render the venue's branding
- * (logo + name) above the form. Returns only non-sensitive display fields, and
- * only when the location actually offers a cloakroom.
+ * (logo + name) above the form, and to restore a previously-issued QR.
+ *
+ * - `?token=` looks up the item the customer already registered so the page can
+ *   re-show its QR (instead of a blank form) when they return, and so the home
+ *   page can redirect them back while the item is still active. Returns only the
+ *   item's status and location — never the phone/description.
+ * - `?locationId=` returns the venue's non-sensitive display fields (logo +
+ *   name), and only when the location actually offers a cloakroom.
  */
 export async function GET(request: NextRequest) {
   const blocked = await guardApiRequest(request, {
@@ -25,14 +31,43 @@ export async function GET(request: NextRequest) {
   });
   if (blocked) return blocked;
 
+  const environment = resolveCloakroomEnvironment(
+    request.nextUrl.searchParams.get('environment')
+  );
+
+  // Token lookup: report whether a registered item is still active so the
+  // customer keeps access to their QR until it has been returned.
+  const token = request.nextUrl.searchParams.get('token')?.trim();
+  if (token) {
+    const itemsCollection = cloakroomCollection('CloakroomItems', environment);
+    try {
+      const snap = await db()
+        .collection(itemsCollection)
+        .where('token', '==', token)
+        .limit(1)
+        .get();
+      if (snap.empty) {
+        return NextResponse.json({ error: 'Not found' }, { status: 404 });
+      }
+      const item = snap.docs[0].data();
+      return NextResponse.json(
+        {
+          status: item.status ?? '',
+          partnerLocationId: item.partnerLocationId ?? '',
+        },
+        { headers: { 'Cache-Control': 'no-store' } }
+      );
+    } catch (error) {
+      log.error('failed to look up cloakroom item by token', error);
+      return NextResponse.json({ error: 'Server error' }, { status: 500 });
+    }
+  }
+
   const locationId = request.nextUrl.searchParams.get('locationId')?.trim();
   if (!locationId) {
     return NextResponse.json({ error: 'Missing location' }, { status: 400 });
   }
 
-  const environment = resolveCloakroomEnvironment(
-    request.nextUrl.searchParams.get('environment')
-  );
   const locationsCollection = cloakroomCollection('PartnerLocations', environment);
 
   try {

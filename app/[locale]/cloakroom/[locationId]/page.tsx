@@ -4,11 +4,15 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { QRCodeSVG } from 'qrcode.react';
+import {
+  clearActiveCloakroom,
+  fetchActiveCloakroomStatus,
+  readActiveCloakroom,
+  saveActiveCloakroom,
+} from '@/lib/cloakroom-active';
 
-// Hidden, browser-local QA toggle. Tapping the logo this many times flips the
-// mode; the choice is persisted in localStorage so it survives reloads and is
-// scoped to the one browser doing the testing — it never touches the server or
-// other visitors.
+// Hidden, browser-local QA toggle. Tapping the logo 12 times silently flips the
+// mode; persisted in localStorage, never visible to other visitors.
 const QA_STORAGE_KEY = 'cloakroom-qa-mode';
 const TAPS_TO_TOGGLE = 12;
 const TAP_RESET_MS = 1500;
@@ -25,6 +29,9 @@ export default function CloakroomRegistration() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [token, setToken] = useState('');
+  // True until we've checked localStorage for an in-progress submission, so we
+  // can restore its QR instead of flashing a blank form on return.
+  const [restoring, setRestoring] = useState(true);
 
   // Venue branding shown above the form (logo + name).
   const [location, setLocation] = useState<{ title: string; logoUrl: string } | null>(
@@ -33,9 +40,7 @@ export default function CloakroomRegistration() {
 
   const [qaMode, setQaMode] = useState(false);
   const [tapCount, setTapCount] = useState(0);
-  const [toast, setToast] = useState('');
   const tapTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Restore the persisted QA preference after mount (localStorage is unavailable
   // during SSR, so we read it here to avoid a hydration mismatch).
@@ -47,7 +52,6 @@ export default function CloakroomRegistration() {
     }
     return () => {
       if (tapTimer.current) clearTimeout(tapTimer.current);
-      if (toastTimer.current) clearTimeout(toastTimer.current);
     };
   }, []);
 
@@ -76,15 +80,39 @@ export default function CloakroomRegistration() {
     };
   }, [locationId, qaMode]);
 
-  const showToast = (message: string) => {
-    setToast(message);
-    if (toastTimer.current) clearTimeout(toastTimer.current);
-    toastTimer.current = setTimeout(() => setToast(''), 2600);
-  };
+  // Restore a still-active submission for this location so the customer keeps
+  // their QR after closing/reopening the page. If the item has already been
+  // returned (or no longer exists), drop the stale entry and show the form.
+  useEffect(() => {
+    if (!locationId) {
+      setRestoring(false);
+      return;
+    }
+    let cancelled = false;
+    const active = readActiveCloakroom();
+    if (!active || active.locationId !== locationId) {
+      setRestoring(false);
+      return;
+    }
+    // Match the environment the item was registered in.
+    if (active.environment === 'qa') setQaMode(true);
+    (async () => {
+      const result = await fetchActiveCloakroomStatus(active);
+      if (cancelled) return;
+      if (result) {
+        setToken(active.token);
+      } else {
+        clearActiveCloakroom();
+      }
+      setRestoring(false);
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [locationId]);
 
   const handleLogoTap = () => {
     if (tapTimer.current) clearTimeout(tapTimer.current);
-
     const next = tapCount + 1;
     if (next >= TAPS_TO_TOGGLE) {
       setTapCount(0);
@@ -96,14 +124,8 @@ export default function CloakroomRegistration() {
       } catch {
         /* ignore unavailable storage */
       }
-      showToast(
-        enabled
-          ? 'QA mode ON — submissions go to the QA environment'
-          : 'QA mode OFF — back to production'
-      );
       return;
     }
-
     setTapCount(next);
     tapTimer.current = setTimeout(() => setTapCount(0), TAP_RESET_MS);
   };
@@ -140,6 +162,12 @@ export default function CloakroomRegistration() {
       const data = (await res.json()) as { token?: string };
       if (data.token) {
         setToken(data.token);
+        // Remember it so the QR survives reloads / revisits until returned.
+        saveActiveCloakroom({
+          token: data.token,
+          locationId,
+          environment: qaMode ? 'qa' : 'production',
+        });
       } else {
         setError(t('errorGeneric'));
       }
@@ -152,12 +180,12 @@ export default function CloakroomRegistration() {
 
   // Venue branding above the card. Rendered on both the form and success views.
   const partnerHeader = location?.logoUrl ? (
-    <div className="mb-6 flex flex-col items-center gap-2">
+    <div className="mb-4 flex flex-col items-center gap-1.5">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={location.logoUrl}
         alt={location.title || 'Partner'}
-        className="h-20 w-20 rounded-2xl border-4 border-white bg-white object-cover shadow-lg"
+        className="h-20 w-20 rounded-full border-2 border-white bg-white object-cover shadow-lg"
       />
       {location.title && (
         <span className="text-center text-base font-semibold text-white">
@@ -168,38 +196,31 @@ export default function CloakroomRegistration() {
   ) : null;
 
   const logoFooter = (
-    <div className="mt-8 flex flex-col items-center gap-1.5">
-      {qaMode && (
-        <span className="rounded-full bg-[#EDE9FE] px-3 py-1 text-xs font-semibold text-[#6D28D9]">
-          QA mode
-        </span>
-      )}
+    <div className="mt-6 flex flex-col items-center">
       <button
         type="button"
         onClick={handleLogoTap}
         aria-label="iFound"
-        className="opacity-50 transition-opacity hover:opacity-90 active:opacity-100"
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/favicon.png"
           alt="iFound"
-          width={48}
-          height={48}
-          className="object-contain"
+          width={55}
+          height={55}
+          className="object-contain brightness-0 invert"
         />
       </button>
     </div>
   );
 
-  const toastEl = toast ? (
-    <div
-      role="status"
-      className="fixed bottom-6 left-1/2 z-50 -translate-x-1/2 rounded-full bg-[#171717] px-4 py-2 text-center text-sm font-medium text-white shadow-lg"
-    >
-      {toast}
-    </div>
-  ) : null;
+  // While checking for a saved submission, hold on a plain background so we
+  // don't flash the form before swapping it for a restored QR.
+  if (restoring) {
+    return (
+      <main className="flex min-h-screen flex-col items-center justify-center bg-[#38B6FF] px-6 py-12" />
+    );
+  }
 
   // After submission: show the QR for the attendant to scan.
   if (token) {
@@ -207,11 +228,6 @@ export default function CloakroomRegistration() {
       <main className="flex min-h-screen flex-col items-center justify-center bg-[#38B6FF] px-6 py-12">
         {partnerHeader}
         <div className="w-full max-w-sm rounded-3xl bg-white p-8 text-center shadow-lg">
-          {qaMode && (
-            <span className="mb-3 inline-block rounded-full bg-[#EDE9FE] px-3 py-1 text-xs font-semibold text-[#6D28D9]">
-              QA
-            </span>
-          )}
           <h1 className="text-2xl font-bold text-[#171717]">{t('successTitle')}</h1>
           <p className="mt-2 text-[15px] leading-snug text-[#555555]">
             {t('showAttendant')}
@@ -231,7 +247,6 @@ export default function CloakroomRegistration() {
           </p>
         </div>
         {logoFooter}
-        {toastEl}
       </main>
     );
   }
@@ -286,7 +301,6 @@ export default function CloakroomRegistration() {
 
       </div>
       {logoFooter}
-      {toastEl}
     </main>
   );
 }

@@ -5,6 +5,7 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/routing';
 import PageFooter from '../components/PageFooter';
 import LanguageSwitcher from '../components/LanguageSwitcher';
+import CloakroomRedirectGuard from '../components/CloakroomRedirectGuard';
 import Image from 'next/image';
 export default function Home() {
   const t = useTranslations('home');
@@ -12,6 +13,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen font-sans">
+      <CloakroomRedirectGuard />
       <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[600px]:block min-[600px]:relative transition-all duration-500 ease-in-out pb-16">
         {/* Mobile Navigation */}
         <MobileNav links={[
