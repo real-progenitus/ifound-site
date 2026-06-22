@@ -178,6 +178,11 @@
     "invalidLocation": "Garderobe ist an diesem Ort nicht verfügbar.",
     "successTitle": "Fertig!",
     "showAttendant": "Zeige diesen QR-Code dem Personal, um deinen Gegenstand abzugeben.",
-    "successInstruction": "Bewahre diesen Code auf, um deinen Gegenstand abzuholen."
+    "successInstruction": "Bewahre diesen Code auf, um deinen Gegenstand abzuholen.",
+    "exitAriaLabel": "Verlassen",
+    "exitWarningTitle": "Speichern Sie zuerst Ihren QR-Code",
+    "exitWarningMessage": "Bitte machen Sie einen Screenshot dieses QR-Codes, bevor Sie die Seite verlassen. Beim Verlassen wird der Artikel von diesem Gerät entfernt und Sie kehren zur Startseite zurück.",
+    "exitConfirm": "Verlassen",
+    "exitCancel": "Abbrechen"
   }
 }

@@ -178,6 +178,11 @@
     "invalidLocation": "El guardarropa no está disponible en este lugar.",
     "successTitle": "¡Listo!",
     "showAttendant": "Muestra este código QR al encargado para dejar tu artículo.",
-    "successInstruction": "Guarda este código para recoger tu artículo."
+    "successInstruction": "Guarda este código para recoger tu artículo.",
+    "exitAriaLabel": "Salir",
+    "exitWarningTitle": "Guarda tu QR primero",
+    "exitWarningMessage": "Haz una captura de pantalla de este código QR antes de salir. Al salir, el artículo se eliminará de este dispositivo y volverás a la página de inicio.",
+    "exitConfirm": "Salir",
+    "exitCancel": "Cancelar"
   }
 }

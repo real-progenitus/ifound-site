@@ -178,6 +178,11 @@
     "invalidLocation": "O bengaleiro não está disponível neste local.",
     "successTitle": "Tudo pronto!",
     "showAttendant": "Mostra este código QR ao funcionário para entregares o teu artigo.",
-    "successInstruction": "Guarda este código para levantares o teu artigo."
+    "successInstruction": "Guarda este código para levantares o teu artigo.",
+    "exitAriaLabel": "Sair",
+    "exitWarningTitle": "Guarde o seu QR primeiro",
+    "exitWarningMessage": "Faça uma captura de ecrã deste código QR antes de sair. Ao sair, o item será removido deste dispositivo e voltará à página inicial.",
+    "exitConfirm": "Sair",
+    "exitCancel": "Cancelar"
   }
 }

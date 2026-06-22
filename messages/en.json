@@ -178,6 +178,11 @@
     "invalidLocation": "Cloakroom is not available at this location.",
     "successTitle": "All set!",
     "showAttendant": "Show this QR code to the attendant to drop off your item.",
-    "successInstruction": "Keep this code to pick your item back up."
+    "successInstruction": "Keep this code to pick your item back up.",
+    "exitAriaLabel": "Exit",
+    "exitWarningTitle": "Save your QR first",
+    "exitWarningMessage": "Please take a screenshot of this QR code before leaving. Exiting will remove the item from this device and take you back to the homepage.",
+    "exitConfirm": "Exit",
+    "exitCancel": "Cancel"
   }
 }

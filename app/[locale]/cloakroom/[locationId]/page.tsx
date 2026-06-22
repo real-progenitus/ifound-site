@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useTranslations } from 'next-intl';
 import { QRCodeSVG } from 'qrcode.react';
+import { useRouter } from '@/routing';
 import {
   clearActiveCloakroom,
   fetchActiveCloakroomStatus,
@@ -19,6 +20,7 @@ const TAP_RESET_MS = 1500;
 
 export default function CloakroomRegistration() {
   const t = useTranslations('cloakroom');
+  const router = useRouter();
   const params = useParams();
   const locationId = Array.isArray(params.locationId)
     ? params.locationId[0]
@@ -29,6 +31,8 @@ export default function CloakroomRegistration() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [token, setToken] = useState('');
+  // Confirmation before discarding the active item and returning home.
+  const [showExitModal, setShowExitModal] = useState(false);
   // True until we've checked localStorage for an in-progress submission, so we
   // can restore its QR instead of flashing a blank form on return.
   const [restoring, setRestoring] = useState(true);
@@ -178,6 +182,16 @@ export default function CloakroomRegistration() {
     }
   };
 
+  // Discard the active submission and return home. Clear BEFORE navigating so
+  // CloakroomRedirectGuard on the home page doesn't immediately bounce the user
+  // back to this QR.
+  const handleExit = () => {
+    clearActiveCloakroom();
+    setShowExitModal(false);
+    setToken('');
+    router.replace('/');
+  };
+
   // Venue branding above the card. Rendered on both the form and success views.
   const partnerHeader = location?.logoUrl ? (
     <div className="mb-4 flex flex-col items-center gap-1.5">
@@ -225,7 +239,26 @@ export default function CloakroomRegistration() {
   // After submission: show the QR for the attendant to scan.
   if (token) {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-[#38B6FF] px-6 py-12">
+      <main className="relative flex min-h-screen flex-col items-center justify-center bg-[#38B6FF] px-6 py-12">
+        <button
+          type="button"
+          onClick={() => setShowExitModal(true)}
+          aria-label={t('exitAriaLabel')}
+          className="absolute right-4 top-4 flex h-10 w-10 items-center justify-center rounded-full text-white/90 transition hover:bg-white/10"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            width={24}
+            height={24}
+            fill="none"
+            stroke="currentColor"
+            strokeWidth={2}
+            strokeLinecap="round"
+            aria-hidden="true"
+          >
+            <path d="M6 6l12 12M18 6L6 18" />
+          </svg>
+        </button>
         {partnerHeader}
         <div className="w-full max-w-sm rounded-3xl bg-white p-8 text-center shadow-lg">
           <h1 className="text-2xl font-bold text-[#171717]">{t('successTitle')}</h1>
@@ -247,6 +280,43 @@ export default function CloakroomRegistration() {
           </p>
         </div>
         {logoFooter}
+
+        {showExitModal && (
+          <div
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-6"
+            role="dialog"
+            aria-modal="true"
+            onClick={() => setShowExitModal(false)}
+          >
+            <div
+              className="w-full max-w-sm rounded-3xl bg-white p-6 text-center shadow-xl"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h2 className="text-xl font-bold text-[#171717]">
+                {t('exitWarningTitle')}
+              </h2>
+              <p className="mt-2 text-[15px] leading-snug text-[#555555]">
+                {t('exitWarningMessage')}
+              </p>
+              <div className="mt-6 flex flex-col gap-3">
+                <button
+                  type="button"
+                  onClick={handleExit}
+                  className="rounded-xl bg-[#FF5449] py-3 text-[16px] font-bold text-white transition-opacity hover:opacity-90"
+                >
+                  {t('exitConfirm')}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowExitModal(false)}
+                  className="rounded-xl border border-[#E5E0F5] py-3 text-[16px] font-semibold text-[#171717] transition-colors hover:bg-[#FAF9FF]"
+                >
+                  {t('exitCancel')}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
       </main>
     );
   }

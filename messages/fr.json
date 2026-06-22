@@ -178,6 +178,11 @@
     "invalidLocation": "Le vestiaire n’est pas disponible à cet endroit.",
     "successTitle": "C’est fait !",
     "showAttendant": "Montrez ce QR code au préposé pour déposer votre article.",
-    "successInstruction": "Conservez ce code pour récupérer votre article."
+    "successInstruction": "Conservez ce code pour récupérer votre article.",
+    "exitAriaLabel": "Quitter",
+    "exitWarningTitle": "Enregistrez votre QR d’abord",
+    "exitWarningMessage": "Veuillez faire une capture d’écran de ce code QR avant de quitter. En quittant, l’objet sera supprimé de cet appareil et vous reviendrez à la page d’accueil.",
+    "exitConfirm": "Quitter",
+    "exitCancel": "Annuler"
   }
 }

@@ -178,6 +178,11 @@
     "invalidLocation": "A ruhatár nem érhető el ezen a helyen.",
     "successTitle": "Kész!",
     "showAttendant": "Mutasd meg ezt a QR-kódot a személyzetnek a tárgy leadásához.",
-    "successInstruction": "Őrizd meg ezt a kódot a tárgyad átvételéhez."
+    "successInstruction": "Őrizd meg ezt a kódot a tárgyad átvételéhez.",
+    "exitAriaLabel": "Kilépés",
+    "exitWarningTitle": "Először mentse el a QR-kódot",
+    "exitWarningMessage": "Kérjük, készítsen képernyőképet erről a QR-kódról, mielőtt kilép. Kilépéskor a tárgy törlődik erről az eszközről, és visszatér a kezdőlapra.",
+    "exitConfirm": "Kilépés",
+    "exitCancel": "Mégse"
   }
 }

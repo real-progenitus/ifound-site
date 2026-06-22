@@ -178,6 +178,11 @@
     "invalidLocation": "Il guardaroba non è disponibile in questo luogo.",
     "successTitle": "Fatto!",
     "showAttendant": "Mostra questo codice QR all’addetto per consegnare il tuo articolo.",
-    "successInstruction": "Conserva questo codice per ritirare il tuo articolo."
+    "successInstruction": "Conserva questo codice per ritirare il tuo articolo.",
+    "exitAriaLabel": "Esci",
+    "exitWarningTitle": "Salva prima il tuo QR",
+    "exitWarningMessage": "Fai uno screenshot di questo codice QR prima di uscire. Uscendo, l’oggetto verrà rimosso da questo dispositivo e tornerai alla homepage.",
+    "exitConfirm": "Esci",
+    "exitCancel": "Annulla"
   }
 }
