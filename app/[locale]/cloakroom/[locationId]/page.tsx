@@ -188,7 +188,6 @@ export default function CloakroomRegistration() {
   const handleExit = () => {
     clearActiveCloakroom();
     setShowExitModal(false);
-    setToken('');
     router.replace('/');
   };
 
