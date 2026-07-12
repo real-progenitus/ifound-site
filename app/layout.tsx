@@ -56,6 +56,9 @@ export const metadata: Metadata = {
     description: "The general purpose lost and found app that changes the way you recover your lost items.",
     images: ["/preview.png"],
   },
+  other: {
+    "facebook-domain-verification": "q13beunbemyy8kkvmhhfubx63xlt0p",
+  },
 };
 
 export default async function RootLayout({
