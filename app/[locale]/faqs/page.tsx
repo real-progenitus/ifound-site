@@ -7,21 +7,19 @@ import MobileNav from '../../components/MobileNav';
 import PageFooter from '../../components/PageFooter';
 import Logo from '../../components/Logo';
 
+const faqSections = [
+  { category: 'cat_general', items: [1, 2, 3] },
+  { category: 'cat_pricing', items: [4, 5, 6, 7, 8, 9, 10, 11] },
+  { category: 'cat_items', items: [12, 13] },
+  { category: 'cat_partners', items: [14, 15, 16, 17] },
+  { category: 'cat_trust', items: [18, 19, 20] },
+  { category: 'cat_support', items: [21, 22] }
+];
+
 export default function FAQs() {
   const t = useTranslations('faqs');
   const nav = useTranslations('nav');
   const [openIndex, setOpenIndex] = useState<number | null>(null);
-
-  const faqs = [
-    { question: t('q1'), answer: t('a1') },
-    { question: t('q2'), answer: t('a2') },
-    { question: t('q3'), answer: t('a3') },
-    { question: t('q4'), answer: t('a4') },
-    { question: t('q5'), answer: t('a5') },
-    { question: t('q6'), answer: t('a6') },
-    { question: t('q7'), answer: t('a7') },
-    { question: t('q8'), answer: t('a8') }
-  ];
 
   const toggleFAQ = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
@@ -52,30 +50,37 @@ export default function FAQs() {
           <div className="max-w-4xl text-white w-full">
             <h1 className="font-black leading-tight text-white uppercase text-2xl min-[500px]:text-3xl min-[600px]:text-4xl md:text-5xl lg:text-6xl mb-8">{t('title')}</h1>
             
-            <div className="space-y-4">
-              {faqs.map((faq, index) => (
-                <div key={index} className="bg-white rounded-lg overflow-hidden">
-                  <button
-                    onClick={() => toggleFAQ(index)}
-                    className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
-                  >
-                    <span className="text-lg font-semibold text-black pr-4">{faq.question}</span>
-                    <svg
-                      className={`w-6 h-6 text-[#38B6FF] flex-shrink-0 transition-transform ${
-                        openIndex === index ? 'rotate-180' : ''
-                      }`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {openIndex === index && (
-                    <div className="px-6 pb-4 text-gray-700">
-                      <p>{faq.answer}</p>
-                    </div>
-                  )}
+            <div className="space-y-10">
+              {faqSections.map((section) => (
+                <div key={section.category}>
+                  <h2 className="text-xl min-[600px]:text-2xl font-bold text-white mb-4">{t(section.category)}</h2>
+                  <div className="space-y-4">
+                    {section.items.map((index) => (
+                      <div key={index} className="bg-white rounded-lg overflow-hidden">
+                        <button
+                          onClick={() => toggleFAQ(index)}
+                          className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors"
+                        >
+                          <span className="text-lg font-semibold text-black pr-4">{t(`q${index}`)}</span>
+                          <svg
+                            className={`w-6 h-6 text-[#38B6FF] flex-shrink-0 transition-transform ${
+                              openIndex === index ? 'rotate-180' : ''
+                            }`}
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                          </svg>
+                        </button>
+                        {openIndex === index && (
+                          <div className="px-6 pb-4 text-gray-700">
+                            <p>{t(`a${index}`)}</p>
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               ))}
             </div>
