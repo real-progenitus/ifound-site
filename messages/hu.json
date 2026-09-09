@@ -222,9 +222,9 @@
   },
   "shop": {
     "title": "iFound Tag",
-    "tagline": "Kis Bluetooth nyomkövető annak, amit nem szabad elveszítenie.",
+    "tagline": "Tudja meg, hol látták utoljára a kedvencét, a kulcsait és a táskáját.",
     "worksWith": "Együttműködik az Apple Find My és a Google Find Hub hálózatával",
-    "description": "Tegye a kulcsára, a táskájába vagy a nyakörvre. A telefonja megmutatja, hol van, és ha elveszik, a Find My és a Find Hub hálózat segít megtalálni.",
+    "description": "Rögzítse nyakörvre, kulcstartóra vagy táskára. Ha kikerül a látóköréből, az Apple Find My és a Google Find Hub hálózatán keresztül az arra járó telefonok jelzik, hol látták utoljára — egyenesen az Ön térképén.",
     "specSize": "Méret",
     "specSizeValue": "32 mm átmérő, 8 mm vastag",
     "specBattery": "Elem",

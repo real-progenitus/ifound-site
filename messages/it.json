@@ -222,9 +222,9 @@
   },
   "shop": {
     "title": "iFound Tag",
-    "tagline": "Un piccolo localizzatore Bluetooth per ciò che non puoi perdere.",
+    "tagline": "Scopri dove sono stati visti l’ultima volta il tuo animale, le chiavi e la borsa.",
     "worksWith": "Funziona con Apple Find My e Google Find Hub",
-    "description": "Attaccalo alle chiavi, mettilo in borsa o su un collare. Il telefono ti mostra dov’è e, se sparisce, le reti Find My e Find Hub aiutano a ritrovarlo.",
+    "description": "Attaccalo a un collare, a un portachiavi o a una borsa. Quando è fuori dalla tua portata, le reti Apple Find My e Google Find Hub permettono ai telefoni che passano vicino di segnalare dov’è stato visto l’ultima volta, direttamente sulla tua mappa.",
     "specSize": "Dimensioni",
     "specSizeValue": "32 mm di diametro, 8 mm di spessore",
     "specBattery": "Batteria",

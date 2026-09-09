@@ -222,9 +222,9 @@
   },
   "shop": {
     "title": "iFound Tag",
-    "tagline": "A small Bluetooth tracker for the things you cannot afford to lose.",
+    "tagline": "Know where your pet, your keys and your bag were last seen.",
     "worksWith": "Works with Apple Find My and Google Find Hub",
-    "description": "Slip one onto your keys, into a bag or onto a collar. Your phone shows you where it is, and if it goes missing, the Find My and Find Hub networks help bring it back.",
+    "description": "Clip one to a collar, a keyring or a bag. When it is out of your reach, the Apple Find My and Google Find Hub networks let passing phones report where it was last seen, straight onto your map.",
     "specSize": "Size",
     "specSizeValue": "32 mm across, 8 mm thick",
     "specBattery": "Battery",

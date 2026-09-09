@@ -222,9 +222,9 @@
   },
   "shop": {
     "title": "iFound Tag",
-    "tagline": "Un petit traceur Bluetooth pour ce que vous ne pouvez pas perdre.",
+    "tagline": "Sachez où votre animal, vos clés et votre sac ont été vus pour la dernière fois.",
     "worksWith": "Compatible avec Apple Find My et Google Find Hub",
-    "description": "Accrochez-le à vos clés, glissez-le dans un sac ou fixez-le à un collier. Votre téléphone vous montre où il se trouve et, en cas de perte, les réseaux Find My et Find Hub aident à le retrouver.",
+    "description": "Accrochez-le à un collier, à un porte-clés ou à un sac. Hors de votre portée, les réseaux Apple Find My et Google Find Hub permettent aux téléphones qui passent à proximité de signaler où il a été vu pour la dernière fois, directement sur votre carte.",
     "specSize": "Taille",
     "specSizeValue": "32 mm de diamètre, 8 mm d’épaisseur",
     "specBattery": "Batterie",
