@@ -26,6 +26,7 @@ type ErrorCode =
   | 'invalid_accessory_qty'
   | 'accessory_unavailable'
   | 'no_countries'
+  | 'not_configured'
   | 'invalid_request'
   | 'server_error';
 
@@ -83,6 +84,19 @@ export async function POST(request: NextRequest) {
 
   const config = await getShopConfig(environment);
   if (!config.shopEnabled) return fail('shop_disabled', 403);
+
+  // The shop is open, so this deployment genuinely needs a key for this
+  // environment. Checked here rather than at build time because the shop can be
+  // switched on from the admin panel long after a deploy, which no build-time
+  // check could ever have caught. Refusing here turns an opaque 500 into a
+  // named error and a log line that says exactly which variable is missing.
+  const keyName = environment === 'qa' ? 'STRIPE_SECRET_KEY_QA' : 'STRIPE_SECRET_KEY';
+  if (!process.env[keyName]) {
+    log.error(`shop is enabled but ${keyName} is not set; refusing checkout`, undefined, {
+      environment,
+    });
+    return fail('not_configured', 503);
+  }
   if (config.shopCountries.length === 0) {
     // Stripe rejects an empty allowed_countries, and a shop that ships nowhere
     // is closed in every sense that matters.

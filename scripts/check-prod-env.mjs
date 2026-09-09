@@ -21,11 +21,24 @@ const REQUIRED = [
   'FIREBASE_PROJECT_ID',
   'FIREBASE_CLIENT_EMAIL',
   'FIREBASE_PRIVATE_KEY',
-  // Shop checkout. Without it /api/shop/checkout throws on the first order,
-  // so a production build must not ship without it.
-  'STRIPE_SECRET_KEY',
-
 ];
+
+/**
+ * STRIPE_SECRET_KEY is deliberately NOT in the list above.
+ *
+ * Whether the site needs it is decided at runtime by Dynamic/shop_config, not
+ * at build time: with the shop switched off, /api/shop/checkout returns
+ * shop_disabled before it ever constructs a Stripe client, so the key is not
+ * merely unused, it is unreachable. Requiring it here blocked every deploy of
+ * an unrelated change until a live payment key existed, which is the wrong
+ * trade for a feature that ships switched off.
+ *
+ * The protection that matters lives where the decision does: the checkout route
+ * refuses to open a session when the shop is enabled but the key is absent, and
+ * says so loudly in the logs. A build-time check could not have covered that
+ * case anyway, since the shop can be switched on from the admin panel long
+ * after a deploy.
+ */
 
 const isVercelProd = process.env.VERCEL_ENV === 'production';
 const isForced = process.env.REQUIRE_PROD_ENV === '1';
@@ -47,9 +60,8 @@ if (missing.length > 0) {
       '[check-prod-env] Missing required production environment variables:',
       ...missing.map(bullet),
       '',
-      'These are required by lib/api-guard.ts (rate limiting),',
-      'lib/firebase-admin.ts (Firestore access) and lib/stripe.ts',
-      '(shop checkout). Refusing to build a',
+      'These are required by lib/api-guard.ts (rate limiting) and',
+      'lib/firebase-admin.ts (Firestore access). Refusing to build a',
       'production deploy without them — configure them in the Vercel',
       'project settings (Production scope) and retry.',
       '',
