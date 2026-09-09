@@ -1,10 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faApple, faGooglePlay } from '@fortawesome/free-brands-svg-icons';
-import MobileNav from '../components/MobileNav';
+import SiteNav from '../components/SiteNav';
 import { useTranslations } from 'next-intl';
-import { Link } from '@/routing';
 import PageFooter from '../components/PageFooter';
-import LanguageSwitcher from '../components/LanguageSwitcher';
 import CloakroomRedirectGuard from '../components/CloakroomRedirectGuard';
 import Image from 'next/image';
 export default function Home() {
@@ -15,28 +13,13 @@ export default function Home() {
     <div className="min-h-screen font-sans">
       <CloakroomRedirectGuard />
       <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[600px]:block min-[600px]:relative transition-all duration-500 ease-in-out pb-16">
-        {/* Mobile Navigation */}
-        <MobileNav links={[
+        {/* Navigation */}
+        <SiteNav links={[
           { href: '/about', label: nav('aboutUs') },
           { href: '/privacy', label: nav('privacyPolicy') },
           { href: '/partner', label: nav('becomePartner') },
           { href: '/map', label: 'Map' }
         ]} />
-
-        {/* Desktop Logo */}
-        <Link href="/" className="hidden min-[600px]:flex absolute top-4 left-8 z-10 items-center gap-1">
-          <img src="/favicon.png" alt="Logo" width={80} height={80} className="object-contain" />
-          <span className="text-white text-3xl font-semibold">ifound</span>
-        </Link>
-
-        {/* Desktop Navigation */}
-        <div className="hidden min-[600px]:flex absolute top-8 right-8 z-10 gap-6 items-center">
-          <Link href="/about" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('aboutUs')}</Link>
-          <Link href="/privacy" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('privacyPolicy')}</Link>
-          <Link href="/partner" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('becomePartner')}</Link>
-          <Link href="/map" className="text-white text-base font-medium hover:text-white/80 transition-colors">Map</Link>
-          <LanguageSwitcher />
-        </div>
 
         {/* Mobile Content */}
         <main className="pt-10 pb-4 flex-1 flex flex-col justify-center min-[600px]:hidden transition-all duration-500 ease-in-out">

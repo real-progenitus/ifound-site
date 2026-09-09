@@ -21,6 +21,9 @@ const REQUIRED = [
   'FIREBASE_PROJECT_ID',
   'FIREBASE_CLIENT_EMAIL',
   'FIREBASE_PRIVATE_KEY',
+  // Shop checkout. Without it /api/shop/checkout throws on the first order,
+  // so a production build must not ship without it.
+  'STRIPE_SECRET_KEY',
 
 ];
 
@@ -44,8 +47,9 @@ if (missing.length > 0) {
       '[check-prod-env] Missing required production environment variables:',
       ...missing.map(bullet),
       '',
-      'These are required by lib/api-guard.ts (rate limiting) and',
-      'lib/firebase-admin.ts (Firestore access). Refusing to build a',
+      'These are required by lib/api-guard.ts (rate limiting),',
+      'lib/firebase-admin.ts (Firestore access) and lib/stripe.ts',
+      '(shop checkout). Refusing to build a',
       'production deploy without them — configure them in the Vercel',
       'project settings (Production scope) and retry.',
       '',

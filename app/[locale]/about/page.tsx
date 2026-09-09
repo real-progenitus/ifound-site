@@ -1,8 +1,7 @@
-import MobileNav from '../../components/MobileNav';
+import SiteNav from '../../components/SiteNav';
 import {useTranslations} from 'next-intl';
 import {Link} from '@/routing';
 import PageFooter from '../../components/PageFooter';
-import Logo from '../../components/Logo';
 
 export default function About() {
   const t = useTranslations('about');
@@ -11,22 +10,12 @@ export default function About() {
   return (
     <div className="min-h-screen font-sans">
       <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[400px]:block min-[400px]:relative transition-all duration-500 ease-in-out">
-        {/* Mobile Navigation */}
-        <MobileNav links={[
+        {/* Navigation */}
+        <SiteNav links={[
           { href: '/', label: 'Home' },
           { href: '/privacy', label: nav('privacyPolicy') },
           { href: '/partner', label: nav('becomePartner') }
         ]} />
-
-        {/* Desktop Logo */}
-        <Logo className="hidden min-[600px]:flex absolute top-4 left-8 z-10" />
-
-        {/* Desktop Navigation */}
-        <div className="hidden min-[600px]:flex absolute top-8 right-8 z-10 gap-6 items-center">
-          <Link href="/" className="text-white text-base font-medium hover:text-white/80 transition-colors">Home</Link>
-          <Link href="/privacy" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('privacyPolicy')}</Link>
-          <Link href="/partner" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('becomePartner')}</Link>
-        </div>
 
         {/* Content */}
         <main className="flex items-start justify-center min-h-screen p-8 pt-32">

@@ -1,7 +1,6 @@
 import { getTranslations } from 'next-intl/server';
 import { Link } from '@/routing';
-import MobileNav from '../../../components/MobileNav';
-import Logo from '../../../components/Logo';
+import SiteNav from '../../../components/SiteNav';
 
 /**
  * Segment-scoped not-found UI. Rendered when `ProfilePage` calls
@@ -21,34 +20,13 @@ export default async function ProfileNotFound() {
   return (
     <div className="min-h-screen font-sans">
       <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[400px]:block min-[400px]:relative transition-all duration-500 ease-in-out">
-        <MobileNav
+        <SiteNav
           links={[
             { href: '/', label: 'Home' },
             { href: '/about', label: nav('aboutUs') },
             { href: '/contact', label: nav('contacts') },
           ]}
         />
-        <Logo className="hidden min-[600px]:flex absolute top-4 left-8 z-10" />
-        <div className="hidden min-[600px]:flex absolute top-8 right-8 z-10 gap-6 items-center">
-          <Link
-            href="/"
-            className="text-white text-base font-medium hover:text-white/80 transition-colors"
-          >
-            Home
-          </Link>
-          <Link
-            href="/about"
-            className="text-white text-base font-medium hover:text-white/80 transition-colors"
-          >
-            {nav('aboutUs')}
-          </Link>
-          <Link
-            href="/contact"
-            className="text-white text-base font-medium hover:text-white/80 transition-colors"
-          >
-            {nav('contacts')}
-          </Link>
-        </div>
         <main className="flex items-center justify-center min-h-screen p-8">
           <div className="text-center text-white">
             <h1 className="text-4xl font-black mb-4">{t('userNotFound')}</h1>

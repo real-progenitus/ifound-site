@@ -40,6 +40,7 @@ Required in production:
 | `FIREBASE_PRIVATE_KEY` | Firebase admin credentials |
 | `UPSTASH_REDIS_REST_URL` | Rate limiting backend (Upstash Redis) |
 | `UPSTASH_REDIS_REST_TOKEN` | Rate limiting backend (Upstash Redis) |
+| `STRIPE_SECRET_KEY` | Shop checkout. Creates hosted Checkout Sessions in `/api/shop/checkout`. No publishable key is needed (the site never handles card data) and no webhook secret is needed here (orders are fulfilled by `stripeShopWebhook` in `ifound-functions`). |
 
 Optional:
 
@@ -47,6 +48,7 @@ Optional:
 | --- | --- | --- |
 | `ALLOWED_ORIGINS` | `https://ifound.tech,https://www.ifound.tech,http://localhost:3000,http://127.0.0.1:3000` | Comma-separated list of browser origins allowed to call `/api/*`. Requests from other origins are rejected with `403`. |
 | `NEXT_PUBLIC_SITE_URL` | — | If set, added to the allow-list automatically. |
+| `STRIPE_SECRET_KEY_QA` | — | Stripe **test** key for the shop's hidden QA mode. Tapping the "works with" line on the shop page 12 times flips the whole purchase to the QA catalogue (`QA_Dynamic/shop_config`), the test key, and `QA_ShopOrders`, so the flow can be exercised on the live site. Without it, QA checkouts fail and production is unaffected. |
 
 ### API protection
 

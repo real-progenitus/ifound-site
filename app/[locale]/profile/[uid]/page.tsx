@@ -2,10 +2,8 @@ import { notFound } from 'next/navigation';
 import { getUserProfile } from '@/lib/get-user-profile';
 import { getUserPosts } from '@/lib/get-user-posts';
 import { getTranslations } from 'next-intl/server';
-import { Link } from '@/routing';
-import MobileNav from '../../../components/MobileNav';
+import SiteNav from '../../../components/SiteNav';
 import PageFooter from '../../../components/PageFooter';
-import Logo from '../../../components/Logo';
 import CopyButton from '../../../components/CopyButton';
 
 // `force-dynamic` was removed deliberately. The per-request guard + rate
@@ -46,22 +44,12 @@ export default async function ProfilePage({ params }: { params: Promise<{ uid: s
   return (
     <div className="min-h-screen font-sans">
       <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[400px]:block min-[400px]:relative transition-all duration-500 ease-in-out">
-        {/* Mobile Navigation */}
-        <MobileNav links={[
+        {/* Navigation */}
+        <SiteNav links={[
           { href: '/', label: 'Home' },
           { href: '/about', label: nav('aboutUs') },
           { href: '/contact', label: nav('contacts') }
         ]} />
-
-        {/* Desktop Logo */}
-        <Logo className="hidden min-[600px]:flex absolute top-4 left-8 z-10" />
-
-        {/* Desktop Navigation */}
-        <div className="hidden min-[600px]:flex absolute top-8 right-8 z-10 gap-6 items-center">
-          <Link href="/" className="text-white text-base font-medium hover:text-white/80 transition-colors">Home</Link>
-          <Link href="/about" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('aboutUs')}</Link>
-          <Link href="/contact" className="text-white text-base font-medium hover:text-white/80 transition-colors">{nav('contacts')}</Link>
-        </div>
 
         {/* Profile Content */}
         <main className="flex items-start justify-center min-h-screen p-8 pt-20 min-[600px]:pt-32">

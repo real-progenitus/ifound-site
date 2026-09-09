@@ -4,6 +4,10 @@ import {NextIntlClientProvider} from 'next-intl';
 import {getMessages} from 'next-intl/server';
 import {notFound} from 'next/navigation';
 import {routing} from '@/routing';
+import {cookies} from 'next/headers';
+import {getShopConfig} from '@/lib/shop-config';
+import {SHOP_QA_COOKIE, resolveShopEnvironment} from '@/lib/shop-env';
+import {ShopAvailabilityProvider} from './components/ShopAvailability';
 import "./globals.css";
 
 const geistSans = Geist({
@@ -74,13 +78,29 @@ export default async function RootLayout({
     notFound();
   }
  
-  const messages = await getMessages();
+  // Read once here rather than in the nav: the shop flag comes from Firestore
+  // via firebase-admin, and the nav is rendered inside client-component pages
+  // that cannot import it. See app/components/ShopAvailability.tsx.
+  //
+  // The environment comes from the hidden QA cookie, so a tester sees the QA
+  // catalogue everywhere the shop appears, including the nav link.
+  const cookieStore = await cookies();
+  const shopEnvironment = resolveShopEnvironment(cookieStore.get(SHOP_QA_COOKIE)?.value);
+  const [messages, shop] = await Promise.all([
+    getMessages(),
+    getShopConfig(shopEnvironment),
+  ]);
 
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased`}>
         <NextIntlClientProvider messages={messages}>
-          {children}
+          <ShopAvailabilityProvider
+            enabled={shop.shopEnabled}
+            environment={shopEnvironment}
+          >
+            {children}
+          </ShopAvailabilityProvider>
         </NextIntlClientProvider>
       </body>
     </html>
