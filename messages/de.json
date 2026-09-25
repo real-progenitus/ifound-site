@@ -262,7 +262,10 @@
     "orderReference": "Bestellnummer",
     "successEmailNote": "Bestätigung und Rechnung sind auf dem Weg in Ihr Postfach.",
     "backHome": "Zurück zu iFound",
-    "termsLink": "Verkaufsbedingungen"
+    "termsLink": "Verkaufsbedingungen",
+    "unavailableTitle": "Der Shop ist in Ihrem Land nicht verfügbar",
+    "unavailableBody": "Wir liefern derzeit nur nach {countries}. Wenn Sie in einem dieser Länder wohnen und gerade im Ausland sind, erscheint der Shop wieder, sobald Sie zurück sind.",
+    "unavailableBodyNoList": "Wir liefern noch nicht in Ihr Land."
   },
   "terms": {
     "title": "VERKAUFSBEDINGUNGEN",

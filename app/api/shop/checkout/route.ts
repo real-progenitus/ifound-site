@@ -12,6 +12,7 @@ import {
   shopCollection,
   shopEnvironmentTag,
 } from '@/lib/shop-env';
+import { geoHeaderExpected, isVisitorInShopCountry, visitorCountry } from '@/lib/shop-geo';
 import { stripe } from '@/lib/stripe';
 import { routing } from '@/routing';
 
@@ -26,6 +27,7 @@ type ErrorCode =
   | 'invalid_accessory_qty'
   | 'accessory_unavailable'
   | 'no_countries'
+  | 'country_not_allowed'
   | 'not_configured'
   | 'invalid_request'
   | 'server_error';
@@ -84,6 +86,19 @@ export async function POST(request: NextRequest) {
 
   const config = await getShopConfig(environment);
   if (!config.shopEnabled) return fail('shop_disabled', 403);
+
+  // Same rule as the page. Enforced here too, because hiding the page alone
+  // would leave the shop one direct POST away for anyone outside the list.
+  if (
+    !isVisitorInShopCountry({
+      shopCountries: config.shopCountries,
+      country: visitorCountry(request.headers),
+      environment,
+      headerExpected: geoHeaderExpected(),
+    })
+  ) {
+    return fail('country_not_allowed', 403);
+  }
 
   // The shop is open, so this deployment genuinely needs a key for this
   // environment. Checked here rather than at build time because the shop can be

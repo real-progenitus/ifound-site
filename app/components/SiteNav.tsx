@@ -29,7 +29,22 @@ import { useShopEnabled } from './ShopAvailability';
 export interface NavLink {
   href: string;
   label: string;
+  /** Renders as a white pill instead of plain text. Used for the Shop link. */
+  highlight?: boolean;
 }
+
+/**
+ * The emphasised link style. A white pill with brand-blue text, the inverse of
+ * the plain links, so it reads as the one thing on the bar you can buy from.
+ *
+ * The negative vertical margin cancels the pill's own padding in the layout, so
+ * its text sits on the same line as the plain links beside it in both the
+ * 'start' and 'center' alignments instead of being pushed down.
+ */
+const HIGHLIGHT_CLASS =
+  'bg-white text-[#38B6FF] text-base font-semibold rounded-full px-4 py-1.5 -my-1.5 shadow-sm hover:bg-white/90 transition-colors';
+const PLAIN_CLASS =
+  'text-white text-base font-medium hover:text-white/80 transition-colors';
 
 export default function SiteNav({
   links,
@@ -47,7 +62,7 @@ export default function SiteNav({
   const shopEnabled = useShopEnabled();
 
   const allLinks: NavLink[] = shopEnabled
-    ? [...links, { href: '/shop', label: nav('shop') }]
+    ? [...links, { href: '/shop', label: nav('shop'), highlight: true }]
     : links;
 
   return (
@@ -80,7 +95,7 @@ export default function SiteNav({
           <Link
             key={link.href}
             href={link.href}
-            className="text-white text-base font-medium hover:text-white/80 transition-colors"
+            className={link.highlight ? HIGHLIGHT_CLASS : PLAIN_CLASS}
           >
             {link.label}
           </Link>

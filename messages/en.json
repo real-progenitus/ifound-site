@@ -262,7 +262,10 @@
     "orderReference": "Order reference",
     "successEmailNote": "A confirmation and your invoice are on their way to your inbox.",
     "backHome": "Back to iFound",
-    "termsLink": "Terms of sale"
+    "termsLink": "Terms of sale",
+    "unavailableTitle": "The shop is not available where you are",
+    "unavailableBody": "We currently only ship to {countries}. If you live in one of these countries and are abroad right now, the shop will appear when you are back.",
+    "unavailableBodyNoList": "We are not shipping to your country yet."
   },
   "terms": {
     "title": "TERMS OF SALE",

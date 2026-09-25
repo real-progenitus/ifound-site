@@ -4,9 +4,10 @@ import {NextIntlClientProvider} from 'next-intl';
 import {getMessages} from 'next-intl/server';
 import {notFound} from 'next/navigation';
 import {routing} from '@/routing';
-import {cookies} from 'next/headers';
+import {cookies, headers} from 'next/headers';
 import {getShopConfig} from '@/lib/shop-config';
 import {SHOP_QA_COOKIE, resolveShopEnvironment} from '@/lib/shop-env';
+import {geoHeaderExpected, isVisitorInShopCountry, visitorCountry} from '@/lib/shop-geo';
 import {ShopAvailabilityProvider} from './components/ShopAvailability';
 import "./globals.css";
 
@@ -84,19 +85,30 @@ export default async function RootLayout({
   //
   // The environment comes from the hidden QA cookie, so a tester sees the QA
   // catalogue everywhere the shop appears, including the nav link.
-  const cookieStore = await cookies();
+  const [cookieStore, headerStore] = await Promise.all([cookies(), headers()]);
   const shopEnvironment = resolveShopEnvironment(cookieStore.get(SHOP_QA_COOKIE)?.value);
   const [messages, shop] = await Promise.all([
     getMessages(),
     getShopConfig(shopEnvironment),
   ]);
 
+  // The nav only links to the shop for visitors it would actually serve, so
+  // nobody outside the shipping countries is sent to a page that 404s for them.
+  const shopVisible =
+    shop.shopEnabled &&
+    isVisitorInShopCountry({
+      shopCountries: shop.shopCountries,
+      country: visitorCountry(headerStore),
+      environment: shopEnvironment,
+      headerExpected: geoHeaderExpected(),
+    });
+
   return (
     <html lang={locale} suppressHydrationWarning>
       <body className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased`}>
         <NextIntlClientProvider messages={messages}>
           <ShopAvailabilityProvider
-            enabled={shop.shopEnabled}
+            enabled={shopVisible}
             environment={shopEnvironment}
           >
             {children}

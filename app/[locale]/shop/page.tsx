@@ -1,10 +1,12 @@
-import { cookies } from 'next/headers';
+import { cookies, headers } from 'next/headers';
+import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import SiteNav from '../../components/SiteNav';
 import PageFooter from '../../components/PageFooter';
 import ShopQaToggle from '../../components/ShopQaToggle';
 import { getShopConfig } from '@/lib/shop-config';
 import { SHOP_QA_COOKIE, resolveShopEnvironment } from '@/lib/shop-env';
+import { geoHeaderExpected, isVisitorInShopCountry, visitorCountry } from '@/lib/shop-geo';
 import ShopClient from './ShopClient';
 
 /**
@@ -22,7 +24,7 @@ import ShopClient from './ShopClient';
 export default async function ShopPage() {
   // The hidden 12-tap gesture below flips this, so a tester gets the QA
   // catalogue and the Stripe test key on the live site.
-  const cookieStore = await cookies();
+  const [cookieStore, headerStore] = await Promise.all([cookies(), headers()]);
   const environment = resolveShopEnvironment(cookieStore.get(SHOP_QA_COOKIE)?.value);
 
   const [t, nav, config] = await Promise.all([
@@ -30,6 +32,20 @@ export default async function ShopPage() {
     getTranslations('nav'),
     getShopConfig(environment),
   ]);
+
+  // Not served outside the countries we ship to. A real 404, rendered by the
+  // branded not-found.tsx beside this file, rather than a page that looks like
+  // a shop and then fails at the address step.
+  if (
+    !isVisitorInShopCountry({
+      shopCountries: config.shopCountries,
+      country: visitorCountry(headerStore),
+      environment,
+      headerExpected: geoHeaderExpected(),
+    })
+  ) {
+    notFound();
+  }
 
   const links = [
     { href: '/', label: 'Home' },

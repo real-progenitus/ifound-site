@@ -262,7 +262,10 @@
     "orderReference": "Rendelési azonosító",
     "successEmailNote": "A visszaigazolás és a számla úton van az e-mail-fiókjába.",
     "backHome": "Vissza az iFoundhoz",
-    "termsLink": "Értékesítési feltételek"
+    "termsLink": "Értékesítési feltételek",
+    "unavailableTitle": "A bolt nem érhető el az Ön országában",
+    "unavailableBody": "Jelenleg csak ide szállítunk: {countries}. Ha ezek egyikében él, de most külföldön van, a bolt hazatérése után megjelenik.",
+    "unavailableBodyNoList": "Az Ön országába még nem szállítunk."
   },
   "terms": {
     "title": "ÉRTÉKESÍTÉSI FELTÉTELEK",

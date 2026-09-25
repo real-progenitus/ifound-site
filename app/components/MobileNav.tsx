@@ -6,6 +6,8 @@ import LanguageSwitcher from './LanguageSwitcher';
 interface NavLink {
   href: string;
   label: string;
+  /** Renders as a white pill instead of plain text, matching the desktop nav. */
+  highlight?: boolean;
 }
 
 interface MobileNavProps {
@@ -65,7 +67,11 @@ export default function MobileNav({ links }: MobileNavProps) {
             <a
               key={link.href}
               href={link.href}
-              className="text-white text-2xl font-medium hover:text-white/80 transition-colors"
+              className={
+                link.highlight
+                  ? 'bg-white text-[#38B6FF] text-2xl font-semibold rounded-full px-8 py-2 shadow-sm hover:bg-white/90 transition-colors'
+                  : 'text-white text-2xl font-medium hover:text-white/80 transition-colors'
+              }
               onClick={() => setIsOpen(false)}
             >
               {link.label}

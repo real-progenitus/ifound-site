@@ -262,7 +262,10 @@
     "orderReference": "Référence de commande",
     "successEmailNote": "La confirmation et votre facture arrivent dans votre boîte mail.",
     "backHome": "Retour à iFound",
-    "termsLink": "Conditions de vente"
+    "termsLink": "Conditions de vente",
+    "unavailableTitle": "La boutique n’est pas disponible dans votre pays",
+    "unavailableBody": "Nous livrons pour l’instant uniquement en {countries}. Si vous habitez l’un de ces pays et êtes à l’étranger, la boutique réapparaîtra à votre retour.",
+    "unavailableBodyNoList": "Nous ne livrons pas encore dans votre pays."
   },
   "terms": {
     "title": "CONDITIONS DE VENTE",
