@@ -62,7 +62,7 @@ export default function SiteNav({
   const shopEnabled = useShopEnabled();
 
   const allLinks: NavLink[] = shopEnabled
-    ? [...links, { href: '/shop', label: nav('shop'), highlight: true }]
+    ? [{ href: '/shop', label: nav('shop'), highlight: true }, ...links]
     : links;
 
   return (
