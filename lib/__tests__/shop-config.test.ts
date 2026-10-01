@@ -113,6 +113,61 @@ describe('priceShopOrder — shipping is additive', () => {
   });
 });
 
+describe('priceShopOrder — sales', () => {
+  const NOW = 1_800_000_000_000;
+  const sale = (overrides: Partial<ShopConfig['promotion']> = {}): Partial<ShopConfig> => ({
+    promotion: {
+      active: true,
+      percent: 15,
+      campaignId: 'camp_1',
+      startedAtMs: NOW - 60_000,
+      endsAtMs: NOW + 48 * 3600_000,
+      ...overrides,
+    },
+  });
+  function priced(packId: string, accessoryQty = 0, override?: Partial<ShopConfig>, now = NOW) {
+    const result = priceShopOrder({ ...config, ...override }, { packId, accessoryQty }, now);
+    if (!result.ok) throw new Error(`expected a price, got ${result.error}`);
+    return result.value;
+  }
+
+  // Locked: the functions and app copies must produce exactly these.
+  it('takes 15% off every pack, rounded to the cent', () => {
+    expect(priced('tag_1', 0, sale()).amountCents).toBe(1699);
+    expect(priced('tag_2', 0, sale()).amountCents).toBe(3229);
+    expect(priced('tag_4', 0, sale()).amountCents).toBe(6119);
+  });
+
+  it('never discounts the accessory or the delivery fee', () => {
+    const value = priced('tag_4', 4, { ...sale(), shippingCents: 499 });
+    expect(value.packPriceCents).toBe(6119);
+    expect(value.accessoryUnitPriceCents).toBe(100);
+    expect(value.amountCents).toBe(6119 + 400 + 499);
+  });
+
+  it('reports the list price and the campaign alongside the charge', () => {
+    const value = priced('tag_2', 0, sale());
+    expect(value.listPackPriceCents).toBe(3799);
+    expect(value.salePercent).toBe(15);
+    expect(value.saleCampaignId).toBe('camp_1');
+  });
+
+  it('stops discounting the instant the sale ends, whatever the switch says', () => {
+    const value = priced('tag_2', 0, sale(), NOW + 48 * 3600_000);
+    expect(value.amountCents).toBe(3799);
+    expect(value.saleCampaignId).toBeNull();
+  });
+
+  it('ignores a sale that is switched off', () => {
+    expect(priced('tag_2', 0, sale({ active: false })).amountCents).toBe(3799);
+  });
+
+  it('ignores an out-of-range percentage rather than giving trackers away', () => {
+    expect(priced('tag_2', 0, sale({ percent: 100 })).amountCents).toBe(3799);
+    expect(priced('tag_2', 0, sale({ percent: 12.5 })).amountCents).toBe(3799);
+  });
+});
+
 describe('product copy', () => {
   /**
    * The device is a Bluetooth tracker on the Apple Find My and Google Find Hub

@@ -153,9 +153,17 @@ export async function POST(request: NextRequest) {
         accessoryQty: order.accessoryQty,
         currency: order.currency,
         packPriceCents: order.packPriceCents,
+        listPackPriceCents: order.listPackPriceCents,
         accessoryUnitPriceCents: order.accessoryUnitPriceCents,
         shippingCents: order.shippingCents,
         amountCents: order.amountCents,
+        sale:
+          order.salePercent > 0
+            ? { campaignId: order.saleCampaignId, percent: order.salePercent }
+            : null,
+        // Sale notifications open the app, never the website, so a web order is
+        // never attributed to one.
+        attribution: null,
 
         uid: null,
         email: null,
@@ -172,6 +180,7 @@ export async function POST(request: NextRequest) {
         tracking: null,
       });
 
+    const packName = order.units === 1 ? 'iFound Tag' : `iFound Tag — ${order.units}-pack`;
     const lineItems: Array<{
       price_data: {
         currency: string;
@@ -185,8 +194,9 @@ export async function POST(request: NextRequest) {
           currency: order.currency.toLowerCase(),
           unit_amount: order.packPriceCents,
           product_data: {
-            name:
-              order.units === 1 ? 'iFound Tag' : `iFound Tag — ${order.units}-pack`,
+            // Stripe Checkout has no struck-through price, so the name carries
+            // the discount the buyer was promised on the page before.
+            name: order.salePercent > 0 ? `${packName} (−${order.salePercent}%)` : packName,
             images: [`${origin}/ifound-tag.jpeg`],
           },
         },
@@ -214,6 +224,9 @@ export async function POST(request: NextRequest) {
       // Routes the resulting events to stripeShopWebhook or its QA twin, which
       // refuse anything stamped for the other environment.
       environment: shopEnvironmentTag(environment),
+      ...(order.saleCampaignId
+        ? { saleCampaignId: order.saleCampaignId, salePercent: String(order.salePercent) }
+        : {}),
     };
 
     const session = await stripe(environment).checkout.sessions.create({
@@ -261,6 +274,7 @@ export async function POST(request: NextRequest) {
       orderId,
       amountCents: order.amountCents,
       packId: order.pack.id,
+      salePercent: order.salePercent,
     });
     return NextResponse.json(
       { url: session.url },

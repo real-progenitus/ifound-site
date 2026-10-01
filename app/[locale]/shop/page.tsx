@@ -4,7 +4,7 @@ import { getTranslations } from 'next-intl/server';
 import SiteNav from '../../components/SiteNav';
 import PageFooter from '../../components/PageFooter';
 import ShopQaToggle from '../../components/ShopQaToggle';
-import { getShopConfig } from '@/lib/shop-config';
+import { activeSalePercent, applySalePercent, getShopConfig } from '@/lib/shop-config';
 import { SHOP_QA_COOKIE, resolveShopEnvironment } from '@/lib/shop-env';
 import { geoHeaderExpected, isVisitorInShopCountry, visitorCountry } from '@/lib/shop-geo';
 import ShopClient from './ShopClient';
@@ -64,6 +64,17 @@ export default async function ShopPage() {
     })
     .join(', ');
 
+  // Priced here rather than in the browser: the client component cannot import
+  // shop-config (it pulls in firebase-admin), and the checkout route reprices
+  // with the same function anyway.
+  const salePercent = activeSalePercent(config);
+  const packs = config.packs.map((pack) => ({
+    id: pack.id,
+    units: pack.units,
+    priceCents: applySalePercent(pack.priceCents, salePercent),
+    listPriceCents: pack.priceCents,
+  }));
+
   return (
     <div className="min-h-screen font-sans">
       <div className="w-full h-full min-h-screen bg-[#38B6FF] overflow-hidden flex flex-col min-[400px]:block min-[400px]:relative transition-all duration-500 ease-in-out">
@@ -116,7 +127,9 @@ export default async function ShopPage() {
 
             {config.shopEnabled && config.shopCountries.length > 0 ? (
               <ShopClient
-                packs={config.packs}
+                packs={packs}
+                salePercent={salePercent}
+                saleEndsAtMs={salePercent > 0 ? config.promotion.endsAtMs : null}
                 accessoryEnabled={config.accessoryEnabled}
                 accessoryPriceCents={config.accessoryPriceCents}
                 accessoryShowImage={config.accessoryShowImage}

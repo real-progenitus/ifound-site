@@ -7,7 +7,10 @@ import { Link } from '@/routing';
 interface Pack {
   id: string;
   units: number;
+  /** What the pack costs now, after any sale. */
   priceCents: number;
+  /** The catalogue price, struck through while a sale runs. */
+  listPriceCents: number;
 }
 
 /**
@@ -19,6 +22,8 @@ interface Pack {
  */
 export default function ShopClient({
   packs,
+  salePercent,
+  saleEndsAtMs,
   accessoryEnabled,
   accessoryPriceCents,
   accessoryShowImage,
@@ -27,6 +32,8 @@ export default function ShopClient({
   shipsToLabel,
 }: {
   packs: Pack[];
+  salePercent: number;
+  saleEndsAtMs: number | null;
   accessoryEnabled: boolean;
   accessoryPriceCents: number;
   accessoryShowImage: boolean;
@@ -49,6 +56,23 @@ export default function ShopClient({
   useEffect(() => {
     setCancelled(new URLSearchParams(window.location.search).get('cancelled') === '1');
   }, []);
+
+  // Formatted after mount for the same reason, and because the end time has to
+  // read in the visitor's own timezone, which the server does not know.
+  const [saleEndsLabel, setSaleEndsLabel] = useState('');
+  useEffect(() => {
+    if (!saleEndsAtMs) return;
+    setSaleEndsLabel(
+      new Intl.DateTimeFormat(locale, {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+      }).format(new Date(saleEndsAtMs))
+    );
+  }, [saleEndsAtMs, locale]);
+  const onSale = salePercent > 0;
 
   const money = useMemo(() => {
     const formatter = new Intl.NumberFormat(locale, { style: 'currency', currency });
@@ -105,6 +129,15 @@ export default function ShopClient({
         </div>
       )}
 
+      {onSale && (
+        <div className="mb-6 rounded-lg bg-[#38B6FF] text-white px-6 py-4">
+          <p className="text-lg font-black">{t('saleBanner', { percent: salePercent })}</p>
+          {saleEndsLabel && (
+            <p className="text-sm opacity-90">{t('saleEnds', { date: saleEndsLabel })}</p>
+          )}
+        </div>
+      )}
+
       <h2 className="text-2xl font-black mb-6">{t('choosePack')}</h2>
 
       <div className="grid grid-cols-1 min-[500px]:grid-cols-3 gap-4">
@@ -135,7 +168,20 @@ export default function ShopClient({
                   </span>
                 )}
               </div>
-              <p className="text-2xl font-black">{money(pack.priceCents)}</p>
+              <p className="text-2xl font-black">
+                {money(pack.priceCents)}
+                {onSale && pack.listPriceCents > pack.priceCents && (
+                  <>
+                    {' '}
+                    <s
+                      className="text-base font-semibold text-gray-400"
+                      aria-label={t('wasPrice', { price: money(pack.listPriceCents) })}
+                    >
+                      {money(pack.listPriceCents)}
+                    </s>
+                  </>
+                )}
+              </p>
               <p className="text-sm text-gray-600">{t('perUnit', { price: money(perUnit) })}</p>
               {saving > 0 && (
                 <p className="text-sm font-semibold text-[#38B6FF] mt-1">

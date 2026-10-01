@@ -25,6 +25,30 @@ export interface ShopPack {
   priceCents: number;
 }
 
+/**
+ * A time-boxed percentage sale on the packs, started and ended from the admin
+ * panel. Mirrors ShopPromotion in ifound-functions shopConfig.ts. The accessory
+ * and shipping are never discounted.
+ */
+export interface ShopPromotion {
+  active: boolean;
+  percent: number;
+  campaignId: string | null;
+  startedAtMs: number | null;
+  /** Over from this instant even before anything flips `active`. */
+  endsAtMs: number | null;
+}
+
+export const MAX_SALE_PERCENT = 90;
+
+export const DEFAULT_SHOP_PROMOTION: ShopPromotion = {
+  active: false,
+  percent: 0,
+  campaignId: null,
+  startedAtMs: null,
+  endsAtMs: null,
+};
+
 export interface ShopConfig {
   shopEnabled: boolean;
   upsellEnabled: boolean;
@@ -36,6 +60,7 @@ export interface ShopConfig {
   accessoryPriceCents: number;
   accessoryShowImage: boolean;
   shippingCents: number;
+  promotion: ShopPromotion;
 }
 
 /**
@@ -58,6 +83,7 @@ export const DEFAULT_SHOP_CONFIG: ShopConfig = {
   accessoryPriceCents: 100,
   accessoryShowImage: false,
   shippingCents: 0,
+  promotion: DEFAULT_SHOP_PROMOTION,
 };
 
 function coerceBoolean(raw: unknown, fallback: boolean): boolean {
@@ -98,6 +124,48 @@ function coercePacks(raw: unknown, fallback: ShopPack[]): ShopPack[] {
     out.push({ id: p.id.trim(), units: p.units, priceCents: p.priceCents });
   }
   return out;
+}
+
+function coerceMillis(raw: unknown): number | null {
+  return typeof raw === 'number' && Number.isFinite(raw) && raw > 0 ? raw : null;
+}
+
+/** Anything malformed reads as "no sale", exactly as in the functions copy. */
+function coercePromotion(raw: unknown): ShopPromotion {
+  if (!raw || typeof raw !== 'object') return DEFAULT_SHOP_PROMOTION;
+  const p = raw as Record<string, unknown>;
+  const percent = p.percent;
+  const validPercent =
+    typeof percent === 'number' &&
+    Number.isInteger(percent) &&
+    percent >= 1 &&
+    percent <= MAX_SALE_PERCENT;
+  return {
+    active: p.active === true && validPercent,
+    percent: validPercent ? percent : 0,
+    campaignId: typeof p.campaignId === 'string' && p.campaignId.trim() ? p.campaignId.trim() : null,
+    startedAtMs: coerceMillis(p.startedAtMs),
+    endsAtMs: coerceMillis(p.endsAtMs),
+  };
+}
+
+/**
+ * The percentage off pack prices right now, or 0. Kept identical to
+ * activeSalePercent in ifound-functions shopConfig.ts and the app's
+ * shopPricing.js.
+ */
+export function activeSalePercent(config: ShopConfig, nowMs: number = Date.now()): number {
+  const promotion = config.promotion;
+  if (!promotion?.active) return 0;
+  const percent = promotion.percent;
+  if (!Number.isInteger(percent) || percent < 1 || percent > MAX_SALE_PERCENT) return 0;
+  if (typeof promotion.endsAtMs === 'number' && nowMs >= promotion.endsAtMs) return 0;
+  return percent;
+}
+
+/** Same rounding as applySalePercent in ifound-functions shopPricing.ts. */
+export function applySalePercent(cents: number, percent: number): number {
+  return percent > 0 ? Math.round((cents * (100 - percent)) / 100) : cents;
 }
 
 /**
@@ -147,6 +215,7 @@ export const getShopConfig = cache(
       accessoryPriceCents: coerceCents(data.accessoryPriceCents, d.accessoryPriceCents),
       accessoryShowImage: coerceBoolean(data.accessoryShowImage, d.accessoryShowImage),
       shippingCents: coerceCents(data.shippingCents, d.shippingCents),
+      promotion: coercePromotion(data.promotion),
     };
     cached[environment] = { value, expiresAt: Date.now() + CACHE_TTL_MS };
     return value;
@@ -165,10 +234,16 @@ export interface PricedOrder {
   pack: ShopPack;
   units: number;
   accessoryQty: number;
+  /** As charged — after any sale discount. */
   packPriceCents: number;
+  /** The catalogue price before any sale. */
+  listPackPriceCents: number;
   accessoryUnitPriceCents: number;
   shippingCents: number;
   amountCents: number;
+  /** Percentage off the pack, or 0. */
+  salePercent: number;
+  saleCampaignId: string | null;
   currency: string;
 }
 
@@ -187,7 +262,8 @@ export type PriceError =
  */
 export function priceShopOrder(
   config: ShopConfig,
-  input: { packId: unknown; accessoryQty: unknown }
+  input: { packId: unknown; accessoryQty: unknown },
+  nowMs: number = Date.now()
 ): { ok: true; value: PricedOrder } | { ok: false; error: PriceError } {
   const packId = typeof input.packId === 'string' ? input.packId.trim() : '';
   const pack = config.packs.find((candidate) => candidate.id === packId);
@@ -202,8 +278,11 @@ export function priceShopOrder(
     return { ok: false, error: 'accessory_unavailable' };
   }
 
+  // The sale touches the pack only — never the accessory or the delivery fee.
+  const salePercent = activeSalePercent(config, nowMs);
+  const packPriceCents = applySalePercent(pack.priceCents, salePercent);
   const amountCents =
-    pack.priceCents + accessoryQty * config.accessoryPriceCents + config.shippingCents;
+    packPriceCents + accessoryQty * config.accessoryPriceCents + config.shippingCents;
   if (amountCents <= 0) return { ok: false, error: 'zero_total' };
 
   return {
@@ -212,10 +291,13 @@ export function priceShopOrder(
       pack,
       units: pack.units,
       accessoryQty,
-      packPriceCents: pack.priceCents,
+      packPriceCents,
+      listPackPriceCents: pack.priceCents,
       accessoryUnitPriceCents: accessoryQty > 0 ? config.accessoryPriceCents : 0,
       shippingCents: config.shippingCents,
       amountCents,
+      salePercent,
+      saleCampaignId: salePercent > 0 ? config.promotion.campaignId : null,
       currency: config.currency,
     },
   };
