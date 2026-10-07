@@ -1,8 +1,9 @@
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/routing';
 import SiteNav from '../../components/SiteNav';
 import PageFooter from '../../components/PageFooter';
 import { getShopConfig } from '@/lib/shop-config';
+import { formatCountryList } from '@/lib/country-names';
 
 /**
  * Rendered when the shop page calls notFound() for a visitor outside the
@@ -19,19 +20,14 @@ import { getShopConfig } from '@/lib/shop-config';
  * broken.
  */
 export default async function ShopNotAvailable() {
-  const [t, nav, config] = await Promise.all([
+  const [t, nav, config, locale] = await Promise.all([
     getTranslations('shop'),
     getTranslations('nav'),
     getShopConfig(),
+    getLocale(),
   ]);
 
-  let countries = config.shopCountries.join(', ');
-  try {
-    const names = new Intl.DisplayNames(['en'], { type: 'region' });
-    countries = config.shopCountries.map((cc) => names.of(cc) ?? cc).join(', ');
-  } catch {
-    /* fall back to the codes */
-  }
+  const countries = formatCountryList(config.shopCountries, locale);
 
   return (
     <div className="min-h-screen font-sans">

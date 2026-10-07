@@ -255,7 +255,7 @@
     "vatIncluded": "inkl. MwSt.",
     "shipsTo": "Wir liefern nach {countries}.",
     "notShippedHere": "Sie scheinen außerhalb unserer Lieferländer zu sein. Sie können trotzdem bestellen, wenn die Lieferadresse in einem davon liegt.",
-    "orderAndPay": "Zahlungspflichtig bestellen",
+    "order": "Bestellen",
     "comingSoonTitle": "Demnächst",
     "comingSoonBody": "Der iFound Tag ist noch nicht im Verkauf. Schreiben Sie uns, wenn Sie Bescheid wissen möchten.",
     "cancelled": "Zahlung abgebrochen. Es wurde nichts abgebucht.",

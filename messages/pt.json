@@ -255,7 +255,7 @@
     "vatIncluded": "IVA incluído",
     "shipsTo": "Enviamos para {countries}.",
     "notShippedHere": "Parece estar fora dos países para onde enviamos. Pode encomendar na mesma se a morada de entrega for num deles.",
-    "orderAndPay": "Encomendar com obrigação de pagamento",
+    "order": "Encomendar",
     "comingSoonTitle": "Brevemente",
     "comingSoonBody": "O iFound Tag ainda não está à venda. Fale connosco se quiser saber quando estiver.",
     "cancelled": "Pagamento cancelado. Não lhe foi cobrado nada.",

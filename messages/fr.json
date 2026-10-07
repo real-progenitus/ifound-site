@@ -255,7 +255,7 @@
     "vatIncluded": "TVA comprise",
     "shipsTo": "Nous livrons en {countries}.",
     "notShippedHere": "Vous semblez être hors des pays que nous livrons. Vous pouvez tout de même commander si votre adresse de livraison s’y trouve.",
-    "orderAndPay": "Commander avec obligation de paiement",
+    "order": "Commander",
     "comingSoonTitle": "Bientôt disponible",
     "comingSoonBody": "L’iFound Tag n’est pas encore en vente. Écrivez-nous si vous souhaitez être prévenu.",
     "cancelled": "Paiement annulé. Rien ne vous a été facturé.",

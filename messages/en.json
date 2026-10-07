@@ -255,7 +255,7 @@
     "vatIncluded": "VAT included",
     "shipsTo": "We ship to {countries}.",
     "notShippedHere": "It looks like you are outside the countries we ship to. You can still order if your delivery address is in one of them.",
-    "orderAndPay": "Order and pay",
+    "order": "Order",
     "comingSoonTitle": "Coming soon",
     "comingSoonBody": "The iFound Tag is not on sale just yet. Get in touch if you would like to hear when it is.",
     "cancelled": "Payment cancelled. You have not been charged.",

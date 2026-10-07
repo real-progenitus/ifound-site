@@ -271,7 +271,9 @@ export default function ShopClient({
         disabled={submitting || !selected}
         className="mt-6 w-full px-8 py-4 bg-[#38B6FF] text-white font-semibold rounded hover:bg-[#2FA5EE] disabled:opacity-50 transition-colors"
       >
-        {submitting ? '…' : `${t('orderAndPay')} · ${money(totalCents)}`}
+        {/* Just the action: the total sits right above, and the binding
+            commitment is Stripe Checkout's own "Pay" button on the next page. */}
+        {submitting ? '…' : t('order')}
       </button>
 
       <p className="mt-3 text-xs text-gray-500">

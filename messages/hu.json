@@ -255,7 +255,7 @@
     "vatIncluded": "Az ár tartalmazza az áfát",
     "shipsTo": "Ide szállítunk: {countries}.",
     "notShippedHere": "Úgy tűnik, azon országokon kívül tartózkodik, ahová szállítunk. Ha a szállítási cím valamelyikben van, akkor is rendelhet.",
-    "orderAndPay": "Megrendelés fizetési kötelezettséggel",
+    "order": "Megrendelés",
     "comingSoonTitle": "Hamarosan",
     "comingSoonBody": "Az iFound Tag még nem kapható. Írjon nekünk, ha szeretne értesülni róla.",
     "cancelled": "A fizetés megszakadt. Nem terheltük meg.",

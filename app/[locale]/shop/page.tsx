@@ -1,10 +1,11 @@
 import { cookies, headers } from 'next/headers';
 import { notFound } from 'next/navigation';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 import SiteNav from '../../components/SiteNav';
 import PageFooter from '../../components/PageFooter';
 import ShopQaToggle from '../../components/ShopQaToggle';
 import { activeSalePercent, applySalePercent, getShopConfig } from '@/lib/shop-config';
+import { formatCountryList } from '@/lib/country-names';
 import { SHOP_QA_COOKIE, resolveShopEnvironment } from '@/lib/shop-env';
 import { geoHeaderExpected, isVisitorInShopCountry, visitorCountry } from '@/lib/shop-geo';
 import ShopClient from './ShopClient';
@@ -27,10 +28,11 @@ export default async function ShopPage() {
   const [cookieStore, headerStore] = await Promise.all([cookies(), headers()]);
   const environment = resolveShopEnvironment(cookieStore.get(SHOP_QA_COOKIE)?.value);
 
-  const [t, nav, config] = await Promise.all([
+  const [t, nav, config, locale] = await Promise.all([
     getTranslations('shop'),
     getTranslations('nav'),
     getShopConfig(environment),
+    getLocale(),
   ]);
 
   // Not served outside the countries we ship to. A real 404, rendered by the
@@ -53,16 +55,7 @@ export default async function ShopPage() {
     { href: '/faqs', label: nav('faqs') },
   ];
 
-  const countryNames = new Intl.DisplayNames(['en'], { type: 'region' });
-  const shipsToLabel = config.shopCountries
-    .map((cc) => {
-      try {
-        return countryNames.of(cc) ?? cc;
-      } catch {
-        return cc;
-      }
-    })
-    .join(', ');
+  const shipsToLabel = formatCountryList(config.shopCountries, locale);
 
   // Priced here rather than in the browser: the client component cannot import
   // shop-config (it pulls in firebase-admin), and the checkout route reprices
