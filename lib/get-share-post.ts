@@ -80,8 +80,8 @@ export const getSharePost = cache(
 
     return {
       id: snap.id,
-      title: typeof data.title === 'string' ? data.title : '',
-      description: typeof data.description === 'string' ? data.description : '',
+      title: typeof data.title === 'string' ? data.title.trim() : '',
+      description: typeof data.description === 'string' ? data.description.trim() : '',
       type: data.type === 'Found' ? 'Found' : 'Lost',
       category: typeof data.category === 'string' ? data.category : '',
       address: typeof data.address === 'string' && data.address ? data.address : null,
