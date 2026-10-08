@@ -37,6 +37,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
+  // Resolves relative og/twitter image paths (e.g. /preview.png) to absolute
+  // URLs, which link-preview crawlers require.
+  metadataBase: new URL("https://ifound.tech"),
   title: "iFound - Lost & Found App",
   description: "The general purpose lost and found app that changes the way you recover your lost items.",
   icons: {

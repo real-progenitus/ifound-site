@@ -291,5 +291,32 @@
     "complaintsBody": "Si nous ne parvenons pas à résoudre un litige entre nous, vous pouvez saisir la plateforme européenne de règlement en ligne des litiges à l’adresse ec.europa.eu/consumers/odr.",
     "contactTitle": "Contact",
     "contactBody": "Écrivez à support@ifound.tech et nous vous répondrons."
+  },
+  "share": {
+    "lostBadge": "Perdu",
+    "foundBadge": "Trouvé",
+    "ogTitleLost": "Disparu : {title} — merci de partager",
+    "ogTitleFound": "Trouvé : {title} — aidez à retrouver le propriétaire",
+    "ogDescription": "Chaque partage montre ce flyer à plus de personnes du quartier.",
+    "headingLost": "Aidez-le à rentrer à la maison",
+    "headingFound": "Aidez à retrouver le propriétaire",
+    "subtitle": "Chaque partage montre ce flyer à plus de personnes du quartier.",
+    "shareFlyer": "Partager le flyer",
+    "formatFeed": "Publication",
+    "formatStory": "Story",
+    "shareOn": "Ou partagez sur",
+    "copyLink": "Copier le lien",
+    "linkCopied": "Lien copié !",
+    "downloadImage": "Télécharger l'image",
+    "instagramHint": "Pour publier sur Instagram, ouvrez cette page sur votre téléphone et appuyez sur « Partager le flyer ».",
+    "shareTextLost": "Aidez à retrouver {title} ! Chaque partage compte.",
+    "shareTextFound": "{title} a été trouvé — aidez à retrouver le propriétaire ! Chaque partage compte.",
+    "preparing": "Le flyer est encore en préparation — revenez dans une minute. Vous pouvez déjà partager le lien.",
+    "resolvedTitle": "Bonne nouvelle !",
+    "resolvedBody": "Cette annonce a été résolue. Merci pour votre aide !",
+    "expiredTitle": "Cette annonce a expiré",
+    "expiredBody": "Elle n'est plus active sur iFound.",
+    "reward": "Récompense",
+    "getApp": "Télécharger l'app iFound"
   }
 }

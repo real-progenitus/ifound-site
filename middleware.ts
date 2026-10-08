@@ -35,6 +35,19 @@ function isProfilePath(pathname: string): boolean {
   return PROFILE_PATH_RE.test(pathname);
 }
 
+/**
+ * Matches `/share/[postId]` and `/{locale}/share/[postId]`: a post's public
+ * flyer share page. Same treatment as profiles — a share fans out to a burst
+ * of visitors and link-preview crawlers on one post id, so a short edge cache
+ * absorbs them, and the rate limit bounds Firestore reads from id iteration.
+ */
+const SHARE_PATH_RE =
+  /^\/(?:(?:en|es|pt|fr|it|de|hu)\/)?share\/[^/]+\/?$/;
+
+function isSharePath(pathname: string): boolean {
+  return SHARE_PATH_RE.test(pathname);
+}
+
 function buildBlockedResponse(
   status: 403 | 429 | 503,
   retryAfter?: number
@@ -72,6 +85,21 @@ export default async function middleware(request: NextRequest) {
     }
   }
 
+  if (isSharePath(pathname)) {
+    const guard = await checkRequestGuard(request, {
+      name: 'share-page',
+      // Looser than profiles: Facebook/WhatsApp preview crawlers fetch the
+      // page too, and several people may open one shared link at once.
+      requestsPerMinute: 60,
+    });
+    if (!guard.ok) {
+      return buildBlockedResponse(
+        guard.status,
+        guard.status === 403 ? undefined : guard.retryAfter
+      );
+    }
+  }
+
   const response = intlMiddleware(request);
 
   // next-intl may return a redirect / rewrite NextResponse; attach the CDN
@@ -79,7 +107,7 @@ export default async function middleware(request: NextRequest) {
   // rendered by notFound() inside the page, Next.js's own response pipeline
   // takes over and its default "no-store for errors" behaviour applies, so
   // we don't end up caching missing-profile pages here.
-  if (isProfilePath(pathname) && response) {
+  if ((isProfilePath(pathname) || isSharePath(pathname)) && response) {
     response.headers.set('Cache-Control', PROFILE_CACHE_CONTROL);
   }
 

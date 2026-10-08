@@ -291,5 +291,32 @@
     "complaintsBody": "Ha egy panaszt nem tudunk egymás között rendezni, fordulhat az Európai Bizottság online vitarendezési platformjához az ec.europa.eu/consumers/odr címen.",
     "contactTitle": "Kapcsolat",
     "contactBody": "Írjon a support@ifound.tech címre, és válaszolunk."
+  },
+  "share": {
+    "lostBadge": "Elveszett",
+    "foundBadge": "Megtalált",
+    "ogTitleLost": "Eltűnt: {title} – kérlek, oszd meg",
+    "ogTitleFound": "Megtalálták: {title} – segíts megtalálni a gazdáját",
+    "ogDescription": "Minden megosztással többen látják ezt a szórólapot a környéken.",
+    "headingLost": "Segíts hazajuttatni",
+    "headingFound": "Segíts megtalálni a gazdáját",
+    "subtitle": "Minden megosztással többen látják ezt a szórólapot a környéken.",
+    "shareFlyer": "Szórólap megosztása",
+    "formatFeed": "Bejegyzés",
+    "formatStory": "Story",
+    "shareOn": "Vagy oszd meg itt:",
+    "copyLink": "Link másolása",
+    "linkCopied": "Link másolva!",
+    "downloadImage": "Kép letöltése",
+    "instagramHint": "Az Instagramra posztoláshoz nyisd meg ezt az oldalt a telefonodon, és koppints a „Szórólap megosztása” gombra.",
+    "shareTextLost": "Segíts megtalálni: {title}! Minden megosztás számít.",
+    "shareTextFound": "Megtalálták: {title} – segíts megtalálni a gazdáját! Minden megosztás számít.",
+    "preparing": "A szórólap még készül – nézz vissza egy perc múlva. A linket már megoszthatod.",
+    "resolvedTitle": "Jó hír!",
+    "resolvedBody": "Ez a hirdetés megoldódott. Köszönjük a segítséget!",
+    "expiredTitle": "Ez a hirdetés lejárt",
+    "expiredBody": "Már nem aktív az iFoundon.",
+    "reward": "Jutalom",
+    "getApp": "Töltsd le az iFound appot"
   }
 }

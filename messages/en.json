@@ -291,5 +291,32 @@
     "complaintsBody": "If we cannot resolve a complaint between us, you can use the Portuguese electronic complaints book at livroreclamacoes.pt, or the European Commission online dispute resolution platform at ec.europa.eu/consumers/odr.",
     "contactTitle": "Contact",
     "contactBody": "Email support@ifound.tech and we will come back to you."
+  },
+  "share": {
+    "lostBadge": "Lost",
+    "foundBadge": "Found",
+    "ogTitleLost": "Missing: {title} — please share",
+    "ogTitleFound": "Found: {title} — help find the owner",
+    "ogDescription": "Every share puts this flyer in front of more people nearby.",
+    "headingLost": "Help bring them home",
+    "headingFound": "Help find the owner",
+    "subtitle": "Every share puts this flyer in front of more people nearby.",
+    "shareFlyer": "Share flyer",
+    "formatFeed": "Post",
+    "formatStory": "Story",
+    "shareOn": "Or share on",
+    "copyLink": "Copy link",
+    "linkCopied": "Link copied!",
+    "downloadImage": "Download image",
+    "instagramHint": "To post on Instagram, open this page on your phone and tap “Share flyer”.",
+    "shareTextLost": "Please help find {title}! Every share counts.",
+    "shareTextFound": "{title} was found — help find the owner! Every share counts.",
+    "preparing": "The flyer is still being prepared — check back in a minute. You can already share the link.",
+    "resolvedTitle": "Good news!",
+    "resolvedBody": "This post has been resolved. Thank you for helping!",
+    "expiredTitle": "This post has expired",
+    "expiredBody": "It is no longer active on iFound.",
+    "reward": "Reward",
+    "getApp": "Get the iFound app"
   }
 }

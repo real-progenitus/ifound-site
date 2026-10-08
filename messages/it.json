@@ -291,5 +291,32 @@
     "complaintsBody": "Se non riusciamo a risolvere un reclamo tra noi, puoi rivolgerti alla piattaforma europea di risoluzione delle controversie online su ec.europa.eu/consumers/odr.",
     "contactTitle": "Contatti",
     "contactBody": "Scrivi a support@ifound.tech e ti risponderemo."
+  },
+  "share": {
+    "lostBadge": "Perso",
+    "foundBadge": "Trovato",
+    "ogTitleLost": "Scomparso: {title} — condividi, per favore",
+    "ogTitleFound": "Trovato: {title} — aiuta a trovare il proprietario",
+    "ogDescription": "Ogni condivisione mostra questo volantino a più persone in zona.",
+    "headingLost": "Aiutalo a tornare a casa",
+    "headingFound": "Aiuta a trovare il proprietario",
+    "subtitle": "Ogni condivisione mostra questo volantino a più persone in zona.",
+    "shareFlyer": "Condividi volantino",
+    "formatFeed": "Post",
+    "formatStory": "Storia",
+    "shareOn": "Oppure condividi su",
+    "copyLink": "Copia link",
+    "linkCopied": "Link copiato!",
+    "downloadImage": "Scarica immagine",
+    "instagramHint": "Per pubblicarlo su Instagram, apri questa pagina sul telefono e tocca “Condividi volantino”.",
+    "shareTextLost": "Aiuta a trovare {title}! Ogni condivisione conta.",
+    "shareTextFound": "{title} è stato trovato — aiuta a trovare il proprietario! Ogni condivisione conta.",
+    "preparing": "Il volantino è ancora in preparazione — riprova tra un minuto. Puoi già condividere il link.",
+    "resolvedTitle": "Buone notizie!",
+    "resolvedBody": "Questo annuncio è stato risolto. Grazie per l'aiuto!",
+    "expiredTitle": "Questo annuncio è scaduto",
+    "expiredBody": "Non è più attivo su iFound.",
+    "reward": "Ricompensa",
+    "getApp": "Scarica l'app iFound"
   }
 }

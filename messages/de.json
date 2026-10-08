@@ -291,5 +291,32 @@
     "complaintsBody": "Lässt sich eine Beschwerde nicht zwischen uns klären, können Sie die Online-Streitbeilegungsplattform der Europäischen Kommission unter ec.europa.eu/consumers/odr nutzen.",
     "contactTitle": "Kontakt",
     "contactBody": "Schreiben Sie an support@ifound.tech, wir melden uns."
+  },
+  "share": {
+    "lostBadge": "Verloren",
+    "foundBadge": "Gefunden",
+    "ogTitleLost": "Vermisst: {title} – bitte teilen",
+    "ogTitleFound": "Gefunden: {title} – helfen Sie, den Besitzer zu finden",
+    "ogDescription": "Jedes Teilen zeigt diesen Flyer mehr Menschen in der Nähe.",
+    "headingLost": "Helfen Sie, es nach Hause zu bringen",
+    "headingFound": "Helfen Sie, den Besitzer zu finden",
+    "subtitle": "Jedes Teilen zeigt diesen Flyer mehr Menschen in der Nähe.",
+    "shareFlyer": "Flyer teilen",
+    "formatFeed": "Beitrag",
+    "formatStory": "Story",
+    "shareOn": "Oder teilen auf",
+    "copyLink": "Link kopieren",
+    "linkCopied": "Link kopiert!",
+    "downloadImage": "Bild herunterladen",
+    "instagramHint": "Um auf Instagram zu posten, öffnen Sie diese Seite auf Ihrem Handy und tippen Sie auf „Flyer teilen“.",
+    "shareTextLost": "Bitte helfen Sie, {title} zu finden! Jedes Teilen zählt.",
+    "shareTextFound": "{title} wurde gefunden – helfen Sie, den Besitzer zu finden! Jedes Teilen zählt.",
+    "preparing": "Der Flyer wird noch erstellt – schauen Sie in einer Minute wieder vorbei. Den Link können Sie schon teilen.",
+    "resolvedTitle": "Gute Nachrichten!",
+    "resolvedBody": "Dieser Beitrag wurde erledigt. Danke für Ihre Hilfe!",
+    "expiredTitle": "Dieser Beitrag ist abgelaufen",
+    "expiredBody": "Er ist auf iFound nicht mehr aktiv.",
+    "reward": "Belohnung",
+    "getApp": "iFound-App herunterladen"
   }
 }
