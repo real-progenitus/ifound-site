@@ -18,7 +18,12 @@ export default function LanguageSwitcher() {
         { code: 'fr', flag: '🇫🇷', label: 'Français' },
         { code: 'it', flag: '🇮🇹', label: 'Italiano' },
         { code: 'de', flag: '🇩🇪', label: 'Deutsch' },
-        { code: 'hu', flag: '🇭🇺', label: 'Magyar' }
+        { code: 'hu', flag: '🇭🇺', label: 'Magyar' },
+        { code: 'el', flag: '🇬🇷', label: 'Ελληνικά' },
+        { code: 'tr', flag: '🇹🇷', label: 'Türkçe' },
+        { code: 'pl', flag: '🇵🇱', label: 'Polski' },
+        { code: 'ro', flag: '🇷🇴', label: 'Română' },
+        { code: 'nl', flag: '🇳🇱', label: 'Nederlands' }
     ];
 
     const currentLocaleData = locales.find(loc => loc.code === currentLocale);

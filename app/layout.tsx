@@ -11,19 +11,21 @@ import {geoHeaderExpected, isVisitorInShopCountry, visitorCountry} from '@/lib/s
 import {ShopAvailabilityProvider} from './components/ShopAvailability';
 import "./globals.css";
 
+// latin-ext carries the Polish, Romanian, Turkish and Hungarian letters (ą, ș,
+// ğ, ő). Geist has no Greek; Greek text falls back to the system font there.
 const geistSans = Geist({
   variable: "--font-geist-sans",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
 });
 
 const roboto = Roboto({
   variable: "--font-roboto",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext", "greek"],
   weight: ["400", "500", "700"],
 });
 

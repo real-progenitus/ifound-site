@@ -16,10 +16,13 @@ const intlMiddleware = createMiddleware(routing);
  * whether force-dynamic is set or a CDN cache absorbs the load.
  *
  * We intentionally check the RAW pathname here — next-intl rewrites internally
- * but the prefix in the URL the client sent is what we match on.
+ * but the prefix in the URL the client sent is what we match on. The locale
+ * alternatives come from routing.locales, so a new locale can't be left out
+ * of the guard the way `hu` once was.
  */
-const PROFILE_PATH_RE =
-  /^\/(?:(?:en|es|pt|fr|it|de)\/)?profile\/[^/]+\/?$/;
+const LOCALE_PREFIX = `(?:(?:${routing.locales.join('|')})\\/)?`;
+
+const PROFILE_PATH_RE = new RegExp(`^\\/${LOCALE_PREFIX}profile\\/[^/]+\\/?$`);
 
 /**
  * Cache-Control for *successful* profile renders. Every unique uid still pays
@@ -41,8 +44,7 @@ function isProfilePath(pathname: string): boolean {
  * of visitors and link-preview crawlers on one post id, so a short edge cache
  * absorbs them, and the rate limit bounds Firestore reads from id iteration.
  */
-const SHARE_PATH_RE =
-  /^\/(?:(?:en|es|pt|fr|it|de|hu)\/)?share\/[^/]+\/?$/;
+const SHARE_PATH_RE = new RegExp(`^\\/${LOCALE_PREFIX}share\\/[^/]+\\/?$`);
 
 function isSharePath(pathname: string): boolean {
   return SHARE_PATH_RE.test(pathname);
@@ -115,5 +117,7 @@ export default async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/', '/(en|es|pt|fr|it|de)/:path*', '/((?!_next|_vercel|api|download|enable-notifications|.*\\..*).*)']
+  // Must stay a static literal (Next analyses it at build time), so it can't be
+  // built from routing.locales: keep this list in step with routing.ts.
+  matcher: ['/', '/(en|es|pt|fr|it|de|hu|el|tr|pl|ro|nl)/:path*', '/((?!_next|_vercel|api|download|enable-notifications|.*\\..*).*)']
 };

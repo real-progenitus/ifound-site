@@ -41,8 +41,10 @@ function fail(code: ErrorCode, status: number) {
  * back to 'auto' rather than erroring, since a checkout in the wrong language
  * is far better than no checkout.
  */
-function stripeLocale(locale: string): 'auto' | 'en' | 'pt' | 'es' | 'fr' | 'it' | 'de' | 'hu' {
-  const supported = ['en', 'pt', 'es', 'fr', 'it', 'de', 'hu'] as const;
+function stripeLocale(
+  locale: string
+): 'auto' | 'en' | 'pt' | 'es' | 'fr' | 'it' | 'de' | 'hu' | 'el' | 'tr' | 'pl' | 'ro' | 'nl' {
+  const supported = ['en', 'pt', 'es', 'fr', 'it', 'de', 'hu', 'el', 'tr', 'pl', 'ro', 'nl'] as const;
   const match = supported.find((l) => l === locale);
   return match ?? 'auto';
 }

@@ -28,7 +28,7 @@ vi.mock('next-intl/middleware', () => ({
 // middleware under test actually uses.
 vi.mock('@/routing', () => ({
   routing: {
-    locales: ['en', 'pt', 'es', 'fr', 'it', 'de', 'hu'],
+    locales: ['en', 'pt', 'es', 'fr', 'it', 'de', 'hu', 'el', 'tr', 'pl', 'ro', 'nl'],
     defaultLocale: 'en',
     localePrefix: 'as-needed',
   },
@@ -58,6 +58,12 @@ describe('middleware — profile path detection', () => {
     '/fr/profile/abc123',
     '/it/profile/abc123',
     '/de/profile/abc123',
+    '/hu/profile/abc123',
+    '/el/profile/abc123',
+    '/tr/profile/abc123',
+    '/pl/profile/abc123',
+    '/ro/profile/abc123',
+    '/nl/profile/abc123',
     '/profile/abc123/', // trailing slash
   ])('invokes the guard for %s', async (path) => {
     const checkRequestGuard = vi.fn(async () => ({ ok: true as const }));
