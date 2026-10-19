@@ -45,6 +45,11 @@ export default function PageFooter() {
                     {nav('becomePartner')}
                   </Link>
                 </li>
+                <li>
+                  <Link href="/jobs" className="text-white/70 hover:text-white transition-colors text-xs">
+                    {nav('jobs')}
+                  </Link>
+                </li>
               </ul>
             </div>
 
@@ -141,6 +146,11 @@ export default function PageFooter() {
                 <li>
                   <Link href="/partner" className="text-white/70 hover:text-white transition-colors text-sm">
                     {nav('becomePartner')}
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/jobs" className="text-white/70 hover:text-white transition-colors text-sm">
+                    {nav('jobs')}
                   </Link>
                 </li>
               </ul>

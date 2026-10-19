@@ -3,6 +3,7 @@
 import { Resend } from 'resend';
 import { createLogger } from '@/lib/logger';
 import { checkServerActionGuard } from '@/lib/api-guard';
+import { EMAIL_PATTERN, escapeHtml, sanitizeHeader } from '@/lib/email-utils';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const log = createLogger('partner-email');
@@ -25,11 +26,6 @@ const LIMITS = {
   email: 320, // RFC 5321 mailbox max
   message: 5000,
 } as const;
-
-// Conservative email pattern (same shape as HTML5's default input[type=email]).
-// Deliberately cheap to evaluate — no catastrophic-backtracking alternation.
-const EMAIL_PATTERN =
-  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 
 export interface PartnerFormData {
   company: string;
@@ -100,34 +96,6 @@ function validate(
   }
 
   return { ok: true, value: out as PartnerFormData };
-}
-
-/**
- * HTML-entity escape for user content spliced into an email body.
- *
- * Order matters: `&` first so we don't double-escape the entities we
- * introduce for the other characters.
- */
-function escapeHtml(input: string): string {
-  return input
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-/**
- * Sanitise a string that will be interpolated into an email header (Subject).
- *
- * Drops CR/LF and other C0 control characters — those are the classic
- * header-injection vector (`\r\nBcc: attacker@example.com`). Resend's client
- * likely handles this too, but we defend in depth: we never hand a
- * header-building library a string it can mis-frame.
- */
-function sanitizeHeader(input: string): string {
-  // eslint-disable-next-line no-control-regex
-  return input.replace(/[\x00-\x1F\x7F]/g, ' ').trim();
 }
 
 export async function sendPartnerEmail(data: PartnerFormData): Promise<PartnerEmailResult> {
