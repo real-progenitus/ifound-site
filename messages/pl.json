@@ -73,7 +73,19 @@
     "successTitle": "E-mail został wysłany!",
     "successMessage": "Wkrótce się odezwiemy.",
     "errorTitle": "Wypełnij wszystkie pola",
-    "errorMessage": "Wszystkie pola są wymagane, aby wysłać formularz."
+    "errorMessage": "Wszystkie pola są wymagane, aby wysłać formularz.",
+    "successInboxTitle": "Zgłoszenie otrzymane!",
+    "successInboxMessage": "Sprawdź skrzynkę odbiorczą: wysłaliśmy Ci e-mail. Odpowiedz na niego, aby potwierdzić zgłoszenie partnerskie.",
+    "autoReply": {
+      "subject": "Twoje zgłoszenie partnerskie do iFound",
+      "greeting": "Cześć,",
+      "thanks": "Dziękujemy za kontakt z iFound.",
+      "partnersOnly": "Partnerstwo z iFound jest przeznaczone wyłącznie dla klubów, kawiarni, centrów handlowych, siłowni, hoteli, restauracji oraz innych miejsc publicznych lub organizatorów wydarzeń, którzy mogą zarejestrować swoją lokalizację w iFound i cyfrowo zarządzać zgubionymi rzeczami.",
+      "justPosting": "Jeśli chcesz tylko opublikować zgubioną lub znalezioną rzecz, to nie jest właściwa droga: utwórz post w aplikacji iFound.",
+      "getApp": "Pobierz aplikację iFound",
+      "replyToConfirm": "Jeśli Twoja firma lub wydarzenie należy do tej grupy, po prostu odpowiedz na tego e-maila, a przekażemy Twoje zgłoszenie do naszego zespołu ds. partnerstw.",
+      "signoff": "Zespół iFound"
+    }
   },
   "contact": {
     "title": "KONTAKT",

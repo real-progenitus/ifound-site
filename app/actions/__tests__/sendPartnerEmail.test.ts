@@ -27,6 +27,23 @@ vi.mock('@/lib/api-guard', () => ({
   checkServerActionGuard: guardMock,
 }));
 
+// The routing module pulls in `next-intl/navigation`, which reaches for
+// `next/navigation` — resolvable only by Next's bundler. Only the locale list
+// is needed here.
+vi.mock('@/routing', () => ({
+  routing: {
+    locales: ['en', 'pt', 'es', 'fr', 'it', 'de', 'hu', 'el', 'tr', 'pl', 'ro', 'nl'],
+    defaultLocale: 'en',
+  },
+}));
+
+const setMock = vi.fn();
+const docMock = vi.fn((id: string) => ({ id, set: setMock }));
+const collectionMock = vi.fn((name: string) => ({ name, doc: docMock }));
+vi.mock('@/lib/firebase-admin', () => ({
+  db: () => ({ collection: collectionMock }),
+}));
+
 vi.mock('@/lib/logger', () => ({
   createLogger: () => ({
     info: vi.fn(),
@@ -57,9 +74,11 @@ function getSendArgs() {
   return (sendMock as Mock).mock.calls[0][0] as {
     from: string;
     to: string;
+    replyTo: string;
     subject: string;
     text: string;
     html: string;
+    headers?: Record<string, string>;
   };
 }
 
@@ -67,6 +86,12 @@ beforeEach(() => {
   vi.resetModules();
   sendMock.mockReset();
   guardMock.mockReset();
+  setMock.mockReset();
+  docMock.mockClear();
+  collectionMock.mockClear();
+  setMock.mockResolvedValue(undefined);
+  // Default: no reply domain, so inquiries go straight to the inbox.
+  delete process.env.PARTNER_REPLY_DOMAIN;
   // Default: guard allows the request.
   guardMock.mockResolvedValue({ ok: true });
   // Default: Resend succeeds.
@@ -279,5 +304,98 @@ describe('sendPartnerEmail — Resend failures', () => {
     expect(result.success).toBe(false);
     expect(result.code).toBe('send_failed');
     expect(result.error).not.toContain('network down');
+  });
+});
+
+describe('sendPartnerEmail — straight to the inbox (no reply domain)', () => {
+  it('emails the inbox with Reply-To set to the submitter and stores nothing', async () => {
+    const send = await loadAction();
+    const result = await send(validInput() as never);
+
+    expect(result).toEqual({ success: true, awaitingReply: false });
+    const args = getSendArgs();
+    expect(args.to).toBe('joaoalvaromota@gmail.com');
+    expect(args.replyTo).toBe('ada@example.com');
+    expect(args.subject).toBe('New Partner Inquiry from Acme Co');
+    expect(setMock).not.toHaveBeenCalled();
+  });
+});
+
+describe('sendPartnerEmail — partners-only auto-reply', () => {
+  beforeEach(() => {
+    process.env.PARTNER_REPLY_DOMAIN = 'reply.ifound.tech';
+  });
+
+  it('stores the inquiry and sends the auto-reply to the submitter instead of the inbox', async () => {
+    const send = await loadAction();
+    const result = await send(validInput({ locale: 'en' }) as never);
+
+    expect(result).toEqual({ success: true, awaitingReply: true });
+    expect(sendMock).toHaveBeenCalledTimes(1);
+    const args = getSendArgs();
+    expect(args.to).toBe('ada@example.com');
+    expect(args.subject).toBe('Your iFound partnership request');
+    expect(args.text).toContain('event organizers');
+    expect(args.text).toContain('https://ifound.tech/download');
+
+    // The Reply-To carries the token the inquiry is stored under.
+    const token = /^partners\+([0-9a-f]{32})@reply\.ifound\.tech$/.exec(args.replyTo)?.[1];
+    expect(token).toBeDefined();
+    expect(collectionMock).toHaveBeenCalledWith('PartnerInquiries');
+    expect(docMock).toHaveBeenCalledWith(token);
+    expect(setMock.mock.calls[0][0]).toMatchObject({
+      company: 'Acme Co',
+      firstName: 'Ada',
+      lastName: 'Lovelace',
+      email: 'ada@example.com',
+      message: 'Hello there',
+      locale: 'en',
+      status: 'awaiting_reply',
+    });
+  });
+
+  it('marks the auto-reply as automatic so out-of-office responders stay quiet', async () => {
+    const send = await loadAction();
+    await send(validInput() as never);
+    expect(getSendArgs().headers).toMatchObject({ 'Auto-Submitted': 'auto-replied' });
+  });
+
+  it('never echoes what the visitor typed to the unverified address', async () => {
+    const send = await loadAction();
+    await send(
+      validInput({
+        company: 'Spam Co',
+        firstName: 'Visit spam.example',
+        message: 'Buy now at spam.example',
+      }) as never
+    );
+    const args = getSendArgs();
+    for (const body of [args.subject, args.text, args.html]) {
+      expect(body).not.toContain('spam.example');
+      expect(body).not.toContain('Spam Co');
+    }
+  });
+
+  it('writes the auto-reply in the page language', async () => {
+    const send = await loadAction();
+    await send(validInput({ locale: 'pt' }) as never);
+    expect(getSendArgs().subject).toBe('O seu pedido de parceria com o iFound');
+    expect(setMock.mock.calls[0][0].locale).toBe('pt');
+  });
+
+  it('falls back to English for an unknown locale', async () => {
+    const send = await loadAction();
+    await send(validInput({ locale: 'xx' }) as never);
+    expect(getSendArgs().subject).toBe('Your iFound partnership request');
+    expect(setMock.mock.calls[0][0].locale).toBe('en');
+  });
+
+  it('returns send_failed and sends nothing when the inquiry cannot be stored', async () => {
+    setMock.mockRejectedValueOnce(new Error('firestore down'));
+    const send = await loadAction();
+    const result = await send(validInput() as never);
+    expect(result.success).toBe(false);
+    expect(result.code).toBe('send_failed');
+    expect(sendMock).not.toHaveBeenCalled();
   });
 });

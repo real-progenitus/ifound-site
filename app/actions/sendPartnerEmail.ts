@@ -1,9 +1,20 @@
 'use server';
 
 import { Resend } from 'resend';
+import { FieldValue } from 'firebase-admin/firestore';
 import { createLogger } from '@/lib/logger';
 import { checkServerActionGuard } from '@/lib/api-guard';
-import { EMAIL_PATTERN, escapeHtml, sanitizeHeader } from '@/lib/email-utils';
+import { EMAIL_PATTERN } from '@/lib/email-utils';
+import { db } from '@/lib/firebase-admin';
+import {
+  INQUIRIES_COLLECTION,
+  autoReplyEmail,
+  inboxEmail,
+  newInquiryToken,
+  partnerReplyDomain,
+  toLocale,
+  type PartnerInquiry,
+} from '@/lib/partner-inquiry';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const log = createLogger('partner-email');
@@ -33,6 +44,8 @@ export interface PartnerFormData {
   lastName: string;
   email: string;
   message: string;
+  /** Page locale, for the auto-reply's language. Unknown values fall back to English. */
+  locale?: string;
 }
 
 type ErrorCode =
@@ -48,6 +61,8 @@ export interface PartnerEmailResult {
   code?: ErrorCode;
   /** Seconds the client should wait before retrying (for rate-limit / 503). */
   retryAfter?: number;
+  /** True when the visitor was sent the auto-reply and must answer it to confirm. */
+  awaitingReply?: boolean;
 }
 
 /**
@@ -63,7 +78,7 @@ function validate(
   }
   const obj = raw as Record<string, unknown>;
 
-  const required: (keyof PartnerFormData)[] = [
+  const required: (keyof typeof LIMITS)[] = [
     'company',
     'firstName',
     'lastName',
@@ -96,6 +111,19 @@ function validate(
   }
 
   return { ok: true, value: out as PartnerFormData };
+}
+
+/**
+ * Keep the inquiry until the visitor replies, under the token their reply
+ * address carries, and return the auto-reply that asks them to.
+ */
+async function storeForReply(inquiry: PartnerInquiry, replyDomain: string) {
+  const token = newInquiryToken();
+  await db()
+    .collection(INQUIRIES_COLLECTION)
+    .doc(token)
+    .set({ ...inquiry, status: 'awaiting_reply', createdAt: FieldValue.serverTimestamp() });
+  return autoReplyEmail(inquiry.email, inquiry.locale, token, replyDomain);
 }
 
 export async function sendPartnerEmail(data: PartnerFormData): Promise<PartnerEmailResult> {
@@ -139,48 +167,22 @@ export async function sendPartnerEmail(data: PartnerFormData): Promise<PartnerEm
   if (!parsed.ok) {
     return { success: false, error: parsed.reason, code: 'invalid_input' };
   }
-  const { company, firstName, lastName, email, message } = parsed.value;
+  const inquiry: PartnerInquiry = { ...parsed.value, locale: toLocale(data.locale) };
 
-  // 3. Build the email. Plain-text body gets header-sanitised interpolations;
-  //    HTML body gets per-field HTML escaping so nothing in a user field can
-  //    render as markup or break out of the template.
-  const safeCompany = sanitizeHeader(company);
-  const subject = `New Partner Inquiry from ${safeCompany}`;
-
-  const textBody = [
-    'New Partner Inquiry',
-    `Company: ${safeCompany}`,
-    `Contact Name: ${sanitizeHeader(firstName)} ${sanitizeHeader(lastName)}`,
-    `Email: ${sanitizeHeader(email)}`,
-    '',
-    'Message:',
-    message,
-  ].join('\n');
-
-  const htmlMessage = escapeHtml(message).replace(/\n/g, '<br>');
-  const htmlBody = `
-    <h2>New Partner Inquiry</h2>
-    <p><strong>Company:</strong> ${escapeHtml(safeCompany)}</p>
-    <p><strong>Contact Name:</strong> ${escapeHtml(firstName)} ${escapeHtml(lastName)}</p>
-    <p><strong>Email:</strong> ${escapeHtml(email)}</p>
-    <p><strong>Message:</strong></p>
-    <p>${htmlMessage}</p>
-  `;
+  // 3. With a reply domain set up, the inbox only hears about the inquiry once
+  //    the visitor answers the partners-only auto-reply (see
+  //    lib/partner-inquiry.ts). Without one, it goes straight to the inbox.
+  const replyDomain = partnerReplyDomain();
 
   try {
-    const result = await resend.emails.send({
-      from: 'iFound <hello@ifound.tech>',
-      to: 'joaoalvaromota@gmail.com',
-      subject,
-      text: textBody,
-      html: htmlBody,
-    });
+    const email = replyDomain ? await storeForReply(inquiry, replyDomain) : inboxEmail(inquiry);
+    const result = await resend.emails.send(email);
 
     if (result.error) {
       throw new Error(result.error.message);
     }
 
-    return { success: true };
+    return { success: true, awaitingReply: replyDomain !== null };
   } catch (error) {
     log.error('failed to send partner email', error);
     return {

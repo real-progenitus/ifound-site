@@ -73,7 +73,19 @@
     "successTitle": "Email sent successfully!",
     "successMessage": "We'll get back to you soon.",
     "errorTitle": "Please fill in all fields",
-    "errorMessage": "All fields are required to submit the form."
+    "errorMessage": "All fields are required to submit the form.",
+    "successInboxTitle": "Request received!",
+    "successInboxMessage": "Check your inbox: we've sent you an email. Reply to it to confirm your partnership request.",
+    "autoReply": {
+      "subject": "Your iFound partnership request",
+      "greeting": "Hi,",
+      "thanks": "Thanks for getting in touch with iFound.",
+      "partnersOnly": "iFound partnerships are only for disco clubs, cafés, shopping malls, gyms, hotels, restaurants, and other public spaces or event organizers that can register their location on iFound and manage lost items digitally.",
+      "justPosting": "If you just want to post a lost or found item, this isn't the way to do it: please create your post in the iFound app instead.",
+      "getApp": "Get the iFound app",
+      "replyToConfirm": "If your business or event is one of these, just reply to this email and we'll pass your request on to our partnerships team.",
+      "signoff": "The iFound team"
+    }
   },
   "contact": {
     "title": "CONTACT US",

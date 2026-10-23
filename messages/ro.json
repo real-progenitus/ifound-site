@@ -73,7 +73,19 @@
     "successTitle": "E-mailul a fost trimis cu succes!",
     "successMessage": "Îți vom răspunde în curând.",
     "errorTitle": "Completează toate câmpurile",
-    "errorMessage": "Toate câmpurile sunt obligatorii pentru a trimite formularul."
+    "errorMessage": "Toate câmpurile sunt obligatorii pentru a trimite formularul.",
+    "successInboxTitle": "Cerere primită!",
+    "successInboxMessage": "Verifică-ți căsuța de e-mail: ți-am trimis un mesaj. Răspunde la el pentru a-ți confirma cererea de parteneriat.",
+    "autoReply": {
+      "subject": "Cererea ta de parteneriat iFound",
+      "greeting": "Bună,",
+      "thanks": "Îți mulțumim că ai contactat iFound.",
+      "partnersOnly": "Parteneriatul iFound este doar pentru cluburi, cafenele, mall-uri, săli de sport, hoteluri, restaurante și alte spații publice sau organizatori de evenimente care își pot înregistra locația în iFound și pot gestiona digital obiectele pierdute.",
+      "justPosting": "Dacă vrei doar să publici un obiect pierdut sau găsit, aceasta nu este calea potrivită: creează postarea în aplicația iFound.",
+      "getApp": "Descarcă aplicația iFound",
+      "replyToConfirm": "Dacă afacerea sau evenimentul tău se încadrează aici, răspunde pur și simplu la acest e-mail și vom transmite cererea ta echipei noastre de parteneriate.",
+      "signoff": "Echipa iFound"
+    }
   },
   "contact": {
     "title": "CONTACTEAZĂ-NE",

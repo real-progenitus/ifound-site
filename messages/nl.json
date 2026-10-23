@@ -73,7 +73,19 @@
     "successTitle": "E-mail verstuurd!",
     "successMessage": "We nemen snel contact met je op.",
     "errorTitle": "Vul alle velden in",
-    "errorMessage": "Alle velden zijn verplicht om het formulier te versturen."
+    "errorMessage": "Alle velden zijn verplicht om het formulier te versturen.",
+    "successInboxTitle": "Aanvraag ontvangen!",
+    "successInboxMessage": "Check je inbox: we hebben je een e-mail gestuurd. Beantwoord die om je partneraanvraag te bevestigen.",
+    "autoReply": {
+      "subject": "Je partneraanvraag bij iFound",
+      "greeting": "Hoi,",
+      "thanks": "Bedankt voor je bericht aan iFound.",
+      "partnersOnly": "Een partnerschap met iFound is alleen bedoeld voor clubs, cafés, winkelcentra, sportscholen, hotels, restaurants en andere openbare plekken of evenementenorganisatoren die hun locatie op iFound kunnen registreren en gevonden voorwerpen digitaal kunnen beheren.",
+      "justPosting": "Wil je alleen een verloren of gevonden voorwerp plaatsen? Dan is dit niet de juiste weg: maak je bericht aan in de iFound-app.",
+      "getApp": "Download de iFound-app",
+      "replyToConfirm": "Hoort je zaak of evenement hierbij? Beantwoord dan gewoon deze e-mail, dan sturen we je aanvraag door naar ons partnerteam.",
+      "signoff": "Het iFound-team"
+    }
   },
   "contact": {
     "title": "CONTACT",

@@ -73,7 +73,19 @@
     "successTitle": "E-posta başarıyla gönderildi!",
     "successMessage": "En kısa sürede sana dönüş yapacağız.",
     "errorTitle": "Lütfen tüm alanları doldur",
-    "errorMessage": "Formu göndermek için tüm alanlar zorunludur."
+    "errorMessage": "Formu göndermek için tüm alanlar zorunludur.",
+    "successInboxTitle": "Başvurun alındı!",
+    "successInboxMessage": "Gelen kutunu kontrol et: sana bir e-posta gönderdik. Partnerlik başvurunu onaylamak için o e-postayı yanıtla.",
+    "autoReply": {
+      "subject": "iFound partnerlik başvurun",
+      "greeting": "Merhaba,",
+      "thanks": "iFound ile iletişime geçtiğin için teşekkürler.",
+      "partnersOnly": "iFound partnerliği yalnızca gece kulüpleri, kafeler, alışveriş merkezleri, spor salonları, oteller, restoranlar ve konumlarını iFound'a kaydedip kayıp eşyaları dijital olarak yönetebilecek diğer kamusal alanlar veya etkinlik organizatörleri içindir.",
+      "justPosting": "Sadece kayıp ya da bulunmuş bir eşya ilanı paylaşmak istiyorsan doğru yol bu değil: ilanını iFound uygulamasından oluştur.",
+      "getApp": "iFound uygulamasını indir",
+      "replyToConfirm": "İşletmen ya da etkinliğin bunlardan biriyse bu e-postayı yanıtlaman yeterli; başvurunu partnerlik ekibimize ileteceğiz.",
+      "signoff": "iFound ekibi"
+    }
   },
   "contact": {
     "title": "BİZE ULAŞ",

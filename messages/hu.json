@@ -73,7 +73,19 @@
     "successTitle": "Email sikeresen elküldve!",
     "successMessage": "Hamarosan visszajelzünk.",
     "errorTitle": "Kérjük, tölts ki minden mezőt",
-    "errorMessage": "A jelentkezés beküldéséhez minden mező kitöltése kötelező."
+    "errorMessage": "A jelentkezés beküldéséhez minden mező kitöltése kötelező.",
+    "successInboxTitle": "Kérelem beérkezett!",
+    "successInboxMessage": "Nézd meg a postafiókodat: küldtünk neked egy e-mailt. Válaszolj rá, hogy megerősítsd a partnerségi kérelmedet.",
+    "autoReply": {
+      "subject": "iFound partnerségi kérelmed",
+      "greeting": "Szia!",
+      "thanks": "Köszönjük, hogy felvetted a kapcsolatot az iFounddal.",
+      "partnersOnly": "Az iFound partnerprogram kizárólag szórakozóhelyeknek, kávézóknak, bevásárlóközpontoknak, edzőtermeknek, hoteleknek, éttermeknek és más nyilvános helyeknek vagy rendezvényszervezőknek szól, amelyek regisztrálhatják helyszínüket az iFoundon, és digitálisan kezelhetik az elveszett tárgyakat.",
+      "justPosting": "Ha csak egy elveszett vagy talált tárgyat szeretnél közzétenni, ez nem a megfelelő út: hozd létre a bejegyzésedet az iFound alkalmazásban.",
+      "getApp": "Töltsd le az iFound alkalmazást",
+      "replyToConfirm": "Ha a vállalkozásod vagy rendezvényed ezek közé tartozik, egyszerűen válaszolj erre az e-mailre, és továbbítjuk a kérelmedet a partnerkapcsolati csapatunknak.",
+      "signoff": "Az iFound csapata"
+    }
   },
   "contact": {
     "title": "LÉPJ KAPCSOLATBA VELÜNK",

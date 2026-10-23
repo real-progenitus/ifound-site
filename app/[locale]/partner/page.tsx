@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
 import { Link } from '@/routing';
 import SiteNav from '../../components/SiteNav';
 import PageFooter from '../../components/PageFooter';
@@ -10,7 +10,10 @@ import { sendPartnerEmail } from '../../actions/sendPartnerEmail';
 export default function Partner() {
   const t = useTranslations('partner');
   const nav = useTranslations('nav');
+  const locale = useLocale();
   const [showNotification, setShowNotification] = useState(false);
+  // The request only reaches us once they answer the auto-reply, so say so.
+  const [awaitingReply, setAwaitingReply] = useState(false);
   const [showError, setShowError] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -40,6 +43,7 @@ export default function Partner() {
       lastName,
       email,
       message,
+      locale,
     });
 
     if (!result.success) {
@@ -51,6 +55,7 @@ export default function Partner() {
     }
     
     // Show success notification
+    setAwaitingReply(result.awaitingReply === true);
     setShowNotification(true);
     
     // Clear the form
@@ -115,8 +120,8 @@ export default function Partner() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                   </svg>
                   <div>
-                    <p className="font-semibold">{t('successTitle')}</p>
-                    <p className="text-sm">{t('successMessage')}</p>
+                    <p className="font-semibold">{t(awaitingReply ? 'successInboxTitle' : 'successTitle')}</p>
+                    <p className="text-sm">{t(awaitingReply ? 'successInboxMessage' : 'successMessage')}</p>
                   </div>
                   <button 
                     onClick={() => setShowNotification(false)}

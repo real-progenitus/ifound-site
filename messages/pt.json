@@ -73,7 +73,19 @@
     "successTitle": "Email enviado com sucesso!",
     "successMessage": "Entraremos em contacto em breve.",
     "errorTitle": "Por favor preencha todos os campos",
-    "errorMessage": "Todos os campos são obrigatórios para submeter o formulário."
+    "errorMessage": "Todos os campos são obrigatórios para submeter o formulário.",
+    "successInboxTitle": "Pedido recebido!",
+    "successInboxMessage": "Verifique a sua caixa de correio: enviámos-lhe um email. Responda-lhe para confirmar o seu pedido de parceria.",
+    "autoReply": {
+      "subject": "O seu pedido de parceria com o iFound",
+      "greeting": "Olá,",
+      "thanks": "Obrigado por entrar em contacto com o iFound.",
+      "partnersOnly": "As parcerias do iFound destinam-se apenas a discotecas, cafés, centros comerciais, ginásios, hotéis, restaurantes e outros espaços públicos ou organizadores de eventos que possam registar a sua localização no iFound e gerir itens perdidos digitalmente.",
+      "justPosting": "Se apenas pretende publicar um objeto perdido ou encontrado, este não é o caminho certo: crie a sua publicação na app iFound.",
+      "getApp": "Descarregar a app iFound",
+      "replyToConfirm": "Se o seu negócio ou evento se enquadra nestes casos, basta responder a este email e encaminharemos o seu pedido para a nossa equipa de parcerias.",
+      "signoff": "A equipa iFound"
+    }
   },
   "contact": {
     "title": "CONTACTE-NOS",

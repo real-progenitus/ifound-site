@@ -73,7 +73,19 @@
     "successTitle": "¡Correo enviado con éxito!",
     "successMessage": "Nos pondremos en contacto pronto.",
     "errorTitle": "Por favor completa todos los campos",
-    "errorMessage": "Todos los campos son obligatorios para enviar el formulario."
+    "errorMessage": "Todos los campos son obligatorios para enviar el formulario.",
+    "successInboxTitle": "¡Solicitud recibida!",
+    "successInboxMessage": "Revisa tu bandeja de entrada: te hemos enviado un correo. Respóndelo para confirmar tu solicitud de socio.",
+    "autoReply": {
+      "subject": "Tu solicitud para ser socio de iFound",
+      "greeting": "Hola,",
+      "thanks": "Gracias por ponerte en contacto con iFound.",
+      "partnersOnly": "Ser socio de iFound es solo para discotecas, cafeterías, centros comerciales, gimnasios, hoteles, restaurantes y otros espacios públicos u organizadores de eventos que puedan registrar su ubicación en iFound y gestionar objetos perdidos digitalmente.",
+      "justPosting": "Si solo quieres publicar un objeto perdido o encontrado, este no es el camino: crea tu publicación en la app de iFound.",
+      "getApp": "Descarga la app de iFound",
+      "replyToConfirm": "Si tu negocio o evento es uno de estos, simplemente responde a este correo y pasaremos tu solicitud a nuestro equipo de colaboraciones.",
+      "signoff": "El equipo de iFound"
+    }
   },
   "contact": {
     "title": "CONTÁCTANOS",
