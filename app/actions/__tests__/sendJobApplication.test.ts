@@ -56,6 +56,7 @@ function validForm(overrides: Record<string, string | File | null> = {}): FormDa
     email: 'ada@example.com',
     phoneCountry: 'PT',
     phone: '912 345 678',
+    country: 'PT',
     message: 'I would love to join.',
     consent: 'on',
     ...overrides,
@@ -124,6 +125,9 @@ describe('sendJobApplication — validation', () => {
     ['a non-FormData payload', null],
     ['a missing first name', validForm({ firstName: null })],
     ['a missing phone', validForm({ phone: null })],
+    ['a missing country', validForm({ country: null })],
+    ['an unknown country', validForm({ country: 'ZZ' })],
+    ['an over-length country', validForm({ country: 'PRT' })],
     ['a whitespace-only message', validForm({ message: '   ' })],
     ['an over-length message', validForm({ message: 'x'.repeat(5001) })],
     ['missing consent', validForm({ consent: null })],
@@ -259,8 +263,17 @@ describe('sendJobApplication — email', () => {
     const args = getSendArgs();
     expect(args.to).toBe('franciscoocostaa11@gmail.com');
     expect(args.replyTo).toBe('ada@example.com');
-    expect(args.subject).toBe('Job application: Open Role — Ada Lovelace');
+    expect(args.subject).toBe('Job application: Open Role — Ada Lovelace (Portugal)');
     expect(args.html).toContain('href="https://linkedin.com/in/ada"');
+  });
+
+  it('names the country of residence in English, apart from the phone country', async () => {
+    const send = await loadAction();
+    await send(validForm({ country: 'DE' }));
+    const args = getSendArgs();
+    expect(args.text).toContain('Country: Germany');
+    expect(args.html).toContain('<strong>Country:</strong> Germany');
+    expect(args.text).toContain('Phone: +351 912345678');
   });
 
   it('escapes user content in the HTML body', async () => {

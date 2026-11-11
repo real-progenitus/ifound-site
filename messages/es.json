@@ -353,6 +353,7 @@
     "email": "Correo electrónico",
     "phone": "Teléfono",
     "phoneCountry": "Prefijo del país",
+    "country": "País de residencia",
     "linkedin": "Enlace de LinkedIn o portafolio (opcional)",
     "message": "Cuéntanos sobre ti y por qué quieres unirte a iFound",
     "cv": "CV (opcional · PDF o Word · máx. 4 MB)",

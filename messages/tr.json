@@ -353,6 +353,7 @@
     "email": "E-posta adresi",
     "phone": "Telefon",
     "phoneCountry": "Ülke kodu",
+    "country": "Yaşadığın ülke",
     "linkedin": "LinkedIn veya portfolyo bağlantısı (isteğe bağlı)",
     "message": "Bize kendinden ve neden iFound'a katılmak istediğinden bahset",
     "cv": "CV (isteğe bağlı · PDF veya Word · en fazla 4 MB)",

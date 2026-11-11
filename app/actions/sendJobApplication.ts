@@ -5,7 +5,7 @@ import { createLogger } from '@/lib/logger';
 import { checkServerActionGuard } from '@/lib/api-guard';
 import { EMAIL_PATTERN, escapeHtml, sanitizeHeader } from '@/lib/email-utils';
 import { getJob, MAX_CV_BYTES } from '@/lib/jobs';
-import { parsePhone, type Phone } from '@/lib/phone';
+import { DIAL_CODES, parsePhone, type Phone } from '@/lib/phone';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 const log = createLogger('job-application');
@@ -21,10 +21,11 @@ const LIMITS = {
   message: 5000,
   phone: 40,
   phoneCountry: 2,
+  country: 2,
   linkedin: 500,
 } as const;
 
-const REQUIRED = ['slug', 'firstName', 'lastName', 'email', 'phone', 'message'] as const;
+const REQUIRED = ['slug', 'firstName', 'lastName', 'email', 'phone', 'country', 'message'] as const;
 // phoneCountry is only optional because a number typed with "+" carries its own.
 const OPTIONAL = ['phoneCountry', 'linkedin'] as const;
 
@@ -71,11 +72,22 @@ interface Application {
   email: string;
   message: string;
   phone: Phone;
+  /** Where the applicant lives, named in English: "Turkey". */
+  country: string;
   linkedin?: string;
   cv?: { filename: string; content: Buffer; contentType: string };
 }
 
 type Invalid = { ok: false; code: ErrorCode; reason: string };
+
+/** "Turkey" from "TR", in English for the inbox whatever language the page was in. */
+function countryName(cc: string): string {
+  try {
+    return new Intl.DisplayNames(['en'], { type: 'region' }).of(cc) ?? cc;
+  } catch {
+    return cc;
+  }
+}
 
 function invalid(reason: string, code: ErrorCode = 'invalid_input'): Invalid {
   return { ok: false, code, reason };
@@ -170,6 +182,9 @@ async function validate(raw: unknown): Promise<{ ok: true; value: Application } 
   const phone = parsePhone(out.phoneCountry ?? '', out.phone);
   if (!phone) return invalid('Invalid phone number.', 'invalid_phone');
 
+  // The form only offers the picker's countries; anything else was hand-made.
+  if (!Object.hasOwn(DIAL_CODES, out.country)) return invalid('Unknown country.');
+
   if (out.linkedin) {
     const link = normalizeLink(out.linkedin);
     if (!link) return invalid('Invalid profile link.', 'invalid_link');
@@ -192,6 +207,7 @@ async function validate(raw: unknown): Promise<{ ok: true; value: Application } 
       email: out.email,
       message: out.message,
       phone,
+      country: countryName(out.country),
       linkedin: out.linkedin,
       cv: cv.cv,
     },
@@ -239,13 +255,14 @@ export async function sendJobApplication(formData: FormData): Promise<JobApplica
   // 3. Build the email. Header-bound values are control-character stripped;
   //    every value in the HTML body is escaped.
   const name = `${sanitizeHeader(app.firstName)} ${sanitizeHeader(app.lastName)}`;
-  const subject = `Job application: ${app.jobTitle} — ${name}`;
+  const subject = `Job application: ${app.jobTitle} — ${name} (${app.country})`;
 
   const textBody = [
     `New application for ${app.jobTitle} (${app.slug})`,
     `Name: ${name}`,
     `Email: ${sanitizeHeader(app.email)}`,
     `Phone: ${app.phone.display}`,
+    `Country: ${app.country}`,
     `LinkedIn / portfolio: ${app.linkedin ? sanitizeHeader(app.linkedin) : '—'}`,
     `CV: ${app.cv ? app.cv.filename : 'not attached'}`,
     '',
@@ -265,6 +282,7 @@ export async function sendJobApplication(formData: FormData): Promise<JobApplica
     <p><strong>Name:</strong> ${escapeHtml(app.firstName)} ${escapeHtml(app.lastName)}</p>
     <p><strong>Email:</strong> ${escapeHtml(app.email)}</p>
     <p><strong>Phone:</strong> ${phoneHtml}</p>
+    <p><strong>Country:</strong> ${escapeHtml(app.country)}</p>
     <p><strong>LinkedIn / portfolio:</strong> ${linkedinHtml}</p>
     <p><strong>CV:</strong> ${app.cv ? escapeHtml(app.cv.filename) : 'not attached'}</p>
     <p><strong>Message:</strong></p>

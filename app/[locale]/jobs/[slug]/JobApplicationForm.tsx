@@ -33,7 +33,7 @@ export default function JobApplicationForm({ slug, defaultCountry, countries }: 
     setSent(false);
     setError(null);
 
-    const required = ['firstName', 'lastName', 'email', 'phone', 'message'];
+    const required = ['firstName', 'lastName', 'email', 'phone', 'country', 'message'];
     if (required.some((key) => !String(formData.get(key) ?? '').trim()) || formData.get('consent') !== 'on') {
       setError('errorRequired');
       return;
@@ -159,6 +159,18 @@ export default function JobApplicationForm({ slug, defaultCountry, countries }: 
               />
             </div>
           </div>
+        </div>
+
+        <div>
+          <label htmlFor="country" className="block text-sm font-semibold mb-2">{t('country')} *</label>
+          {/* Uncontrolled so form.reset() returns it to the visitor's country. */}
+          <select id="country" name="country" autoComplete="country" defaultValue={defaultCountry} className={inputClass}>
+            {countries.map(({ cc, name }) => (
+              <option key={cc} value={cc}>
+                {flagEmoji(cc)} {name}
+              </option>
+            ))}
+          </select>
         </div>
 
         <div>

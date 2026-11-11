@@ -353,6 +353,7 @@
     "email": "Email cím",
     "phone": "Telefonszám",
     "phoneCountry": "Országhívószám",
+    "country": "Lakóhely szerinti ország",
     "linkedin": "LinkedIn vagy portfólió link (nem kötelező)",
     "message": "Mesélj magadról, és arról, miért szeretnél az iFoundhoz csatlakozni",
     "cv": "Önéletrajz (nem kötelező · PDF vagy Word · max. 4 MB)",

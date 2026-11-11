@@ -353,6 +353,7 @@
     "email": "E-mailadres",
     "phone": "Telefoon",
     "phoneCountry": "Landcode",
+    "country": "Land waar je woont",
     "linkedin": "LinkedIn- of portfoliolink (optioneel)",
     "message": "Vertel ons over jezelf en waarom je bij iFound wilt werken",
     "cv": "Cv (optioneel · PDF of Word · max. 4 MB)",
