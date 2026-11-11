@@ -7,7 +7,7 @@ import {routing} from '@/routing';
 import {cookies, headers} from 'next/headers';
 import {getShopConfig} from '@/lib/shop-config';
 import {SHOP_QA_COOKIE, resolveShopEnvironment} from '@/lib/shop-env';
-import {geoHeaderExpected, isVisitorInShopCountry, visitorCountry} from '@/lib/shop-geo';
+import {geoHeaderExpected, mayViewShop, visitorCountry} from '@/lib/shop-geo';
 import {ShopAvailabilityProvider} from './components/ShopAvailability';
 import "./globals.css";
 
@@ -99,13 +99,16 @@ export default async function RootLayout({
 
   // The nav only links to the shop for visitors it would actually serve, so
   // nobody outside the shipping countries is sent to a page that 404s for them.
+  // Same rule as the page itself, Google's crawlers included, so Search can
+  // follow the link.
   const shopVisible =
     shop.shopEnabled &&
-    isVisitorInShopCountry({
+    mayViewShop({
       shopCountries: shop.shopCountries,
       country: visitorCountry(headerStore),
       environment: shopEnvironment,
       headerExpected: geoHeaderExpected(),
+      userAgent: headerStore.get('user-agent'),
     });
 
   return (

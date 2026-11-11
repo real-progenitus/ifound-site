@@ -7,7 +7,7 @@ import ShopQaToggle from '../../components/ShopQaToggle';
 import { activeSalePercent, applySalePercent, getShopConfig } from '@/lib/shop-config';
 import { formatCountryList } from '@/lib/country-names';
 import { SHOP_QA_COOKIE, resolveShopEnvironment } from '@/lib/shop-env';
-import { geoHeaderExpected, isVisitorInShopCountry, visitorCountry } from '@/lib/shop-geo';
+import { geoHeaderExpected, mayViewShop, visitorCountry } from '@/lib/shop-geo';
 import ShopClient from './ShopClient';
 
 /**
@@ -37,13 +37,15 @@ export default async function ShopPage() {
 
   // Not served outside the countries we ship to. A real 404, rendered by the
   // branded not-found.tsx beside this file, rather than a page that looks like
-  // a shop and then fails at the address step.
+  // a shop and then fails at the address step. Google's crawlers are let
+  // through (they fetch from the US), see mayViewShop.
   if (
-    !isVisitorInShopCountry({
+    !mayViewShop({
       shopCountries: config.shopCountries,
       country: visitorCountry(headerStore),
       environment,
       headerExpected: geoHeaderExpected(),
+      userAgent: headerStore.get('user-agent'),
     })
   ) {
     notFound();

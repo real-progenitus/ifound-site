@@ -60,3 +60,37 @@ export function isVisitorInShopCountry({
   if (!country) return !headerExpected;
   return shopCountries.includes(country);
 }
+
+/**
+ * Google's crawlers, recognised by user agent.
+ *
+ * They fetch from US addresses whatever country an ad or a search result
+ * targets, so the country rule alone 404s them. Google Ads then rejects every
+ * shop ad as "destination not working" (November 2026), and Search never indexes
+ * the shop in any language.
+ *
+ * - AdsBot-Google (and -Mobile): Google Ads landing-page checks.
+ * - Googlebot, Google-InspectionTool: Search crawling and Search Console tests.
+ * - Storebot-Google: Shopping / Merchant Center.
+ *
+ * A user agent is trivially spoofed, which is acceptable because this only ever
+ * decides who may VIEW the shop. The checkout route still applies
+ * isVisitorInShopCountry alone, and Stripe's shipping-address list still
+ * bounds where an order can go.
+ */
+const GOOGLE_CRAWLER_UA = /\b(?:AdsBot-Google|Googlebot|Google-InspectionTool|Storebot-Google)\b/i;
+
+export function isGoogleCrawler(userAgent: string | null | undefined): boolean {
+  return !!userAgent && GOOGLE_CRAWLER_UA.test(userAgent);
+}
+
+/**
+ * Whether the shop PAGE (and the nav link to it) is shown: the country rule,
+ * plus Google's crawlers so ads can be approved and the page indexed. Never use
+ * this for the checkout, which must stay on isVisitorInShopCountry.
+ */
+export function mayViewShop(
+  args: Parameters<typeof isVisitorInShopCountry>[0] & { userAgent: string | null },
+): boolean {
+  return isGoogleCrawler(args.userAgent) || isVisitorInShopCountry(args);
+}
