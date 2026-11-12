@@ -24,6 +24,7 @@ const currencySymbol: Record<string, string> = {
   SEK: 'kr', NOK: 'kr', DKK: 'kr', CZK: 'Kč', HUF: 'Ft', RON: 'lei',
   AUD: 'A$', CAD: 'C$', MXN: 'MX$', ARS: 'AR$', CLP: 'CL$',
   CRC: '₡', GTQ: 'Q', HNL: 'L', NIO: 'NIO$', PEN: 'S/', AED: 'AED', NZD: 'NZ$',
+  PKR: 'Rs',
 };
 
 export default function PostDetailPanel({ post, markerScreenPos, onClose }: PostDetailPanelProps) {
