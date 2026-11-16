@@ -5,7 +5,11 @@ import { useTranslations } from 'next-intl';
 import PageFooter from '../components/PageFooter';
 import CloakroomRedirectGuard from '../components/CloakroomRedirectGuard';
 import Image from 'next/image';
-export default function Home() {
+import { use } from 'react';
+import { setRequestLocale } from 'next-intl/server';
+export default function Home({ params }: { params: Promise<{ locale: string }> }) {
+  // Keeps the page prebuilt; see app/[locale]/layout.tsx.
+  setRequestLocale(use(params).locale);
   const t = useTranslations('home');
   const nav = useTranslations('nav');
 

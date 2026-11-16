@@ -1,4 +1,4 @@
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import SiteNav from '../../components/SiteNav';
 import PageFooter from '../../components/PageFooter';
 
@@ -15,7 +15,9 @@ import PageFooter from '../../components/PageFooter';
  * The registered company name, tax number and registered address must be filled
  * in before the shop is opened.
  */
-export default async function TermsPage() {
+export default async function TermsPage({ params }: { params: Promise<{ locale: string }> }) {
+  // Keeps the page prebuilt; see app/[locale]/layout.tsx.
+  setRequestLocale((await params).locale);
   const [t, nav] = await Promise.all([getTranslations('terms'), getTranslations('nav')]);
 
   const sections: Array<{ title: string; body: string }> = [

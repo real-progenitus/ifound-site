@@ -1,8 +1,12 @@
 import { useTranslations } from 'next-intl';
 import SiteNav from '../../components/SiteNav';
 import PageFooter from '../../components/PageFooter';
+import { use } from 'react';
+import { setRequestLocale } from 'next-intl/server';
 
-export default function Privacy() {
+export default function Privacy({ params }: { params: Promise<{ locale: string }> }) {
+  // Keeps the page prebuilt; see app/[locale]/layout.tsx.
+  setRequestLocale(use(params).locale);
   const t = useTranslations('privacy');
   const nav = useTranslations('nav');
 

@@ -1,33 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono, Roboto } from "next/font/google";
-import {NextIntlClientProvider} from 'next-intl';
-import {getMessages} from 'next-intl/server';
-import {notFound} from 'next/navigation';
-import {routing} from '@/routing';
-import {cookies, headers} from 'next/headers';
-import {getShopConfig} from '@/lib/shop-config';
-import {SHOP_QA_COOKIE, resolveShopEnvironment} from '@/lib/shop-env';
-import {geoHeaderExpected, mayViewShop, visitorCountry} from '@/lib/shop-geo';
-import {ShopAvailabilityProvider} from './components/ShopAvailability';
 import "./globals.css";
-
-// latin-ext carries the Polish, Romanian, Turkish and Hungarian letters (ą, ș,
-// ğ, ő). Geist has no Greek; Greek text falls back to the system font there.
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin", "latin-ext"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin", "latin-ext"],
-});
-
-const roboto = Roboto({
-  variable: "--font-roboto",
-  subsets: ["latin", "latin-ext", "greek"],
-  weight: ["400", "500", "700"],
-});
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -71,58 +43,19 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
-  children,
-  params,
-}: Readonly<{
-  children: React.ReactNode;
-  params: Promise<{locale?: string}>;
-}>) {
-  const {locale = routing.defaultLocale} = await params;
-  
-  if (!routing.locales.includes(locale as any)) {
-    notFound();
-  }
- 
-  // Read once here rather than in the nav: the shop flag comes from Firestore
-  // via firebase-admin, and the nav is rendered inside client-component pages
-  // that cannot import it. See app/components/ShopAvailability.tsx.
-  //
-  // The environment comes from the hidden QA cookie, so a tester sees the QA
-  // catalogue everywhere the shop appears, including the nav link.
-  const [cookieStore, headerStore] = await Promise.all([cookies(), headers()]);
-  const shopEnvironment = resolveShopEnvironment(cookieStore.get(SHOP_QA_COOKIE)?.value);
-  const [messages, shop] = await Promise.all([
-    getMessages(),
-    getShopConfig(shopEnvironment),
-  ]);
-
-  // The nav only links to the shop for visitors it would actually serve, so
-  // nobody outside the shipping countries is sent to a page that 404s for them.
-  // Same rule as the page itself, Google's crawlers included, so Search can
-  // follow the link.
-  const shopVisible =
-    shop.shopEnabled &&
-    mayViewShop({
-      shopCountries: shop.shopCountries,
-      country: visitorCountry(headerStore),
-      environment: shopEnvironment,
-      headerExpected: geoHeaderExpected(),
-      userAgent: headerStore.get('user-agent'),
-    });
-
-  return (
-    <html lang={locale} suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} ${roboto.variable} antialiased`}>
-        <NextIntlClientProvider messages={messages}>
-          <ShopAvailabilityProvider
-            enabled={shopVisible}
-            environment={shopEnvironment}
-          >
-            {children}
-          </ShopAvailabilityProvider>
-        </NextIntlClientProvider>
-      </body>
-    </html>
-  );
+/**
+ * Pass-through root layout. The <html> shell lives one level down, in
+ * app/[locale]/layout.tsx (and app/enable-notifications/layout.tsx), because
+ * only there is the locale known.
+ *
+ * Keep this file free of request data — no cookies(), headers() or Firestore.
+ * Whatever a root layout reads, every page on the site inherits: when it read
+ * the shop config and the visitor's country to decide the nav's Shop link,
+ * every page (About, Privacy, the home page, ...) was rendered on the server
+ * for every visit, in 12 languages, and the account ran out of Vercel's Active
+ * CPU in November 2026. The Shop link is now decided in the browser; see
+ * app/components/ShopAvailability.tsx.
+ */
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return children;
 }

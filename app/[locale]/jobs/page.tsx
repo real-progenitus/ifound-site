@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, setRequestLocale } from 'next-intl/server';
 import { Link } from '@/routing';
 import { openJobs, pick } from '@/lib/jobs';
 import SiteNav from '../../components/SiteNav';
@@ -28,6 +28,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function JobsPage({ params }: PageProps) {
   const { locale } = await params;
+  // Keeps the page prebuilt; see app/[locale]/layout.tsx.
+  setRequestLocale(locale);
   const t = await getTranslations('jobs');
   const nav = await getTranslations('nav');
   const jobs = openJobs();

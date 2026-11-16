@@ -2,8 +2,12 @@ import { useTranslations } from 'next-intl';
 import { Link } from '@/routing';
 import SiteNav from '../../components/SiteNav';
 import PageFooter from '../../components/PageFooter';
+import { use } from 'react';
+import { setRequestLocale } from 'next-intl/server';
 
-export default function Contact() {
+export default function Contact({ params }: { params: Promise<{ locale: string }> }) {
+  // Keeps the page prebuilt; see app/[locale]/layout.tsx.
+  setRequestLocale(use(params).locale);
   const t = useTranslations('contact');
   const nav = useTranslations('nav');
 
