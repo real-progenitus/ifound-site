@@ -153,6 +153,8 @@
   },
   "profile": {
     "foundSomething": "Encontrou algo meu?",
+    "chatCta": "Envia-me mensagem na app iFound",
+    "chatOnly": "Para tua segurança, o contacto é feito apenas pelo chat do iFound.",
     "memberSince": "Membro desde",
     "email": "Email",
     "phone": "Telefone",
@@ -330,6 +332,8 @@
     "expiredTitle": "Esta publicação expirou",
     "expiredBody": "Já não está ativa no iFound.",
     "reward": "Recompensa",
+    "messageCtaLost": "Viu-o? Envie mensagem ao dono na app iFound",
+    "messageCtaFound": "É seu? Envie mensagem a quem o encontrou na app iFound",
     "getApp": "Descarregar a app iFound"
   },
   "jobs": {

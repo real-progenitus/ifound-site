@@ -153,6 +153,8 @@
   },
   "profile": {
     "foundSomething": "Iets van mij gevonden?",
+    "chatCta": "Stuur me een bericht in de iFound-app",
+    "chatOnly": "Voor je veiligheid verloopt contact alleen via de iFound-chat.",
     "memberSince": "Lid sinds",
     "email": "E-mail",
     "phone": "Telefoon",
@@ -330,6 +332,8 @@
     "expiredTitle": "Deze melding is verlopen",
     "expiredBody": "Hij is niet meer actief op iFound.",
     "reward": "Beloning",
+    "messageCtaLost": "Gezien? Stuur de eigenaar een bericht in de iFound-app",
+    "messageCtaFound": "Is het van jou? Stuur de vinder een bericht in de iFound-app",
     "getApp": "Download de iFound-app"
   },
   "jobs": {

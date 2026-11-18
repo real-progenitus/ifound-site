@@ -153,6 +153,8 @@
   },
   "profile": {
     "foundSomething": "Found something of mine?",
+    "chatCta": "Message me in the iFound app",
+    "chatOnly": "For your safety, contact is only through the iFound chat.",
     "memberSince": "Member since",
     "email": "Email",
     "phone": "Phone",
@@ -330,6 +332,8 @@
     "expiredTitle": "This post has expired",
     "expiredBody": "It is no longer active on iFound.",
     "reward": "Reward",
+    "messageCtaLost": "Seen it? Message the owner in the iFound app",
+    "messageCtaFound": "Is it yours? Message the finder in the iFound app",
     "getApp": "Get the iFound app"
   },
   "jobs": {

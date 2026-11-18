@@ -1,10 +1,10 @@
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import { getUserProfile } from '@/lib/get-user-profile';
 import { getUserPosts } from '@/lib/get-user-posts';
 import { getTranslations } from 'next-intl/server';
 import SiteNav from '../../../components/SiteNav';
 import PageFooter from '../../../components/PageFooter';
-import CopyButton from '../../../components/CopyButton';
 
 // `force-dynamic` was removed deliberately. The per-request guard + rate
 // limit for this path now lives in `middleware.ts`, which also attaches
@@ -26,7 +26,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ uid: s
     notFound();
   }
 
-  const posts = await getUserPosts(profile.email);
+  const posts = await getUserPosts(profile.accountUid);
 
   const memberSince = new Date(profile.createdAt).toLocaleDateString(undefined, {
     year: 'numeric',
@@ -76,33 +76,18 @@ export default async function ProfilePage({ params }: { params: Promise<{ uid: s
                 <p className="text-white/70 text-sm mt-1">{t('memberSince')} {memberSince}</p>
               </div>
 
-              {/* Info */}
-              <div className="space-y-4">
-                {profile.email && (
-                  <div className="flex items-center gap-3 bg-white/10 rounded-xl px-5 py-4">
-                    <svg className="w-5 h-5 text-white/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                    <div className="min-w-0">
-                      <p className="text-xs text-white/50 uppercase tracking-wide">{t('email')}</p>
-                      <p className="text-white font-medium truncate">{profile.email}</p>
-                    </div>
-                    <CopyButton text={profile.email} />
-                  </div>
-                )}
-
-                {profile.phoneNumber && (
-                  <div className="flex items-center gap-3 bg-white/10 rounded-xl px-5 py-4">
-                    <svg className="w-5 h-5 text-white/70 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                    <div>
-                      <p className="text-xs text-white/50 uppercase tracking-wide">{t('phone')}</p>
-                      <p className="text-white font-medium">{profile.phoneNumber}</p>
-                    </div>
-                    <CopyButton text={profile.phoneNumber} />
-                  </div>
-                )}
+              {/* Contact: the in-app chat only. No email or phone is ever
+                  shown, so nobody is moved off iFound, where the scam scan
+                  and user reports cannot follow (ifound-functions moderation/). */}
+              <div className="flex flex-col items-center gap-3">
+                <Link
+                  href="/download"
+                  className="w-full max-w-sm py-4 rounded-full bg-white text-[#38B6FF] text-[17px] font-bold shadow-md hover:bg-white/90 transition-colors flex items-center justify-center gap-2"
+                >
+                  <img src="/favicon.png" alt="" className="w-6 h-6" />
+                  {t('chatCta')}
+                </Link>
+                <p className="text-white/70 text-sm text-center">{t('chatOnly')}</p>
               </div>
             </div>
             {/* Posts Section */}

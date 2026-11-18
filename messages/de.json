@@ -153,6 +153,8 @@
   },
   "profile": {
     "foundSomething": "Haben Sie etwas von mir gefunden?",
+    "chatCta": "Schreib mir in der iFound-App",
+    "chatOnly": "Zu deiner Sicherheit läuft der Kontakt nur über den iFound-Chat.",
     "memberSince": "Mitglied seit",
     "email": "E-Mail",
     "phone": "Telefon",
@@ -330,6 +332,8 @@
     "expiredTitle": "Dieser Beitrag ist abgelaufen",
     "expiredBody": "Er ist auf iFound nicht mehr aktiv.",
     "reward": "Belohnung",
+    "messageCtaLost": "Gesehen? Schreib dem Besitzer in der iFound-App",
+    "messageCtaFound": "Gehört es dir? Schreib dem Finder in der iFound-App",
     "getApp": "iFound-App herunterladen"
   },
   "jobs": {

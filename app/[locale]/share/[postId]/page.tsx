@@ -137,6 +137,19 @@ export default async function SharePage({ params, searchParams }: PageProps) {
               )}
             </div>
 
+            {/* The way to reach whoever posted: flyers and posts carry no
+                phone or email, and the flyer's QR code lands here. */}
+            {isActive && (
+              <Link
+                href="/download"
+                className="mt-6 w-full py-4 rounded-full bg-white text-[#38B6FF] text-[17px] font-bold shadow-md hover:bg-white/90 transition-colors flex items-center justify-center gap-2 text-center px-4"
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/favicon.png" alt="" className="w-6 h-6 shrink-0" />
+                {post.type === 'Lost' ? t('messageCtaLost') : t('messageCtaFound')}
+              </Link>
+            )}
+
             {isActive && (
               <ShareFlyerActions
                 pageUrl={pageUrl(locale, postId, isQA)}

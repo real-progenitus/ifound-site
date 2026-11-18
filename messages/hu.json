@@ -153,6 +153,8 @@
   },
   "profile": {
     "foundSomething": "Találtál valamit, ami az enyém?",
+    "chatCta": "Írj nekem az iFound appban",
+    "chatOnly": "A biztonságod érdekében a kapcsolat csak az iFound chaten keresztül lehetséges.",
     "memberSince": "Tag ekkortól",
     "email": "Email",
     "phone": "Telefon",
@@ -330,6 +332,8 @@
     "expiredTitle": "Ez a hirdetés lejárt",
     "expiredBody": "Már nem aktív az iFoundon.",
     "reward": "Jutalom",
+    "messageCtaLost": "Láttad? Írj a tulajdonosnak az iFound appban",
+    "messageCtaFound": "A tiéd? Írj a megtalálónak az iFound appban",
     "getApp": "Töltsd le az iFound appot"
   },
   "jobs": {

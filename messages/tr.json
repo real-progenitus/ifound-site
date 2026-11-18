@@ -153,6 +153,8 @@
   },
   "profile": {
     "foundSomething": "Bana ait bir şey mi buldun?",
+    "chatCta": "Bana iFound uygulamasından yaz",
+    "chatOnly": "Güvenliğin için iletişim yalnızca iFound sohbeti üzerinden yapılır.",
     "memberSince": "Üyelik tarihi",
     "email": "E-posta",
     "phone": "Telefon",
@@ -330,6 +332,8 @@
     "expiredTitle": "Bu ilanın süresi doldu",
     "expiredBody": "Artık iFound'da aktif değil.",
     "reward": "Ödül",
+    "messageCtaLost": "Gördün mü? iFound uygulamasında sahibine yaz",
+    "messageCtaFound": "Senin mi? iFound uygulamasında bulan kişiye yaz",
     "getApp": "iFound uygulamasını indir"
   },
   "jobs": {

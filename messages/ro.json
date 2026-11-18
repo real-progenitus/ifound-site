@@ -153,6 +153,8 @@
   },
   "profile": {
     "foundSomething": "Ai găsit ceva de-al meu?",
+    "chatCta": "Scrie-mi în aplicația iFound",
+    "chatOnly": "Pentru siguranța ta, contactul se face doar prin chatul iFound.",
     "memberSince": "Membru din",
     "email": "E-mail",
     "phone": "Telefon",
@@ -330,6 +332,8 @@
     "expiredTitle": "Acest anunț a expirat",
     "expiredBody": "Nu mai este activ în iFound.",
     "reward": "Recompensă",
+    "messageCtaLost": "L-ai văzut? Scrie-i proprietarului în aplicația iFound",
+    "messageCtaFound": "Este al tău? Scrie-i celui care l-a găsit în aplicația iFound",
     "getApp": "Descarcă aplicația iFound"
   },
   "jobs": {

@@ -3,15 +3,15 @@ import { createLogger } from './logger';
 
 const log = createLogger('profile');
 
-// Whitelist of fields safe to expose publicly
-const PUBLIC_FIELDS = ['name', 'profilePicture', 'email', 'phoneNumber', 'createdAt'] as const;
-
+// The fields safe to expose publicly. Never the email or phone number: anyone
+// who wants to reach a user does it through the in-app chat, where the scam
+// scan and user reports work (ifound-functions moderation/).
 export interface PublicUserProfile {
   uid: string;
+  /** The account uid (the Users doc's `uid` field), which posts are keyed by. */
+  accountUid: string;
   name: string;
   profilePicture: string | null;
-  email: string;
-  phoneNumber: string;
   createdAt: number;
 }
 
@@ -34,10 +34,9 @@ export async function getUserProfile(uid: string): Promise<PublicUserProfile | n
     // Only return whitelisted fields — never expose the full document
     const profile: PublicUserProfile = {
       uid: doc.id,
+      accountUid: typeof data.uid === 'string' ? data.uid : uid,
       name: data.name ?? '',
       profilePicture: data.profilePicture ?? null,
-      email: data.email ?? '',
-      phoneNumber: data.phoneNumber ?? '',
       createdAt: data.createdAt ?? 0,
     };
 

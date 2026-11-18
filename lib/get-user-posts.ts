@@ -17,11 +17,12 @@ export interface PublicPost {
   isResolved: boolean;
 }
 
-export async function getUserPosts(userEmail: string): Promise<PublicPost[]> {
+/** Keyed by the account uid, not the email, so the page never needs the email. */
+export async function getUserPosts(userUid: string): Promise<PublicPost[]> {
   try {
     const snapshot = await db()
       .collection('QA_Posts')
-      .where('user', '==', userEmail)
+      .where('userUid', '==', userUid)
       .where('isDeleted', '==', false)
       .where('accountWasDeleted', '==', false)
       .where('type', '==', 'Lost')
